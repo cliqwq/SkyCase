@@ -4,6 +4,7 @@ import dev.skygrab.chat.ChatGuard
 import dev.skygrab.config.SkyGrabConfig
 import dev.skygrab.core.Reveal
 import dev.skygrab.core.RevealQueue
+import dev.skygrab.triggers.ChestTrigger
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback
 import net.fabricmc.fabric.api.client.command.v2.ClientCommands
@@ -18,7 +19,7 @@ object SkyGrab : ClientModInitializer {
     val LOGGER = LoggerFactory.getLogger(MOD_ID)
     fun id(path: String): Identifier = Identifier.fromNamespaceAndPath(MOD_ID, path)
 
-    private val modules: List<Any> = listOf(ChatGuard)
+    private val modules: List<Any> = listOf(ChatGuard, ChestTrigger)
 
     override fun onInitializeClient() {
         SkyGrabConfig.load()
