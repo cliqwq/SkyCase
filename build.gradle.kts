@@ -33,6 +33,9 @@ dependencies {
     // Required at runtime by skyblock-api / hypixel-mod-api; not in the brief's dependency
     // list, but the mod fails to load without it (see task-1-report.md).
     implementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_api_version")}")
+
+    testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 java {
@@ -42,6 +45,8 @@ java {
 kotlin {
     jvmToolchain(25)
 }
+
+tasks.withType<Test> { useJUnitPlatform() }
 
 tasks.processResources {
     val props = mapOf(
