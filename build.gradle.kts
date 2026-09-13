@@ -9,14 +9,10 @@ group = property("maven_group") as String
 repositories {
     maven("https://maven.fabricmc.net/")
     maven("https://maven.teamresourceful.com/repository/maven-public/")
+    // Required to resolve me.djtheredstoner:DevAuth-fabric, a transitive dependency of
+    // tech.thatgravyboat:skyblock-api (see error quoted in task-1-report.md).
     maven("https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1") {
         content { includeGroup("me.djtheredstoner") }
-    }
-    maven("https://repo.hypixel.net/repository/Hypixel") {
-        content { includeGroup("net.hypixel") }
-    }
-    maven("https://api.modrinth.com/maven") {
-        content { includeGroup("maven.modrinth") }
     }
 }
 
