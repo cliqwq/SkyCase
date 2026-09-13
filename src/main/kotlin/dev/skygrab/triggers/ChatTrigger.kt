@@ -88,6 +88,9 @@ object ChatTrigger {
      * then a diana "dug out" burrow drop; existing filler when none apply. */
     private fun rareDropPool(text: String): List<ItemStack> {
         DungeonAPI.dungeonFloor?.name?.let { floor -> LootPools.catacombs(floor)?.let { return it } }
+        // SlayerAPI.type can stay set to the last slayer fought for a while after the quest ends
+        // (no "quest active" flag is checked here) -- accepted: a rare drop line arriving in that
+        // window is still overwhelmingly likely to be from that same slayer.
         SlayerAPI.type?.displayName?.let { boss -> LootPools.slayer(boss)?.let { return it } }
         if ("dug out" in text) LootPools.diana()?.let { return it }
         return filler

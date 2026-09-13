@@ -69,24 +69,48 @@ object LootPools {
         return afterPrefix.uppercase()
     }
 
-    private fun resolve(id: String): ItemStack? = resolveCache.getOrPut(id) {
+    // Only successful resolutions are cached. A miss is NOT cached: the repo may simply not be
+    // populated yet (loaded async / not synced when this pool is first requested), and caching a
+    // permanent `null` here would wrongly and forever drop an id that would resolve fine moments
+    // later -- same reasoning as poolCache below.
+    private fun resolve(id: String): ItemStack? {
+        resolveCache[id]?.let { return it }
         val stack = SkyBlockItemsRepo.getItemStack(normalize(id))
-        if (stack != null && !stack.isEmpty) stack else null
+        val result = if (stack != null && !stack.isEmpty) stack else null
+        if (result != null) resolveCache[id] = result
+        return result
     }
 
-    /** Pure: repeats each item by its weight, clamped to [MAX_STACKS], preserving proportions.
-     * No JSON/repo access -> safe to unit-test directly. */
+    /** Pure: repeats each item roughly proportional to its weight, total clamped to [max].
+     * Scales all weights down so they sum to (at most) [max], rounds each to the nearest integer
+     * >=1, then -- if rounding pushed the total slightly over -- trims one copy at a time from
+     * whichever item currently has the highest count, never below 1. No JSON/repo access -> safe
+     * to unit-test directly. */
     internal fun <T> expandWeighted(items: List<Pair<T, Int>>, max: Int = MAX_STACKS): List<T> {
-        val out = ArrayList<T>(minOf(items.sumOf { it.second.coerceAtLeast(1) }, max))
-        for ((item, weight) in items) {
-            repeat(weight.coerceAtLeast(1)) {
-                if (out.size < max) out.add(item)
-            }
+        if (items.isEmpty()) return emptyList()
+        val totalWeight = items.sumOf { it.second.coerceAtLeast(1) }.toDouble()
+        val scale = minOf(1.0, max / totalWeight)
+        val counts = items.map { (item, weight) -> item to maxOf(1, Math.round(weight.coerceAtLeast(1) * scale).toInt()) }.toMutableList()
+
+        var total = counts.sumOf { it.second }
+        while (total > max) {
+            val maxIdx = counts.indices.maxByOrNull { counts[it].second } ?: break
+            if (counts[maxIdx].second <= 1) break // every item is already at the floor of 1 -- can't shrink further
+            counts[maxIdx] = counts[maxIdx].first to counts[maxIdx].second - 1
+            total--
         }
+
+        val out = ArrayList<T>(total)
+        for ((item, count) in counts) repeat(count) { out.add(item) }
         return out
     }
 
-    private fun buildPool(key: String, entries: List<Entry>): List<ItemStack> = poolCache.getOrPut(key) {
+    /** Returns null (never an empty list) when every id fails to resolve, and does NOT cache that
+     * outcome in [poolCache] -- the repo not being ready yet is indistinguishable from "no real
+     * pool", so a miss must stay retryable on the next call instead of wrongly caching "no pool"
+     * forever and permanently starving callers' `?: items`/filler fallback. */
+    private fun buildPool(key: String, entries: List<Entry>): List<ItemStack>? {
+        poolCache[key]?.let { return it }
         val dropped = ArrayList<String>()
         val resolved = entries.mapNotNull { e ->
             val stack = resolve(e.id)
@@ -94,10 +118,13 @@ object LootPools {
             stack?.let { it to e.weight }
         }
         warnDropped(key, dropped)
-        expandWeighted(resolved)
+        if (resolved.isEmpty()) return null
+        return expandWeighted(resolved).also { poolCache[key] = it }
     }
 
-    private fun buildPoolFlat(key: String, ids: List<String>): List<ItemStack> = poolCache.getOrPut(key) {
+    /** See [buildPool] -- same "never cache an empty/all-dropped result" rule. */
+    private fun buildPoolFlat(key: String, ids: List<String>): List<ItemStack>? {
+        poolCache[key]?.let { return it }
         val dropped = ArrayList<String>()
         val resolved = ids.mapNotNull { id ->
             val stack = resolve(id)
@@ -105,7 +132,8 @@ object LootPools {
             stack
         }
         warnDropped(key, dropped)
-        resolved.take(MAX_STACKS)
+        if (resolved.isEmpty()) return null
+        return resolved.take(MAX_STACKS).also { poolCache[key] = it }
     }
 
     private fun warnDropped(key: String, dropped: List<String>) {
