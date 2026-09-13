@@ -45,9 +45,10 @@ object RevealQueue {
     private fun pump() {
         if (playing) return
         val mc = Minecraft.getInstance()
-        if (mc.gui.screen() is CaseScreen) return // defensive: never stack a reveal screen over a live one
+        if (mc.gui.screen() is CaseScreen) { pending = true; return } // re-arm: still showing, try again next tick
         val next = queue.removeFirstOrNull() ?: return
         playing = true
+        next.heldChat.forEach(ChatGuard::hold)
         // I2 (chest): deliberately NOT restoring whatever screen (e.g. an open dungeon/Kuudra chest
         // GUI) was showing before the reveal. AbstractContainerScreen.removed() (which
         // setScreenAndShow(CaseScreen(...)) triggers on it here) calls menu.removed(player) on the

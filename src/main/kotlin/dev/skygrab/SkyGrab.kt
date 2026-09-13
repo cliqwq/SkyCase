@@ -43,8 +43,8 @@ object SkyGrab : ClientModInitializer {
                         1
                     }
                 ).then(
-                    // Hypixel-only: can't paste real chat locally, so this feeds a synthetic line straight
-                    // into the SkyblockAPI chat pipeline as if the server had sent it.
+                    // exists because server chat cannot be injected locally; works anywhere -- feeds a
+                    // synthetic line straight into the SkyblockAPI chat pipeline as if the server had sent it.
                     ClientCommands.literal("chat").then(
                         ClientCommands.argument("line", StringArgumentType.greedyString()).executes { ctx ->
                             val line = StringArgumentType.getString(ctx, "line")
