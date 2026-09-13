@@ -9,6 +9,7 @@ import net.minecraft.world.item.Items
 import tech.thatgravyboat.skyblockapi.api.datatype.defaults.LoreDataTypes
 import tech.thatgravyboat.skyblockapi.api.events.base.Subscription
 import tech.thatgravyboat.skyblockapi.api.events.chat.ChatReceivedEvent
+import tech.thatgravyboat.skyblockapi.api.events.time.TickEvent
 import tech.thatgravyboat.skyblockapi.api.repo.apis.SkyBlockItemsRepo
 import tech.thatgravyboat.skyblockapi.utils.extentions.get
 
@@ -41,6 +42,9 @@ object ChatTrigger {
         // --- corpse block (ALWAYS) ---
         if (cfg.corpses) {
             if (RarityGate.corpseStart(text)) {
+                // A block was already open (its terminator never arrived) -- close it out first so its
+                // held lines are submitted/re-shown instead of being overwritten and lost.
+                corpse?.let { endCorpse(it, force = true) }
                 corpse = mutableListOf(event.component)
                 corpseItems.clear()
                 corpseLines = 1
@@ -73,9 +77,23 @@ object ChatTrigger {
         RevealQueue.submit(Reveal(filler, winner, listOf(event.component)))
     }
 
-    /** Ends a corpse block. force=true: end-of-block marker seen, submit whatever was collected (even if
-     * empty, since ALWAYS means always). force=false: safety flush (line/time cap hit, no terminator seen) --
-     * submit if items were parsed, otherwise re-show the held lines untouched. Resets state either way. */
+    // Proactive half of the 10s safety flush: the check in onChat only runs when another chat line
+    // arrives, so a corpse block with no more lines coming (disconnect, silent stretch) would otherwise
+    // sit open forever. TickEvent fires every client tick regardless of chat activity, so poll it here too.
+    @Subscription
+    fun onTick(event: TickEvent) {
+        val held = corpse ?: return
+        if (System.currentTimeMillis() - corpseStartedAt >= CORPSE_TIMEOUT_MS) {
+            endCorpse(held, force = true)
+        }
+    }
+
+    /** Ends a corpse block and resets state. Submits a reveal when items were collected (winner = highest
+     * rarity); when nothing was collected -- whether force=true (terminator seen on an empty block, or a
+     * new corpseStart/timeout closing out a stale block) or force=false (line/time cap hit mid-block) --
+     * the held lines are re-shown untouched instead. `force` only affects whether an empty collection is
+     * still treated as "the block legitimately ended" vs. "abandoned"; either way nothing is submitted
+     * without items, and chat is never lost. */
     private fun endCorpse(held: List<Component>, force: Boolean) {
         val items = corpseItems.toList()
         corpse = null; corpseItems.clear(); corpseLines = 0; corpseStartedAt = 0L
