@@ -61,8 +61,16 @@ object RabbitHeads {
         return stream.bufferedReader().use { JsonParser.parseReader(it) }.asJsonObject
     }
 
-    /** Rabbit names that have a known texture, grouped by rarity (upper-snake, e.g. "LEGENDARY"). */
-    fun namesByRarity(): Map<String, List<String>> = texturesByRarity.mapValues { (_, entries) -> entries.flatMap { it.rabbits } }
+    // Name source for the pool: NEU-REPO's hoppity_rabbits.json (title-cased names, "_source" key
+    // skipped) -- textures still come from [textureOf] (SkyHanni-REPO), looked up by name; 504/517
+    // names cross the two vendored files, the rest are silently skipped by callers' `mapNotNull`.
+    private val rabbitNamesByRarity: Map<String, List<String>> by lazy {
+        resourceJson("hoppity_rabbits.json").entrySet().filter { !it.key.startsWith("_") }
+            .associate { (rarity, arr) -> rarity to arr.asJsonArray.map { it.asString } }
+    }
+
+    /** Rabbit names by rarity (upper-snake, e.g. "LEGENDARY"), from the vendored NEU-REPO name list. */
+    fun namesByRarity(): Map<String, List<String>> = rabbitNamesByRarity
 
     /** Base64 skin texture for a rabbit name (case-insensitive), or null if unknown. */
     fun textureOf(name: String): String? = textureByName[name.lowercase()]

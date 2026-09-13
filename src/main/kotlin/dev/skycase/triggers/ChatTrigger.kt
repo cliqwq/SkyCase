@@ -96,6 +96,11 @@ object ChatTrigger {
         // TickEvent safety-flush below if that pairing never completes. ---
         if (cfg.hoppity) {
             ChatParse.rabbitFound(text)?.let { found ->
+                // A duplicate egg (no "NEW RABBIT!" in between -- common) would otherwise overwrite
+                // the still-pending previous line and lose it silently. emitNow, not hold+release:
+                // this can run mid-reveal (another feature's CaseScreen open), and release() would
+                // wrongly flip ChatGuard.active off and unhide chat under it.
+                pendingRabbitLine?.let { old -> ChatGuard.emitNow(listOf(old)) }
                 pendingRabbit = found
                 pendingRabbitLine = event.component
                 pendingRabbitAt = System.currentTimeMillis()
@@ -174,14 +179,15 @@ object ChatTrigger {
             if (System.currentTimeMillis() - corpseStartedAt >= CORPSE_TIMEOUT_MS) endCorpse(held)
         }
         // Same abandoned-block safety net as the corpse one above, for the rabbit-found line held
-        // while waiting for "NEW RABBIT!": if that line never arrives (e.g. the Hoppity event ends,
-        // or the egg turned out not to be a new rabbit for some other reason), release it untouched
-        // instead of holding it forever.
+        // while waiting for "NEW RABBIT!": if that line never arrives (e.g. a duplicate egg find, the
+        // Hoppity event ending, or the egg turning out not to be a new rabbit for some other reason),
+        // show it untouched instead of holding it forever. emitNow, not hold+release: this can run
+        // while an unrelated reveal is mid-animation (CaseScreen open, ChatGuard.active true), and
+        // release() would wrongly flip `active` off and unhide chat under it.
         if (pendingRabbit != null && System.currentTimeMillis() - pendingRabbitAt >= RABBIT_PENDING_TIMEOUT_MS) {
             pendingRabbit = null
-            pendingRabbitLine?.let(ChatGuard::hold)
+            pendingRabbitLine?.let { ChatGuard.emitNow(listOf(it)) }
             pendingRabbitLine = null
-            ChatGuard.release()
         }
     }
 
