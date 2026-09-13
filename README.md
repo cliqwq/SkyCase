@@ -46,7 +46,7 @@ Edit `config/skygrab.json` to customize:
 ## Requirements
 
 - **Fabric Loader** ≥0.19.2
-- **Minecraft** 26.2 or 26.1.2
+- **Minecraft** 26.2 (26.1.2: not yet — ChatGuard uses 26.2-only Hud/chat API)
 - **fabric-language-kotlin** ≥1.13.12
 - **Fabric API** (bundled)
 - **SkyblockAPI** 4.2.x (any version)
@@ -54,12 +54,11 @@ Edit `config/skygrab.json` to customize:
 ## Building
 
 ```bash
-./gradlew build
+./gradlew :26.2:build
 ```
 
-Jars are placed in:
+Jar is placed in:
 - `versions/26.2/build/libs/skygrab-0.1.0+26.2.jar`
-- `versions/26.1.2/build/libs/skygrab-0.1.0+26.1.2.jar`
 
 ## Credits
 
