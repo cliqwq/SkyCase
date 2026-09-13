@@ -29,5 +29,12 @@ object SkyGrabConfig {
             .getOrElse { SkyGrab.LOGGER.warn("bad config, using defaults", it); Data() }
         save()
     }
-    fun save() { path.parent.createDirectories(); path.writeText(gson.toJson(data)) }
+    fun save() {
+        try {
+            path.parent.createDirectories()
+            path.writeText(gson.toJson(data))
+        } catch (e: Exception) {
+            SkyGrab.LOGGER.warn("Failed to save config", e)
+        }
+    }
 }
