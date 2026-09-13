@@ -1,0 +1,5 @@
+.superpowers/
+.gradle/
+build/
+run/
+*/build/
