@@ -2,6 +2,7 @@ package dev.skygrab.triggers
 import dev.skygrab.chat.ChatGuard
 import dev.skygrab.config.SkyGrabConfig
 import dev.skygrab.core.*
+import dev.skygrab.screen.CaseScreen
 import net.minecraft.client.Minecraft
 import net.minecraft.core.component.DataComponents
 import net.minecraft.network.chat.Component
@@ -108,7 +109,9 @@ object ChatTrigger {
     // whatever's on screen. The corpse block itself still collects lines/items unconditionally; only
     // the final submit is gated on screen state.
     private fun submitOrSkip(pool: List<ItemStack>, winner: ItemStack, held: List<Component>) {
-        if (Minecraft.getInstance().gui.screen() != null) {
+        val screen = Minecraft.getInstance().gui.screen()
+        // our own reveal screen is not "another GUI": lines arriving mid-reveal queue up behind it
+        if (screen != null && screen !is CaseScreen) {
             ChatGuard.emitNow(held)
             return
         }

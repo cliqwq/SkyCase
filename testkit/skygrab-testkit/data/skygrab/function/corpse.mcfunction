@@ -1,5 +1,7 @@
 tellraw @s {"text": "\u00a7b\u00a7l  VANGUARD CORPSE LOOT!"}
 tellraw @s {"text": "\u00a7d  Shattered Pendant"}
-tellraw @s {"text": "\u00a7b  Glacite Jewel \u00a78x3"}
-tellraw @s {"text": "\u00a79  Umber Key \u00a78x1"}
+tellraw @s {"text": "\u00a7b  Diamond \u00a78x3"}
+tellraw @s {"text": "\u00a7a  Emerald \u00a78x2"}
+tellraw @s {"text": "\u00a7f  Gold Ingot \u00a78x8"}
+tellraw @s {"text": "\u00a7f  Rotten Flesh \u00a78x5"}
 tellraw @s {"text": "\u00a79\u00a7m\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac\u25ac"}
