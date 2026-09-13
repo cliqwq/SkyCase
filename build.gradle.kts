@@ -58,3 +58,7 @@ tasks.processResources {
         expand(props)
     }
 }
+
+tasks.jar {
+    archiveFileName.set("skygrab-${project.version}+${project.property("minecraft_version")}.jar")
+}
