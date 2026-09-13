@@ -42,7 +42,8 @@ class LootPoolsTest {
     // --- unknown keys resolve to null purely via map lookup, before any repo access ---
     @Test fun unknownKeysReturnNull() {
         assertNull(LootPools.dungeonChest("F99", ChestKind.OBSIDIAN))
-        assertNull(LootPools.dungeonChest("F1", ChestKind.WOOD)) // only obsidian/bedrock are stocked
+        assertNull(LootPools.dungeonChest("F1", ChestKind.BEDROCK)) // bedrock only exists on F5+/M5+
+        assertNull(LootPools.dungeonChest("F1", ChestKind.KUUDRA_PAID)) // kuudra kinds are not dungeon chests
         assertNull(LootPools.corpse("MITHRIL"))
         assertNull(LootPools.kuudra("NIGHTMARE"))
         assertNull(LootPools.slayer("Some Boss"))

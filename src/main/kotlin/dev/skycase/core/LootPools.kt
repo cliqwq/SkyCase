@@ -41,7 +41,7 @@ object LootPools {
 
     // raw pools, keyed exactly as they appear in the JSON (floor/type/tier/boss names)
     private val dungeonChests: Map<String, Map<String, List<Entry>>> by lazy {
-        resourceJson("dungeon_chests.json").entrySet().associate { (floor, v) ->
+        resourceJson("dungeon_chests.json").entrySet().filter { !it.key.startsWith("_") }.associate { (floor, v) ->
             floor to v.asJsonObject.entrySet().associate { (rarity, arr) -> rarity to arr.asJsonArray.toEntries() }
         }
     }
@@ -151,9 +151,13 @@ object LootPools {
 
     fun dungeonChest(floor: String, chest: ChestKind): List<ItemStack>? {
         val rarity = when (chest) {
+            ChestKind.WOOD -> "wood"
+            ChestKind.GOLD -> "gold"
+            ChestKind.DIAMOND -> "diamond"
+            ChestKind.EMERALD -> "emerald"
             ChestKind.OBSIDIAN -> "obsidian"
             ChestKind.BEDROCK -> "bedrock"
-            else -> return null
+            else -> return null // Kuudra kinds use kuudra()
         }
         val entries = dungeonChests[floor]?.get(rarity) ?: return null
         return buildPool("dungeon:$floor:$rarity", entries)

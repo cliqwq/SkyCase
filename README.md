@@ -74,10 +74,10 @@ Jar is placed in:
 - All art is original
 - Trigger regexes follow SkyHanni/Skyblocker/SkyOcean sources
 - Loot pool data (`src/main/resources/skycase/pools/`):
-  - `dungeon_chests.json` — copied verbatim from [SkyOcean](https://github.com/SkyOceanMC/SkyOcean) `src/repo/dungeon_chests.json` (MIT)
+  - `dungeon_chests.json` — all six chests, F1–F7 + M1–M7, from https://hypixelskyblock.minecraft.wiki The_Catacombs_-_Floor_N/Loot (+ Master_Mode_Loot); weight = average per-run chance × 100, guaranteed essence rows dropped, any single row capped at 20 %
   - `corpses.json` — per-roll % from https://hypixelskyblock.minecraft.wiki/Corpse (LAPIS, UMBER=TUNGSTEN, VANGUARD), weight = % × 100
   - `kuudra.json` — Paid Chest tables per tier from https://hypixelskyblock.minecraft.wiki/Kuudra, weight = % × 100
-  - `rare_drops.json` — built from [SkyHanni-REPO](https://github.com/hannibal002/SkyHanni-REPO) `constants/SlayerProfitTrackerItems.json` and `constants/DianaDrops.json` (MIT), and [NotEnoughUpdates-REPO](https://github.com/NotEnoughUpdates/NotEnoughUpdates-REPO) `constants/rngscore.json` (MIT)
+  - `rare_drops.json` — slayer: item sets from the six boss pages on hypixelskyblock.minecraft.wiki (uniform); catacombs: NotEnoughUpdates-REPO `constants/rngscore.json` (MIT); diana: hypixelskyblock.minecraft.wiki/Mythological_Ritual (uniform)
   - Regenerate with `py testkit/gen.py <SkyOcean-clone-dir> <fetched-json-dir>` (see the script's docstring for the `gh api` fetch commands)
 
 ## Licence
