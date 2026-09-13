@@ -1,14 +1,19 @@
 package dev.skygrab.triggers
 import dev.skygrab.config.SkyGrabConfig
 import dev.skygrab.core.*
-import tech.thatgravyboat.skyblockapi.api.data.SkyBlockRarity
 import tech.thatgravyboat.skyblockapi.api.datatype.defaults.LoreDataTypes
 import tech.thatgravyboat.skyblockapi.api.events.base.Subscription
+import tech.thatgravyboat.skyblockapi.api.events.screen.ContainerCloseEvent
 import tech.thatgravyboat.skyblockapi.api.events.screen.ContainerInitializedEvent
 import tech.thatgravyboat.skyblockapi.utils.extentions.get
 
 object ChestTrigger {
     private var lastContainerId = -1
+
+    @Subscription
+    fun onClose(event: ContainerCloseEvent) {
+        lastContainerId = -1
+    }
 
     @Subscription
     fun onContainer(event: ContainerInitializedEvent) {
