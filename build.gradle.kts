@@ -60,5 +60,5 @@ tasks.processResources {
 }
 
 tasks.jar {
-    archiveFileName.set("skygrab-${project.version}+${project.property("minecraft_version")}.jar")
+    archiveFileName.set("skycase-${project.version}+${project.property("minecraft_version")}.jar")
 }

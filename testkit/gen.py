@@ -1,4 +1,4 @@
-"""Regenerates src/main/resources/skygrab/pools/*.json from vendored source data.
+"""Regenerates src/main/resources/skycase/pools/*.json from vendored source data.
 
 Not run by the build -- a throwaway-but-kept authoring script (task 10 brief). Inputs:
   - SkyOcean clone (MIT): src/repo/dungeon_chests.json, src/repo/vanguard.jsonc
@@ -14,7 +14,7 @@ import re
 import sys
 from pathlib import Path
 
-OUT = Path(__file__).resolve().parent.parent / "src/main/resources/skygrab/pools"
+OUT = Path(__file__).resolve().parent.parent / "src/main/resources/skycase/pools"
 
 
 def strip_jsonc_comments(text: str) -> str:

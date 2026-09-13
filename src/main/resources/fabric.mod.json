@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "id": "skygrab",
+  "id": "skycase",
   "version": "${version}",
-  "name": "SkyGrab",
+  "name": "SkyCase",
   "description": "Cosmetic reveal animations for rewards you already got in Hypixel SkyBlock.",
   "license": "MIT",
   "environment": "client",
-  "entrypoints": { "client": [ { "adapter": "kotlin", "value": "dev.skygrab.SkyGrab" } ] },
+  "entrypoints": { "client": [ { "adapter": "kotlin", "value": "dev.skycase.SkyCase" } ] },
   "depends": {
     "fabricloader": ">=0.19.2",
     "minecraft": "${minecraft_range}",

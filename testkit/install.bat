@@ -1,11 +1,11 @@
 @echo off
-rem Installs the SkyGrab test-kit datapack into every dev-client singleplayer world.
+rem Installs the SkyCase test-kit datapack into every dev-client singleplayer world.
 setlocal
 cd /d "%~dp0"
 for /d %%W in ("..\versions\26.2\run\saves\*") do (
-  if exist "%%W\datapacks\skygrab-testkit" rmdir /s /q "%%W\datapacks\skygrab-testkit"
-  xcopy /e /i /q skygrab-testkit "%%W\datapacks\skygrab-testkit" >nul
+  if exist "%%W\datapacks\skycase-testkit" rmdir /s /q "%%W\datapacks\skycase-testkit"
+  xcopy /e /i /q skycase-testkit "%%W\datapacks\skycase-testkit" >nul
   echo installed into %%~nxW
 )
-echo In-game: /reload  then  /function skygrab:help
+echo In-game: /reload  then  /function skycase:help
 endlocal

@@ -1,4 +1,4 @@
-# SkyGrab
+# SkyCase
 
 A Fabric client mod for Hypixel SkyBlock that replays rewards you already received as a CS:GO-style case-scroll animation. Purely cosmetic: replays rewards you already received, hides the chat HUD while the animation plays and re-shows every held line afterwards, never clicks, buys, rerolls, reads prices or touches packets.
 
@@ -21,11 +21,11 @@ A Fabric client mod for Hypixel SkyBlock that replays rewards you already receiv
 
 ## Configuration
 
-Edit `config/skygrab.json` to customize:
+Edit `config/skycase.json` to customize:
 
 | Key | Type | Default | Description |
 |---|---|---|---|
-| `enabled` | boolean | `true` | Enable all SkyGrab reveals |
+| `enabled` | boolean | `true` | Enable all SkyCase reveals |
 | `durationMs` | integer | `4000` | Animation duration in milliseconds |
 | `hideChat` | boolean | `true` | Hide chat HUD while animation plays |
 | `dungeonChests` | boolean | `true` | Reveal dungeon chests |
@@ -40,8 +40,8 @@ Edit `config/skygrab.json` to customize:
 
 ## Commands
 
-- `/skygrab test` — Play a demo reveal with 5 sample items
-- `/skygrab chat <line>` — Feed a chat line directly to the trigger engine (exists because server chat cannot be injected locally; it works anywhere)
+- `/skycase test` — Play a demo reveal with 5 sample items
+- `/skycase chat <line>` — Feed a chat line directly to the trigger engine (exists because server chat cannot be injected locally; it works anywhere)
 
 ## Requirements
 
@@ -56,7 +56,7 @@ Edit `config/skygrab.json` to customize:
 Reveals open a `Screen`, which blocks player movement for the duration of the animation:
 `durationMs` (default 4000ms) plus a fixed 1.2s hold on the winner. ESC aborts the reveal
 instantly and returns control. If you play in dangerous areas (mobs, fall damage, PvP), consider
-lowering `durationMs` or disabling `corpses`/`drops` there — SkyGrab will not move or protect you
+lowering `durationMs` or disabling `corpses`/`drops` there — SkyCase will not move or protect you
 while a reveal plays.
 
 ## Building
@@ -66,14 +66,14 @@ while a reveal plays.
 ```
 
 Jar is placed in:
-- `versions/26.2/build/libs/skygrab-0.1.0+26.2.jar`
+- `versions/26.2/build/libs/skycase-0.1.0+26.2.jar`
 
 ## Credits
 
 - Case-scroll animation math re-implemented from SkyOcean (MIT code)
 - All art is original
 - Trigger regexes follow SkyHanni/Skyblocker/SkyOcean sources
-- Loot pool data (`src/main/resources/skygrab/pools/`):
+- Loot pool data (`src/main/resources/skycase/pools/`):
   - `dungeon_chests.json` — copied verbatim from [SkyOcean](https://github.com/SkyOceanMC/SkyOcean) `src/repo/dungeon_chests.json` (MIT)
   - `corpses.json` — VANGUARD converted from SkyOcean `src/repo/vanguard.jsonc` (MIT); LAPIS/TUNGSTEN/UMBER hand-authored from it, **weights assumed**
   - `kuudra.json` — hand-authored, **weights and armor-tier mapping assumed**

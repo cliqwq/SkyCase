@@ -1,5 +1,5 @@
 @echo off
-rem SkyGrab dev launcher: builds + starts the Minecraft 26.2 dev client with the mod loaded.
+rem SkyCase dev launcher: builds + starts the Minecraft 26.2 dev client with the mod loaded.
 rem DevAuth (bundled in the dev runtime) opens a Microsoft login on first run so you can join Hypixel.
 rem Account/config lives in %USERPROFILE%\.devauth\config.toml after the first login.
 setlocal

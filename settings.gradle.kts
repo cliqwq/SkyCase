@@ -1,4 +1,4 @@
-rootProject.name = "skygrab"
+rootProject.name = "skycase"
 
 pluginManagement {
     repositories {
