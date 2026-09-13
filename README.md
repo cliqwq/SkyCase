@@ -75,8 +75,8 @@ Jar is placed in:
 - Trigger regexes follow SkyHanni/Skyblocker/SkyOcean sources
 - Loot pool data (`src/main/resources/skycase/pools/`):
   - `dungeon_chests.json` — copied verbatim from [SkyOcean](https://github.com/SkyOceanMC/SkyOcean) `src/repo/dungeon_chests.json` (MIT)
-  - `corpses.json` — VANGUARD converted from SkyOcean `src/repo/vanguard.jsonc` (MIT); LAPIS/TUNGSTEN/UMBER hand-authored from it, **weights assumed**
-  - `kuudra.json` — hand-authored, **weights and armor-tier mapping assumed**
+  - `corpses.json` — per-roll % from https://hypixelskyblock.minecraft.wiki/Corpse (LAPIS, UMBER=TUNGSTEN, VANGUARD), weight = % × 100
+  - `kuudra.json` — Paid Chest tables per tier from https://hypixelskyblock.minecraft.wiki/Kuudra, weight = % × 100
   - `rare_drops.json` — built from [SkyHanni-REPO](https://github.com/hannibal002/SkyHanni-REPO) `constants/SlayerProfitTrackerItems.json` and `constants/DianaDrops.json` (MIT), and [NotEnoughUpdates-REPO](https://github.com/NotEnoughUpdates/NotEnoughUpdates-REPO) `constants/rngscore.json` (MIT)
   - Regenerate with `py testkit/gen.py <SkyOcean-clone-dir> <fetched-json-dir>` (see the script's docstring for the `gh api` fetch commands)
 
