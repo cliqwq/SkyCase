@@ -3,6 +3,8 @@ package dev.skygrab.screen
 import dev.skygrab.chat.ChatGuard
 import dev.skygrab.core.Easing
 import dev.skygrab.core.Reveal
+import tech.thatgravyboat.skyblockapi.api.datatype.defaults.LoreDataTypes
+import tech.thatgravyboat.skyblockapi.utils.extentions.get
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.screens.Screen
@@ -34,7 +36,12 @@ class CaseScreen(private val reveal: Reveal, private val durationMs: Int, privat
     }
 
     private val strip: List<ItemStack> = List(STRIP_LEN) { i -> if (i == WINNER_INDEX) reveal.winner else reveal.pool.random() }
-    private val jitter = Random.nextInt(-(CARD * SCALE / 2 - 6), CARD * SCALE / 2 - 5) // land anywhere on the winner card, not dead centre
+    // rarity tint per card (SkyBlock lore rarity → its chat colour, 0x59 alpha over the dark fill); grey if no rarity
+    private val bg: IntArray = IntArray(STRIP_LEN) { i ->
+        val c = strip[i].get(LoreDataTypes.RARITY)?.color
+        if (c == null) 0xE0141414.toInt() else (0x59000000.toInt() or (c and 0xFFFFFF))
+    }
+    private val jitter = Random.nextInt(-(CARD * SCALE / 2 - 1), CARD * SCALE / 2) // gold line can land anywhere across the winner card
     private val start = System.currentTimeMillis()
     private var lastTick = -1
     private var finished = false
@@ -75,7 +82,7 @@ class CaseScreen(private val reveal: Reveal, private val durationMs: Int, privat
             // card box: 22x22 around the 16x16 item (unscaled units), 1px border, dark fill
             val border = if (i == WINNER_INDEX && pop > 0f) 0xFFFFD700.toInt() else 0xFF5A5A5A.toInt()
             graphics.fill(-11, -11, 11, 11, border)
-            graphics.fill(-10, -10, 10, 10, 0xE0141414.toInt())
+            graphics.fill(-10, -10, 10, 10, bg[i])
             graphics.item(strip[i], -8, -8)
             graphics.pose().popMatrix()
         }
