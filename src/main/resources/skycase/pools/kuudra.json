@@ -1,297 +1,925 @@
 {
-  "_note": "weights assumed (hand-authored); armor-tier mapping is a plausible guess, not measured drop rates",
-  "BASIC": [
-    {
-      "id": "item:crimson_essence",
-      "weight": 40
-    },
-    {
-      "id": "item:kuudra_teeth",
-      "weight": 25
-    },
-    {
-      "id": "item:heavy_pearl",
-      "weight": 15
-    },
-    {
-      "id": "item:attribute_shard_mana_pool",
-      "weight": 8
-    },
-    {
-      "id": "item:attribute_shard_veteran",
-      "weight": 8
-    },
-    {
-      "id": "item:attribute_shard_warrior",
-      "weight": 8
-    },
-    {
-      "id": "item:crimson_helmet",
-      "weight": 10
-    },
-    {
-      "id": "item:crimson_chestplate",
-      "weight": 10
-    },
-    {
-      "id": "item:crimson_leggings",
-      "weight": 10
-    },
-    {
-      "id": "item:crimson_boots",
-      "weight": 10
-    }
-  ],
-  "HOT": [
-    {
-      "id": "item:crimson_essence",
-      "weight": 40
-    },
-    {
-      "id": "item:kuudra_teeth",
-      "weight": 25
-    },
-    {
-      "id": "item:heavy_pearl",
-      "weight": 15
-    },
-    {
-      "id": "item:attribute_shard_mana_pool",
-      "weight": 8
-    },
-    {
-      "id": "item:attribute_shard_veteran",
-      "weight": 8
-    },
-    {
-      "id": "item:attribute_shard_warrior",
-      "weight": 8
-    },
-    {
-      "id": "item:crimson_helmet",
-      "weight": 10
-    },
-    {
-      "id": "item:crimson_chestplate",
-      "weight": 10
-    },
-    {
-      "id": "item:crimson_leggings",
-      "weight": 10
-    },
-    {
-      "id": "item:crimson_boots",
-      "weight": 10
-    },
-    {
-      "id": "item:hollow_helmet",
-      "weight": 6
-    },
-    {
-      "id": "item:hollow_chestplate",
-      "weight": 6
-    },
-    {
-      "id": "item:hollow_leggings",
-      "weight": 6
-    },
-    {
-      "id": "item:hollow_boots",
-      "weight": 6
-    }
-  ],
-  "BURNING": [
-    {
-      "id": "item:crimson_essence",
-      "weight": 40
-    },
-    {
-      "id": "item:kuudra_teeth",
-      "weight": 25
-    },
-    {
-      "id": "item:heavy_pearl",
-      "weight": 15
-    },
-    {
-      "id": "item:attribute_shard_mana_pool",
-      "weight": 8
-    },
-    {
-      "id": "item:attribute_shard_veteran",
-      "weight": 8
-    },
-    {
-      "id": "item:attribute_shard_warrior",
-      "weight": 8
-    },
-    {
-      "id": "item:hollow_helmet",
-      "weight": 8
-    },
-    {
-      "id": "item:hollow_chestplate",
-      "weight": 8
-    },
-    {
-      "id": "item:hollow_leggings",
-      "weight": 8
-    },
-    {
-      "id": "item:hollow_boots",
-      "weight": 8
-    },
-    {
-      "id": "item:aurora_helmet",
-      "weight": 5
-    },
-    {
-      "id": "item:aurora_chestplate",
-      "weight": 5
-    },
-    {
-      "id": "item:aurora_leggings",
-      "weight": 5
-    },
-    {
-      "id": "item:aurora_boots",
-      "weight": 5
-    }
-  ],
-  "FIERY": [
-    {
-      "id": "item:crimson_essence",
-      "weight": 40
-    },
-    {
-      "id": "item:kuudra_teeth",
-      "weight": 25
-    },
-    {
-      "id": "item:heavy_pearl",
-      "weight": 15
-    },
-    {
-      "id": "item:attribute_shard_mana_pool",
-      "weight": 8
-    },
-    {
-      "id": "item:attribute_shard_veteran",
-      "weight": 8
-    },
-    {
-      "id": "item:attribute_shard_warrior",
-      "weight": 8
-    },
-    {
-      "id": "item:aurora_helmet",
-      "weight": 6
-    },
-    {
-      "id": "item:aurora_chestplate",
-      "weight": 6
-    },
-    {
-      "id": "item:aurora_leggings",
-      "weight": 6
-    },
-    {
-      "id": "item:aurora_boots",
-      "weight": 6
-    },
-    {
-      "id": "item:terror_helmet",
-      "weight": 4
-    },
-    {
-      "id": "item:terror_chestplate",
-      "weight": 4
-    },
-    {
-      "id": "item:terror_leggings",
-      "weight": 4
-    },
-    {
-      "id": "item:terror_boots",
-      "weight": 4
-    }
-  ],
-  "INFERNAL": [
-    {
-      "id": "item:crimson_essence",
-      "weight": 40
-    },
-    {
-      "id": "item:kuudra_teeth",
-      "weight": 25
-    },
-    {
-      "id": "item:heavy_pearl",
-      "weight": 15
-    },
-    {
-      "id": "item:attribute_shard_mana_pool",
-      "weight": 8
-    },
-    {
-      "id": "item:attribute_shard_veteran",
-      "weight": 8
-    },
-    {
-      "id": "item:attribute_shard_warrior",
-      "weight": 8
-    },
-    {
-      "id": "item:terror_helmet",
-      "weight": 5
-    },
-    {
-      "id": "item:terror_chestplate",
-      "weight": 5
-    },
-    {
-      "id": "item:terror_leggings",
-      "weight": 5
-    },
-    {
-      "id": "item:terror_boots",
-      "weight": 5
-    },
-    {
-      "id": "item:fervor_helmet",
-      "weight": 3
-    },
-    {
-      "id": "item:fervor_chestplate",
-      "weight": 3
-    },
-    {
-      "id": "item:fervor_leggings",
-      "weight": 3
-    },
-    {
-      "id": "item:fervor_boots",
-      "weight": 3
-    },
-    {
-      "id": "item:kuudra_follower_artifact",
-      "weight": 2
-    },
-    {
-      "id": "item:enrager",
-      "weight": 3
-    },
-    {
-      "id": "item:ferocious_mana",
-      "weight": 1
-    },
-    {
-      "id": "item:hollow_wand",
-      "weight": 1
-    },
-    {
-      "id": "item:ragnarock_axe",
-      "weight": 1
-    }
-  ]
+ "_source": "https://hypixelskyblock.minecraft.wiki/Kuudra Paid Chest tables (2026-09-13); weight = drop% x100; resolved by display name",
+ "BASIC": [
+  {
+   "name": "Aurora Helmet",
+   "weight": 431
+  },
+  {
+   "name": "Aurora Chestplate",
+   "weight": 431
+  },
+  {
+   "name": "Aurora Leggings",
+   "weight": 431
+  },
+  {
+   "name": "Aurora Boots",
+   "weight": 431
+  },
+  {
+   "name": "Crimson Helmet",
+   "weight": 431
+  },
+  {
+   "name": "Crimson Chestplate",
+   "weight": 431
+  },
+  {
+   "name": "Crimson Leggings",
+   "weight": 431
+  },
+  {
+   "name": "Crimson Boots",
+   "weight": 431
+  },
+  {
+   "name": "Fervor Helmet",
+   "weight": 431
+  },
+  {
+   "name": "Fervor Chestplate",
+   "weight": 431
+  },
+  {
+   "name": "Fervor Leggings",
+   "weight": 431
+  },
+  {
+   "name": "Fervor Boots",
+   "weight": 431
+  },
+  {
+   "name": "Hollow Helmet",
+   "weight": 431
+  },
+  {
+   "name": "Hollow Chestplate",
+   "weight": 431
+  },
+  {
+   "name": "Hollow Leggings",
+   "weight": 431
+  },
+  {
+   "name": "Hollow Boots",
+   "weight": 431
+  },
+  {
+   "name": "Terror Helmet",
+   "weight": 431
+  },
+  {
+   "name": "Terror Chestplate",
+   "weight": 431
+  },
+  {
+   "name": "Terror Leggings",
+   "weight": 431
+  },
+  {
+   "name": "Terror Boots",
+   "weight": 431
+  },
+  {
+   "name": "Aurora Staff",
+   "weight": 105
+  },
+  {
+   "name": "Hollow Wand",
+   "weight": 105
+  },
+  {
+   "name": "Molten Necklace",
+   "weight": 120
+  },
+  {
+   "name": "Molten Cloak",
+   "weight": 120
+  },
+  {
+   "name": "Molten Belt",
+   "weight": 120
+  },
+  {
+   "name": "Molten Bracelet",
+   "weight": 120
+  },
+  {
+   "name": "Tentacle Dye",
+   "weight": 1
+  },
+  {
+   "name": "Wheel of Fate",
+   "weight": 53
+  },
+  {
+   "name": "Fatal Tempo I",
+   "weight": 3
+  },
+  {
+   "name": "Inferno I",
+   "weight": 3
+  },
+  {
+   "name": "Vivacious Vitality I",
+   "weight": 2187
+  },
+  {
+   "name": "Hardened Vitality I",
+   "weight": 2187
+  },
+  {
+   "name": "Vampiric Vitality I",
+   "weight": 2187
+  },
+  {
+   "name": "Strong Vitality I",
+   "weight": 2187
+  },
+  {
+   "name": "Bezal Shard",
+   "weight": 1869
+  },
+  {
+   "name": "Kuudra Teeth",
+   "weight": 10000
+  },
+  {
+   "name": "Crimson Essence",
+   "weight": 10000
+  },
+  {
+   "name": "Kraken Shard",
+   "weight": 10000
+  }
+ ],
+ "HOT": [
+  {
+   "name": "Aurora Helmet",
+   "weight": 406
+  },
+  {
+   "name": "Aurora Chestplate",
+   "weight": 406
+  },
+  {
+   "name": "Aurora Leggings",
+   "weight": 406
+  },
+  {
+   "name": "Aurora Boots",
+   "weight": 406
+  },
+  {
+   "name": "Crimson Helmet",
+   "weight": 406
+  },
+  {
+   "name": "Crimson Chestplate",
+   "weight": 406
+  },
+  {
+   "name": "Crimson Leggings",
+   "weight": 406
+  },
+  {
+   "name": "Crimson Boots",
+   "weight": 406
+  },
+  {
+   "name": "Fervor Helmet",
+   "weight": 406
+  },
+  {
+   "name": "Fervor Chestplate",
+   "weight": 406
+  },
+  {
+   "name": "Fervor Leggings",
+   "weight": 406
+  },
+  {
+   "name": "Fervor Boots",
+   "weight": 406
+  },
+  {
+   "name": "Hollow Helmet",
+   "weight": 406
+  },
+  {
+   "name": "Hollow Chestplate",
+   "weight": 406
+  },
+  {
+   "name": "Hollow Leggings",
+   "weight": 406
+  },
+  {
+   "name": "Hollow Boots",
+   "weight": 406
+  },
+  {
+   "name": "Terror Helmet",
+   "weight": 406
+  },
+  {
+   "name": "Terror Chestplate",
+   "weight": 406
+  },
+  {
+   "name": "Terror Leggings",
+   "weight": 406
+  },
+  {
+   "name": "Terror Boots",
+   "weight": 406
+  },
+  {
+   "name": "Aurora Staff",
+   "weight": 99
+  },
+  {
+   "name": "Hollow Wand",
+   "weight": 99
+  },
+  {
+   "name": "Molten Necklace",
+   "weight": 127
+  },
+  {
+   "name": "Molten Cloak",
+   "weight": 127
+  },
+  {
+   "name": "Molten Belt",
+   "weight": 127
+  },
+  {
+   "name": "Molten Bracelet",
+   "weight": 127
+  },
+  {
+   "name": "Tentacle Dye",
+   "weight": 1
+  },
+  {
+   "name": "Wheel of Fate",
+   "weight": 119
+  },
+  {
+   "name": "Fatal Tempo I",
+   "weight": 13
+  },
+  {
+   "name": "Inferno I",
+   "weight": 13
+  },
+  {
+   "name": "Vivacious Vitality II",
+   "weight": 1971
+  },
+  {
+   "name": "Hardened Vitality II",
+   "weight": 1971
+  },
+  {
+   "name": "Vampiric Vitality II",
+   "weight": 1971
+  },
+  {
+   "name": "Strong Vitality II",
+   "weight": 1971
+  },
+  {
+   "name": "Bezal Shard",
+   "weight": 1711
+  },
+  {
+   "name": "Magma Slug Shard",
+   "weight": 1426
+  },
+  {
+   "name": "Kuudra Teeth",
+   "weight": 10000
+  },
+  {
+   "name": "Crimson Essence",
+   "weight": 10000
+  },
+  {
+   "name": "Kraken Shard",
+   "weight": 10000
+  }
+ ],
+ "BURNING": [
+  {
+   "name": "Aurora Helmet",
+   "weight": 343
+  },
+  {
+   "name": "Aurora Chestplate",
+   "weight": 343
+  },
+  {
+   "name": "Aurora Leggings",
+   "weight": 343
+  },
+  {
+   "name": "Aurora Boots",
+   "weight": 343
+  },
+  {
+   "name": "Crimson Helmet",
+   "weight": 343
+  },
+  {
+   "name": "Crimson Chestplate",
+   "weight": 343
+  },
+  {
+   "name": "Crimson Leggings",
+   "weight": 343
+  },
+  {
+   "name": "Crimson Boots",
+   "weight": 343
+  },
+  {
+   "name": "Fervor Helmet",
+   "weight": 343
+  },
+  {
+   "name": "Fervor Chestplate",
+   "weight": 343
+  },
+  {
+   "name": "Fervor Leggings",
+   "weight": 343
+  },
+  {
+   "name": "Fervor Boots",
+   "weight": 343
+  },
+  {
+   "name": "Hollow Helmet",
+   "weight": 343
+  },
+  {
+   "name": "Hollow Chestplate",
+   "weight": 343
+  },
+  {
+   "name": "Hollow Leggings",
+   "weight": 343
+  },
+  {
+   "name": "Hollow Boots",
+   "weight": 343
+  },
+  {
+   "name": "Terror Helmet",
+   "weight": 343
+  },
+  {
+   "name": "Terror Chestplate",
+   "weight": 343
+  },
+  {
+   "name": "Terror Leggings",
+   "weight": 343
+  },
+  {
+   "name": "Terror Boots",
+   "weight": 343
+  },
+  {
+   "name": "Aurora Staff",
+   "weight": 84
+  },
+  {
+   "name": "Hollow Wand",
+   "weight": 84
+  },
+  {
+   "name": "Burning Kuudra Core",
+   "weight": 12
+  },
+  {
+   "name": "Mandraa",
+   "weight": 96
+  },
+  {
+   "name": "Molten Necklace",
+   "weight": 119
+  },
+  {
+   "name": "Molten Cloak",
+   "weight": 119
+  },
+  {
+   "name": "Molten Belt",
+   "weight": 119
+  },
+  {
+   "name": "Molten Bracelet",
+   "weight": 119
+  },
+  {
+   "name": "Wheel of Fate",
+   "weight": 125
+  },
+  {
+   "name": "Fatal Tempo I",
+   "weight": 16
+  },
+  {
+   "name": "Inferno I",
+   "weight": 16
+  },
+  {
+   "name": "Vivacious Vitality III",
+   "weight": 1281
+  },
+  {
+   "name": "Hardened Vitality III",
+   "weight": 1281
+  },
+  {
+   "name": "Vampiric Vitality III",
+   "weight": 1281
+  },
+  {
+   "name": "Strong Vitality III",
+   "weight": 1281
+  },
+  {
+   "name": "Bezal Shard",
+   "weight": 538
+  },
+  {
+   "name": "Magma Slug Shard",
+   "weight": 448
+  },
+  {
+   "name": "Kada Knight Shard",
+   "weight": 364
+  },
+  {
+   "name": "Wither Spectre Shard",
+   "weight": 364
+  },
+  {
+   "name": "Matcho Shard",
+   "weight": 364
+  },
+  {
+   "name": "Lava Flame Shard",
+   "weight": 299
+  },
+  {
+   "name": "Kuudra Teeth",
+   "weight": 10000
+  },
+  {
+   "name": "Crimson Essence",
+   "weight": 10000
+  },
+  {
+   "name": "Kraken Shard",
+   "weight": 10000
+  }
+ ],
+ "FIERY": [
+  {
+   "name": "Aurora Helmet",
+   "weight": 309
+  },
+  {
+   "name": "Aurora Chestplate",
+   "weight": 309
+  },
+  {
+   "name": "Aurora Leggings",
+   "weight": 309
+  },
+  {
+   "name": "Aurora Boots",
+   "weight": 309
+  },
+  {
+   "name": "Crimson Helmet",
+   "weight": 309
+  },
+  {
+   "name": "Crimson Chestplate",
+   "weight": 309
+  },
+  {
+   "name": "Crimson Leggings",
+   "weight": 309
+  },
+  {
+   "name": "Crimson Boots",
+   "weight": 309
+  },
+  {
+   "name": "Fervor Helmet",
+   "weight": 309
+  },
+  {
+   "name": "Fervor Chestplate",
+   "weight": 309
+  },
+  {
+   "name": "Fervor Leggings",
+   "weight": 309
+  },
+  {
+   "name": "Fervor Boots",
+   "weight": 309
+  },
+  {
+   "name": "Hollow Helmet",
+   "weight": 309
+  },
+  {
+   "name": "Hollow Chestplate",
+   "weight": 309
+  },
+  {
+   "name": "Hollow Leggings",
+   "weight": 309
+  },
+  {
+   "name": "Hollow Boots",
+   "weight": 309
+  },
+  {
+   "name": "Terror Helmet",
+   "weight": 309
+  },
+  {
+   "name": "Terror Chestplate",
+   "weight": 309
+  },
+  {
+   "name": "Terror Leggings",
+   "weight": 309
+  },
+  {
+   "name": "Terror Boots",
+   "weight": 309
+  },
+  {
+   "name": "Aurora Staff",
+   "weight": 75
+  },
+  {
+   "name": "Hollow Wand",
+   "weight": 75
+  },
+  {
+   "name": "Burning Kuudra Core",
+   "weight": 32
+  },
+  {
+   "name": "Mandraa",
+   "weight": 108
+  },
+  {
+   "name": "Molten Necklace",
+   "weight": 118
+  },
+  {
+   "name": "Molten Cloak",
+   "weight": 118
+  },
+  {
+   "name": "Molten Belt",
+   "weight": 118
+  },
+  {
+   "name": "Molten Bracelet",
+   "weight": 118
+  },
+  {
+   "name": "Wheel of Fate",
+   "weight": 140
+  },
+  {
+   "name": "Heavy Pearl",
+   "weight": 635
+  },
+  {
+   "name": "Fatal Tempo I",
+   "weight": 18
+  },
+  {
+   "name": "Inferno I",
+   "weight": 18
+  },
+  {
+   "name": "Vivacious Vitality IV",
+   "weight": 1047
+  },
+  {
+   "name": "Hardened Vitality IV",
+   "weight": 1047
+  },
+  {
+   "name": "Vampiric Vitality IV",
+   "weight": 1047
+  },
+  {
+   "name": "Strong Vitality IV",
+   "weight": 1047
+  },
+  {
+   "name": "Bezal Shard",
+   "weight": 484
+  },
+  {
+   "name": "Magma Slug Shard",
+   "weight": 403
+  },
+  {
+   "name": "Kada Knight Shard",
+   "weight": 328
+  },
+  {
+   "name": "Wither Spectre Shard",
+   "weight": 328
+  },
+  {
+   "name": "Matcho Shard",
+   "weight": 328
+  },
+  {
+   "name": "Lava Flame Shard",
+   "weight": 269
+  },
+  {
+   "name": "Fire Eel Shard",
+   "weight": 204
+  },
+  {
+   "name": "Flare Shard",
+   "weight": 204
+  },
+  {
+   "name": "Barbarian Duke X Shard",
+   "weight": 204
+  },
+  {
+   "name": "Hellwisp Shard",
+   "weight": 167
+  },
+  {
+   "name": "XYZ Shard",
+   "weight": 134
+  },
+  {
+   "name": "Kuudra Teeth",
+   "weight": 10698
+  },
+  {
+   "name": "Crimson Essence",
+   "weight": 10698
+  },
+  {
+   "name": "Kraken Shard",
+   "weight": 10000
+  }
+ ],
+ "INFERNAL": [
+  {
+   "name": "Ananke Shard",
+   "weight": 11
+  },
+  {
+   "name": "Hellstorm Wand",
+   "weight": 10
+  },
+  {
+   "name": "Tormentor",
+   "weight": 10
+  },
+  {
+   "name": "Ananke Feather",
+   "weight": 36
+  },
+  {
+   "name": "Burning Kuudra Core",
+   "weight": 51
+  },
+  {
+   "name": "Daemon Shard",
+   "weight": 109
+  },
+  {
+   "name": "Lord Jawbus Shard",
+   "weight": 109
+  },
+  {
+   "name": "Moltenfish Shard",
+   "weight": 109
+  },
+  {
+   "name": "Cinderbat Shard",
+   "weight": 143
+  },
+  {
+   "name": "Taurus Shard",
+   "weight": 143
+  },
+  {
+   "name": "Hollow Wand",
+   "weight": 72
+  },
+  {
+   "name": "Aurora Staff",
+   "weight": 72
+  },
+  {
+   "name": "Mandraa",
+   "weight": 123
+  },
+  {
+   "name": "Molten Necklace",
+   "weight": 123
+  },
+  {
+   "name": "Molten Cloak",
+   "weight": 123
+  },
+  {
+   "name": "Molten Belt",
+   "weight": 123
+  },
+  {
+   "name": "Molten Bracelet",
+   "weight": 123
+  },
+  {
+   "name": "XYZ Shard",
+   "weight": 275
+  },
+  {
+   "name": "Hellwisp Shard",
+   "weight": 340
+  },
+  {
+   "name": "Barbarian Duke X Shard",
+   "weight": 416
+  },
+  {
+   "name": "Fire Eel Shard",
+   "weight": 416
+  },
+  {
+   "name": "Flare Shard",
+   "weight": 416
+  },
+  {
+   "name": "Lava Flame Shard",
+   "weight": 548
+  },
+  {
+   "name": "Aurora Helmet",
+   "weight": 296
+  },
+  {
+   "name": "Aurora Chestplate",
+   "weight": 296
+  },
+  {
+   "name": "Aurora Leggings",
+   "weight": 296
+  },
+  {
+   "name": "Aurora Boots",
+   "weight": 296
+  },
+  {
+   "name": "Crimson Helmet",
+   "weight": 296
+  },
+  {
+   "name": "Crimson Chestplate",
+   "weight": 296
+  },
+  {
+   "name": "Crimson Leggings",
+   "weight": 296
+  },
+  {
+   "name": "Crimson Boots",
+   "weight": 296
+  },
+  {
+   "name": "Fervor Helmet",
+   "weight": 296
+  },
+  {
+   "name": "Fervor Chestplate",
+   "weight": 296
+  },
+  {
+   "name": "Fervor Leggings",
+   "weight": 296
+  },
+  {
+   "name": "Fervor Boots",
+   "weight": 296
+  },
+  {
+   "name": "Hollow Helmet",
+   "weight": 296
+  },
+  {
+   "name": "Hollow Chestplate",
+   "weight": 296
+  },
+  {
+   "name": "Hollow Leggings",
+   "weight": 296
+  },
+  {
+   "name": "Hollow Boots",
+   "weight": 296
+  },
+  {
+   "name": "Terror Helmet",
+   "weight": 296
+  },
+  {
+   "name": "Terror Chestplate",
+   "weight": 296
+  },
+  {
+   "name": "Terror Leggings",
+   "weight": 296
+  },
+  {
+   "name": "Terror Boots",
+   "weight": 296
+  },
+  {
+   "name": "Kada Knight Shard",
+   "weight": 670
+  },
+  {
+   "name": "Matcho Shard",
+   "weight": 670
+  },
+  {
+   "name": "Wither Spectre Shard",
+   "weight": 670
+  },
+  {
+   "name": "Magma Slug Shard",
+   "weight": 823
+  },
+  {
+   "name": "Bezal Shard",
+   "weight": 988
+  },
+  {
+   "name": "Kuudra Teeth",
+   "weight": 10647
+  },
+  {
+   "name": "Crimson Essence",
+   "weight": 10647
+  },
+  {
+   "name": "Inferno I",
+   "weight": 22
+  },
+  {
+   "name": "Fatal Tempo I",
+   "weight": 22
+  },
+  {
+   "name": "Heavy Pearl",
+   "weight": 641
+  },
+  {
+   "name": "Dusty Travel Scroll",
+   "weight": 87
+  },
+  {
+   "name": "Kuudra Mandible",
+   "weight": 175
+  },
+  {
+   "name": "Wheel of Fate",
+   "weight": 268
+  },
+  {
+   "name": "Kraken Shard",
+   "weight": 10000
+  }
+ ]
 }

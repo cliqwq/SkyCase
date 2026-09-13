@@ -1,367 +1,427 @@
 {
-  "_note": "weights assumed for LAPIS/TUNGSTEN/UMBER (hand-authored from the VANGUARD list)",
-  "VANGUARD": [
-    {
-      "id": "item:dye_frostbitten",
-      "weight": 1
-    },
-    {
-      "id": "item:shattered_pendant",
-      "weight": 5
-    },
-    {
-      "id": "item:caged_wisp",
-      "weight": 10
-    },
-    {
-      "id": "item:frozen_scute",
-      "weight": 10
-    },
-    {
-      "id": "item:skeleton_key",
-      "weight": 10
-    },
-    {
-      "id": "item:umber_plate",
-      "weight": 30
-    },
-    {
-      "id": "item:tungsten_plate",
-      "weight": 30
-    },
-    {
-      "id": "item:mithril_plate",
-      "weight": 60
-    },
-    {
-      "id": "item:dwarven_os_metallic_minis",
-      "weight": 120
-    },
-    {
-      "id": "item:opal_crystal",
-      "weight": 120
-    },
-    {
-      "id": "item:onyx_crystal",
-      "weight": 120
-    },
-    {
-      "id": "item:peridot_crystal",
-      "weight": 120
-    },
-    {
-      "id": "item:citrine_crystal",
-      "weight": 120
-    },
-    {
-      "id": "item:aquamarine_crystal",
-      "weight": 120
-    },
-    {
-      "id": "item:umber_key",
-      "weight": 140
-    },
-    {
-      "id": "item:tungsten_key",
-      "weight": 140
-    },
-    {
-      "id": "enchantment:ice_cold:1",
-      "weight": 160
-    },
-    {
-      "id": "item:flawless_onyx_gem",
-      "weight": 240
-    },
-    {
-      "id": "item:flawless_citrine_gem",
-      "weight": 240
-    },
-    {
-      "id": "item:flawless_peridot_gem",
-      "weight": 240
-    },
-    {
-      "id": "item:flawless_aquamarine_gem",
-      "weight": 240
-    },
-    {
-      "id": "item:suspicious_scrap",
-      "weight": 240
-    },
-    {
-      "id": "item:goblin_egg_blue",
-      "weight": 240
-    },
-    {
-      "id": "item:refined_umber",
-      "weight": 240
-    },
-    {
-      "id": "item:refined_tungsten",
-      "weight": 240
-    },
-    {
-      "id": "item:glacite_amalgamation",
-      "weight": 280
-    }
-  ],
-  "LAPIS": [
-    {
-      "id": "item:frozen_scute",
-      "weight": 10
-    },
-    {
-      "id": "item:skeleton_key",
-      "weight": 10
-    },
-    {
-      "id": "item:mithril_plate",
-      "weight": 60
-    },
-    {
-      "id": "item:dwarven_os_metallic_minis",
-      "weight": 120
-    },
-    {
-      "id": "item:opal_crystal",
-      "weight": 120
-    },
-    {
-      "id": "item:onyx_crystal",
-      "weight": 120
-    },
-    {
-      "id": "item:peridot_crystal",
-      "weight": 120
-    },
-    {
-      "id": "item:citrine_crystal",
-      "weight": 120
-    },
-    {
-      "id": "item:aquamarine_crystal",
-      "weight": 120
-    },
-    {
-      "id": "enchantment:ice_cold:1",
-      "weight": 160
-    },
-    {
-      "id": "item:flawless_onyx_gem",
-      "weight": 240
-    },
-    {
-      "id": "item:flawless_citrine_gem",
-      "weight": 240
-    },
-    {
-      "id": "item:flawless_peridot_gem",
-      "weight": 240
-    },
-    {
-      "id": "item:flawless_aquamarine_gem",
-      "weight": 240
-    },
-    {
-      "id": "item:suspicious_scrap",
-      "weight": 240
-    },
-    {
-      "id": "item:goblin_egg_blue",
-      "weight": 240
-    },
-    {
-      "id": "item:refined_umber",
-      "weight": 240
-    },
-    {
-      "id": "item:refined_tungsten",
-      "weight": 240
-    },
-    {
-      "id": "item:glacite_amalgamation",
-      "weight": 280
-    },
-    {
-      "id": "item:lapis_plate",
-      "weight": 30
-    },
-    {
-      "id": "item:lapis_key",
-      "weight": 140
-    }
-  ],
-  "TUNGSTEN": [
-    {
-      "id": "item:frozen_scute",
-      "weight": 10
-    },
-    {
-      "id": "item:skeleton_key",
-      "weight": 10
-    },
-    {
-      "id": "item:mithril_plate",
-      "weight": 60
-    },
-    {
-      "id": "item:dwarven_os_metallic_minis",
-      "weight": 120
-    },
-    {
-      "id": "item:opal_crystal",
-      "weight": 120
-    },
-    {
-      "id": "item:onyx_crystal",
-      "weight": 120
-    },
-    {
-      "id": "item:peridot_crystal",
-      "weight": 120
-    },
-    {
-      "id": "item:citrine_crystal",
-      "weight": 120
-    },
-    {
-      "id": "item:aquamarine_crystal",
-      "weight": 120
-    },
-    {
-      "id": "enchantment:ice_cold:1",
-      "weight": 160
-    },
-    {
-      "id": "item:flawless_onyx_gem",
-      "weight": 240
-    },
-    {
-      "id": "item:flawless_citrine_gem",
-      "weight": 240
-    },
-    {
-      "id": "item:flawless_peridot_gem",
-      "weight": 240
-    },
-    {
-      "id": "item:flawless_aquamarine_gem",
-      "weight": 240
-    },
-    {
-      "id": "item:suspicious_scrap",
-      "weight": 240
-    },
-    {
-      "id": "item:goblin_egg_blue",
-      "weight": 240
-    },
-    {
-      "id": "item:refined_umber",
-      "weight": 240
-    },
-    {
-      "id": "item:refined_tungsten",
-      "weight": 240
-    },
-    {
-      "id": "item:glacite_amalgamation",
-      "weight": 280
-    },
-    {
-      "id": "item:tungsten_plate",
-      "weight": 30
-    },
-    {
-      "id": "item:tungsten_key",
-      "weight": 140
-    }
-  ],
-  "UMBER": [
-    {
-      "id": "item:frozen_scute",
-      "weight": 10
-    },
-    {
-      "id": "item:skeleton_key",
-      "weight": 10
-    },
-    {
-      "id": "item:mithril_plate",
-      "weight": 60
-    },
-    {
-      "id": "item:dwarven_os_metallic_minis",
-      "weight": 120
-    },
-    {
-      "id": "item:opal_crystal",
-      "weight": 120
-    },
-    {
-      "id": "item:onyx_crystal",
-      "weight": 120
-    },
-    {
-      "id": "item:peridot_crystal",
-      "weight": 120
-    },
-    {
-      "id": "item:citrine_crystal",
-      "weight": 120
-    },
-    {
-      "id": "item:aquamarine_crystal",
-      "weight": 120
-    },
-    {
-      "id": "enchantment:ice_cold:1",
-      "weight": 160
-    },
-    {
-      "id": "item:flawless_onyx_gem",
-      "weight": 240
-    },
-    {
-      "id": "item:flawless_citrine_gem",
-      "weight": 240
-    },
-    {
-      "id": "item:flawless_peridot_gem",
-      "weight": 240
-    },
-    {
-      "id": "item:flawless_aquamarine_gem",
-      "weight": 240
-    },
-    {
-      "id": "item:suspicious_scrap",
-      "weight": 240
-    },
-    {
-      "id": "item:goblin_egg_blue",
-      "weight": 240
-    },
-    {
-      "id": "item:refined_umber",
-      "weight": 240
-    },
-    {
-      "id": "item:refined_tungsten",
-      "weight": 240
-    },
-    {
-      "id": "item:glacite_amalgamation",
-      "weight": 280
-    },
-    {
-      "id": "item:umber_plate",
-      "weight": 30
-    },
-    {
-      "id": "item:umber_key",
-      "weight": 140
-    }
-  ]
+ "_source": "https://hypixelskyblock.minecraft.wiki/Corpse per-roll % (2026-09-13), quantity variants merged; weight = % x100; TUNGSTEN = wiki's shared Umber/Tungsten table",
+ "LAPIS": [
+  {
+   "name": "Flawed Onyx Gemstone",
+   "weight": 896
+  },
+  {
+   "name": "Fine Onyx Gemstone",
+   "weight": 224
+  },
+  {
+   "name": "Flawed Peridot Gemstone",
+   "weight": 896
+  },
+  {
+   "name": "Fine Peridot Gemstone",
+   "weight": 224
+  },
+  {
+   "name": "Flawed Citrine Gemstone",
+   "weight": 896
+  },
+  {
+   "name": "Fine Citrine Gemstone",
+   "weight": 224
+  },
+  {
+   "name": "Flawed Aquamarine Gemstone",
+   "weight": 896
+  },
+  {
+   "name": "Fine Aquamarine Gemstone",
+   "weight": 224
+  },
+  {
+   "name": "Suspicious Scrap",
+   "weight": 299
+  },
+  {
+   "name": "Goblin Egg",
+   "weight": 836
+  },
+  {
+   "name": "Green Goblin Egg",
+   "weight": 731
+  },
+  {
+   "name": "Yellow Goblin Egg",
+   "weight": 731
+  },
+  {
+   "name": "Red Goblin Egg",
+   "weight": 731
+  },
+  {
+   "name": "Enchanted Umber",
+   "weight": 523
+  },
+  {
+   "name": "Enchanted Tungsten",
+   "weight": 523
+  },
+  {
+   "name": "Enchanted Glacite",
+   "weight": 523
+  },
+  {
+   "name": "Refined Umber",
+   "weight": 15
+  },
+  {
+   "name": "Refined Tungsten",
+   "weight": 15
+  },
+  {
+   "name": "Glacite Amalgamation",
+   "weight": 15
+  },
+  {
+   "name": "Umber Key",
+   "weight": 15
+  },
+  {
+   "name": "Tungsten Key",
+   "weight": 15
+  },
+  {
+   "name": "Glacite Jewel",
+   "weight": 448
+  },
+  {
+   "name": "Bejeweled Handle",
+   "weight": 105
+  }
+ ],
+ "UMBER": [
+  {
+   "name": "Fine Onyx Gemstone",
+   "weight": 1873
+  },
+  {
+   "name": "Flawless Onyx Gemstone",
+   "weight": 38
+  },
+  {
+   "name": "Fine Peridot Gemstone",
+   "weight": 1873
+  },
+  {
+   "name": "Flawless Peridot Gemstone",
+   "weight": 38
+  },
+  {
+   "name": "Fine Citrine Gemstone",
+   "weight": 1873
+  },
+  {
+   "name": "Flawless Citrine Gemstone",
+   "weight": 38
+  },
+  {
+   "name": "Fine Aquamarine Gemstone",
+   "weight": 1873
+  },
+  {
+   "name": "Flawless Aquamarine Gemstone",
+   "weight": 38
+  },
+  {
+   "name": "Suspicious Scrap",
+   "weight": 1605
+  },
+  {
+   "name": "Ice Cold I",
+   "weight": 122
+  },
+  {
+   "name": "Blue Goblin Egg",
+   "weight": 122
+  },
+  {
+   "name": "Refined Umber",
+   "weight": 31
+  },
+  {
+   "name": "Refined Tungsten",
+   "weight": 31
+  },
+  {
+   "name": "Glacite Amalgamation",
+   "weight": 31
+  },
+  {
+   "name": "Umber Plate",
+   "weight": 8
+  },
+  {
+   "name": "Tungsten Plate",
+   "weight": 8
+  },
+  {
+   "name": "Umber Key",
+   "weight": 15
+  },
+  {
+   "name": "Tungsten Key",
+   "weight": 15
+  },
+  {
+   "name": "Mithril Plate",
+   "weight": 15
+  },
+  {
+   "name": "Frozen Scute",
+   "weight": 6
+  },
+  {
+   "name": "Dwarven O's Metallic Minis",
+   "weight": 31
+  },
+  {
+   "name": "Skeleton Key",
+   "weight": 6
+  },
+  {
+   "name": "Caged Wisp",
+   "weight": 3
+  },
+  {
+   "name": "Opal Crystal",
+   "weight": 61
+  },
+  {
+   "name": "Onyx Crystal",
+   "weight": 61
+  },
+  {
+   "name": "Peridot Crystal",
+   "weight": 61
+  },
+  {
+   "name": "Citrine Crystal",
+   "weight": 61
+  },
+  {
+   "name": "Aquamarine Crystal",
+   "weight": 61
+  }
+ ],
+ "VANGUARD": [
+  {
+   "name": "Flawless Onyx Gemstone",
+   "weight": 683
+  },
+  {
+   "name": "Flawless Citrine Gemstone",
+   "weight": 683
+  },
+  {
+   "name": "Flawless Peridot Gemstone",
+   "weight": 683
+  },
+  {
+   "name": "Flawless Aquamarine Gemstone",
+   "weight": 683
+  },
+  {
+   "name": "Dwarven O's Metallic Minis",
+   "weight": 341
+  },
+  {
+   "name": "Suspicious Scrap",
+   "weight": 683
+  },
+  {
+   "name": "Ice Cold I",
+   "weight": 455
+  },
+  {
+   "name": "Blue Goblin Egg",
+   "weight": 683
+  },
+  {
+   "name": "Refined Umber",
+   "weight": 683
+  },
+  {
+   "name": "Refined Tungsten",
+   "weight": 683
+  },
+  {
+   "name": "Glacite Amalgamation",
+   "weight": 797
+  },
+  {
+   "name": "Mithril Plate",
+   "weight": 171
+  },
+  {
+   "name": "Umber Plate",
+   "weight": 85
+  },
+  {
+   "name": "Tungsten Plate",
+   "weight": 85
+  },
+  {
+   "name": "Umber Key",
+   "weight": 399
+  },
+  {
+   "name": "Tungsten Key",
+   "weight": 399
+  },
+  {
+   "name": "Skeleton Key",
+   "weight": 28
+  },
+  {
+   "name": "Frozen Scute",
+   "weight": 28
+  },
+  {
+   "name": "Caged Wisp",
+   "weight": 28
+  },
+  {
+   "name": "Shattered Locket",
+   "weight": 14
+  },
+  {
+   "name": "Opal Crystal",
+   "weight": 341
+  },
+  {
+   "name": "Onyx Crystal",
+   "weight": 341
+  },
+  {
+   "name": "Peridot Crystal",
+   "weight": 341
+  },
+  {
+   "name": "Citrine Crystal",
+   "weight": 341
+  },
+  {
+   "name": "Aquamarine Crystal",
+   "weight": 341
+  }
+ ],
+ "TUNGSTEN": [
+  {
+   "name": "Fine Onyx Gemstone",
+   "weight": 1873
+  },
+  {
+   "name": "Flawless Onyx Gemstone",
+   "weight": 38
+  },
+  {
+   "name": "Fine Peridot Gemstone",
+   "weight": 1873
+  },
+  {
+   "name": "Flawless Peridot Gemstone",
+   "weight": 38
+  },
+  {
+   "name": "Fine Citrine Gemstone",
+   "weight": 1873
+  },
+  {
+   "name": "Flawless Citrine Gemstone",
+   "weight": 38
+  },
+  {
+   "name": "Fine Aquamarine Gemstone",
+   "weight": 1873
+  },
+  {
+   "name": "Flawless Aquamarine Gemstone",
+   "weight": 38
+  },
+  {
+   "name": "Suspicious Scrap",
+   "weight": 1605
+  },
+  {
+   "name": "Ice Cold I",
+   "weight": 122
+  },
+  {
+   "name": "Blue Goblin Egg",
+   "weight": 122
+  },
+  {
+   "name": "Refined Umber",
+   "weight": 31
+  },
+  {
+   "name": "Refined Tungsten",
+   "weight": 31
+  },
+  {
+   "name": "Glacite Amalgamation",
+   "weight": 31
+  },
+  {
+   "name": "Umber Plate",
+   "weight": 8
+  },
+  {
+   "name": "Tungsten Plate",
+   "weight": 8
+  },
+  {
+   "name": "Umber Key",
+   "weight": 15
+  },
+  {
+   "name": "Tungsten Key",
+   "weight": 15
+  },
+  {
+   "name": "Mithril Plate",
+   "weight": 15
+  },
+  {
+   "name": "Frozen Scute",
+   "weight": 6
+  },
+  {
+   "name": "Dwarven O's Metallic Minis",
+   "weight": 31
+  },
+  {
+   "name": "Skeleton Key",
+   "weight": 6
+  },
+  {
+   "name": "Caged Wisp",
+   "weight": 3
+  },
+  {
+   "name": "Opal Crystal",
+   "weight": 61
+  },
+  {
+   "name": "Onyx Crystal",
+   "weight": 61
+  },
+  {
+   "name": "Peridot Crystal",
+   "weight": 61
+  },
+  {
+   "name": "Citrine Crystal",
+   "weight": 61
+  },
+  {
+   "name": "Aquamarine Crystal",
+   "weight": 61
+  }
+ ]
 }

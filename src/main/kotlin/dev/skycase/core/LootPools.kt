@@ -33,7 +33,10 @@ object LootPools {
 
     private fun JsonArray.toEntries(): List<Entry> = map { el ->
         val o = el.asJsonObject
-        Entry(o["id"].asString, o["weight"].asInt)
+        // rows carry either a repo id ("item:foo" / "FOO") or a display name ("name": "Aurora Helmet");
+        // names are prefixed so resolve() knows to look them up by name
+        val key = o["id"]?.asString ?: ("name:" + o["name"].asString)
+        Entry(key, o["weight"].asInt)
     }
 
     // raw pools, keyed exactly as they appear in the JSON (floor/type/tier/boss names)
@@ -43,11 +46,11 @@ object LootPools {
         }
     }
     private val corpsePools: Map<String, List<Entry>> by lazy {
-        resourceJson("corpses.json").entrySet().filter { it.key != "_note" }
+        resourceJson("corpses.json").entrySet().filter { !it.key.startsWith("_") }
             .associate { (type, arr) -> type to arr.asJsonArray.toEntries() }
     }
     private val kuudraPools: Map<String, List<Entry>> by lazy {
-        resourceJson("kuudra.json").entrySet().filter { it.key != "_note" }
+        resourceJson("kuudra.json").entrySet().filter { !it.key.startsWith("_") }
             .associate { (tier, arr) -> tier to arr.asJsonArray.toEntries() }
     }
     private val rareDrops: JsonObject by lazy { resourceJson("rare_drops.json") }
@@ -75,7 +78,12 @@ object LootPools {
     // later -- same reasoning as poolCache below.
     private fun resolve(id: String): ItemStack? {
         resolveCache[id]?.let { return it }
-        val stack = SkyBlockItemsRepo.getItemStack(normalize(id))
+        val stack = if (id.startsWith("name:")) {
+            val name = id.removePrefix("name:")
+            SkyBlockItemsRepo.getIdByName(name)?.let { SkyBlockItemsRepo.getItemStack(it) }
+        } else {
+            SkyBlockItemsRepo.getItemStack(normalize(id))
+        }
         val result = if (stack != null && !stack.isEmpty) stack else null
         if (result != null) resolveCache[id] = result
         return result
