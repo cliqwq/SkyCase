@@ -8,6 +8,8 @@ import net.minecraft.core.component.DataComponents
 import net.minecraft.network.chat.Component
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
+import tech.thatgravyboat.skyblockapi.api.area.dungeon.DungeonAPI
+import tech.thatgravyboat.skyblockapi.api.area.slayer.SlayerAPI
 import tech.thatgravyboat.skyblockapi.api.datatype.defaults.LoreDataTypes
 import tech.thatgravyboat.skyblockapi.api.events.base.Subscription
 import tech.thatgravyboat.skyblockapi.api.events.chat.ChatReceivedEvent
@@ -35,6 +37,7 @@ object ChatTrigger {
     private val corpseItems = mutableListOf<ItemStack>()
     private var corpseLines = 0
     private var corpseStartedAt = 0L
+    private var corpseType: String? = null
 
     @Subscription
     fun onChat(event: ChatReceivedEvent.Pre) {
@@ -52,6 +55,7 @@ object ChatTrigger {
                 corpseItems.clear()
                 corpseLines = 1
                 corpseStartedAt = System.currentTimeMillis()
+                corpseType = RarityGate.corpseType(text)
                 event.cancel()
                 return
             }
@@ -77,7 +81,16 @@ object ChatTrigger {
             set(DataComponents.CUSTOM_NAME, Component.literal(text.take(40)))
         }
         event.cancel()
-        submitOrSkip(filler, winner, listOf(event.component))
+        submitOrSkip(rareDropPool(text), winner, listOf(event.component))
+    }
+
+    /** Real loot pool for the current source, by priority: catacombs floor, then slayer boss,
+     * then a diana "dug out" burrow drop; existing filler when none apply. */
+    private fun rareDropPool(text: String): List<ItemStack> {
+        DungeonAPI.dungeonFloor?.name?.let { floor -> LootPools.catacombs(floor)?.let { return it } }
+        SlayerAPI.type?.displayName?.let { boss -> LootPools.slayer(boss)?.let { return it } }
+        if ("dug out" in text) LootPools.diana()?.let { return it }
+        return filler
     }
 
     // Proactive half of the 10s safety flush: the check in onChat only runs when another chat line
@@ -98,9 +111,13 @@ object ChatTrigger {
      * is never lost. */
     private fun endCorpse(held: List<Component>) {
         val items = corpseItems.toList()
-        corpse = null; corpseItems.clear(); corpseLines = 0; corpseStartedAt = 0L
+        val type = corpseType
+        corpse = null; corpseItems.clear(); corpseLines = 0; corpseStartedAt = 0L; corpseType = null
         val winner = items.maxByOrNull { rarityOf(it) }
-        if (winner != null) submitOrSkip(items, winner, held) else reshow(held)
+        if (winner != null) {
+            val pool = type?.let(LootPools::corpse) ?: items
+            submitOrSkip(pool, winner, held)
+        } else reshow(held)
     }
 
     // I2 (chat, controller ruling): if a screen is already open (any screen -- a chest GUI, an

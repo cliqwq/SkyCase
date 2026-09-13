@@ -27,9 +27,12 @@ object RarityGate {
 
     // SkyOcean VanguardGambling.kt:59-61, widened to all four corpse types.
     private val corpseStartRx = Regex(" +(?:LAPIS|TUNGSTEN|UMBER|VANGUARD) CORPSE LOOT! ?")
+    private val corpseTypeRx = Regex(" +(?<type>LAPIS|TUNGSTEN|UMBER|VANGUARD) CORPSE LOOT! ?")
     private val corpseItemRx = Regex(" +(?<item>.+?)(?: x(?<amount>[\\d,]+)|$)")
     private val corpseEndRx = Regex("▬{64}")
     fun corpseStart(text: String) = corpseStartRx.matches(text)
+    /** The corpse type ("VANGUARD"/"LAPIS"/"TUNGSTEN"/"UMBER") named in a corpseStart line, or null. */
+    fun corpseType(text: String): String? = corpseTypeRx.matchEntire(text)?.groups?.get("type")?.value
     fun corpseEnd(text: String) = corpseEndRx.containsMatchIn(text)
     fun corpseItem(text: String): Pair<String, Int>? {
         val m = corpseItemRx.matchEntire(text) ?: return null

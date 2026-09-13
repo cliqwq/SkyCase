@@ -36,4 +36,11 @@ class RarityGateTest {
         assertEquals("Glacite Jewel" to 3, RarityGate.corpseItem("  Glacite Jewel x3"))
         assertEquals("Shattered Pendant" to 1, RarityGate.corpseItem("  Shattered Pendant"))
     }
+    @Test fun corpseType() {
+        assertEquals("UMBER", RarityGate.corpseType("  UMBER CORPSE LOOT!"))
+        assertEquals("VANGUARD", RarityGate.corpseType("  VANGUARD CORPSE LOOT!"))
+        assertEquals("LAPIS", RarityGate.corpseType("  LAPIS CORPSE LOOT! "))
+        assertNull(RarityGate.corpseType("CORPSE LOOT!"))
+        assertNull(RarityGate.corpseType("  Glacite Jewel x3"))
+    }
 }

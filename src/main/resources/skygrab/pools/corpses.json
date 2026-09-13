@@ -1,0 +1,367 @@
+{
+  "_note": "weights assumed for LAPIS/TUNGSTEN/UMBER (hand-authored from the VANGUARD list)",
+  "VANGUARD": [
+    {
+      "id": "item:dye_frostbitten",
+      "weight": 1
+    },
+    {
+      "id": "item:shattered_pendant",
+      "weight": 5
+    },
+    {
+      "id": "item:caged_wisp",
+      "weight": 10
+    },
+    {
+      "id": "item:frozen_scute",
+      "weight": 10
+    },
+    {
+      "id": "item:skeleton_key",
+      "weight": 10
+    },
+    {
+      "id": "item:umber_plate",
+      "weight": 30
+    },
+    {
+      "id": "item:tungsten_plate",
+      "weight": 30
+    },
+    {
+      "id": "item:mithril_plate",
+      "weight": 60
+    },
+    {
+      "id": "item:dwarven_os_metallic_minis",
+      "weight": 120
+    },
+    {
+      "id": "item:opal_crystal",
+      "weight": 120
+    },
+    {
+      "id": "item:onyx_crystal",
+      "weight": 120
+    },
+    {
+      "id": "item:peridot_crystal",
+      "weight": 120
+    },
+    {
+      "id": "item:citrine_crystal",
+      "weight": 120
+    },
+    {
+      "id": "item:aquamarine_crystal",
+      "weight": 120
+    },
+    {
+      "id": "item:umber_key",
+      "weight": 140
+    },
+    {
+      "id": "item:tungsten_key",
+      "weight": 140
+    },
+    {
+      "id": "enchantment:ice_cold:1",
+      "weight": 160
+    },
+    {
+      "id": "item:flawless_onyx_gem",
+      "weight": 240
+    },
+    {
+      "id": "item:flawless_citrine_gem",
+      "weight": 240
+    },
+    {
+      "id": "item:flawless_peridot_gem",
+      "weight": 240
+    },
+    {
+      "id": "item:flawless_aquamarine_gem",
+      "weight": 240
+    },
+    {
+      "id": "item:suspicious_scrap",
+      "weight": 240
+    },
+    {
+      "id": "item:goblin_egg_blue",
+      "weight": 240
+    },
+    {
+      "id": "item:refined_umber",
+      "weight": 240
+    },
+    {
+      "id": "item:refined_tungsten",
+      "weight": 240
+    },
+    {
+      "id": "item:glacite_amalgamation",
+      "weight": 280
+    }
+  ],
+  "LAPIS": [
+    {
+      "id": "item:frozen_scute",
+      "weight": 10
+    },
+    {
+      "id": "item:skeleton_key",
+      "weight": 10
+    },
+    {
+      "id": "item:mithril_plate",
+      "weight": 60
+    },
+    {
+      "id": "item:dwarven_os_metallic_minis",
+      "weight": 120
+    },
+    {
+      "id": "item:opal_crystal",
+      "weight": 120
+    },
+    {
+      "id": "item:onyx_crystal",
+      "weight": 120
+    },
+    {
+      "id": "item:peridot_crystal",
+      "weight": 120
+    },
+    {
+      "id": "item:citrine_crystal",
+      "weight": 120
+    },
+    {
+      "id": "item:aquamarine_crystal",
+      "weight": 120
+    },
+    {
+      "id": "enchantment:ice_cold:1",
+      "weight": 160
+    },
+    {
+      "id": "item:flawless_onyx_gem",
+      "weight": 240
+    },
+    {
+      "id": "item:flawless_citrine_gem",
+      "weight": 240
+    },
+    {
+      "id": "item:flawless_peridot_gem",
+      "weight": 240
+    },
+    {
+      "id": "item:flawless_aquamarine_gem",
+      "weight": 240
+    },
+    {
+      "id": "item:suspicious_scrap",
+      "weight": 240
+    },
+    {
+      "id": "item:goblin_egg_blue",
+      "weight": 240
+    },
+    {
+      "id": "item:refined_umber",
+      "weight": 240
+    },
+    {
+      "id": "item:refined_tungsten",
+      "weight": 240
+    },
+    {
+      "id": "item:glacite_amalgamation",
+      "weight": 280
+    },
+    {
+      "id": "item:lapis_plate",
+      "weight": 30
+    },
+    {
+      "id": "item:lapis_key",
+      "weight": 140
+    }
+  ],
+  "TUNGSTEN": [
+    {
+      "id": "item:frozen_scute",
+      "weight": 10
+    },
+    {
+      "id": "item:skeleton_key",
+      "weight": 10
+    },
+    {
+      "id": "item:mithril_plate",
+      "weight": 60
+    },
+    {
+      "id": "item:dwarven_os_metallic_minis",
+      "weight": 120
+    },
+    {
+      "id": "item:opal_crystal",
+      "weight": 120
+    },
+    {
+      "id": "item:onyx_crystal",
+      "weight": 120
+    },
+    {
+      "id": "item:peridot_crystal",
+      "weight": 120
+    },
+    {
+      "id": "item:citrine_crystal",
+      "weight": 120
+    },
+    {
+      "id": "item:aquamarine_crystal",
+      "weight": 120
+    },
+    {
+      "id": "enchantment:ice_cold:1",
+      "weight": 160
+    },
+    {
+      "id": "item:flawless_onyx_gem",
+      "weight": 240
+    },
+    {
+      "id": "item:flawless_citrine_gem",
+      "weight": 240
+    },
+    {
+      "id": "item:flawless_peridot_gem",
+      "weight": 240
+    },
+    {
+      "id": "item:flawless_aquamarine_gem",
+      "weight": 240
+    },
+    {
+      "id": "item:suspicious_scrap",
+      "weight": 240
+    },
+    {
+      "id": "item:goblin_egg_blue",
+      "weight": 240
+    },
+    {
+      "id": "item:refined_umber",
+      "weight": 240
+    },
+    {
+      "id": "item:refined_tungsten",
+      "weight": 240
+    },
+    {
+      "id": "item:glacite_amalgamation",
+      "weight": 280
+    },
+    {
+      "id": "item:tungsten_plate",
+      "weight": 30
+    },
+    {
+      "id": "item:tungsten_key",
+      "weight": 140
+    }
+  ],
+  "UMBER": [
+    {
+      "id": "item:frozen_scute",
+      "weight": 10
+    },
+    {
+      "id": "item:skeleton_key",
+      "weight": 10
+    },
+    {
+      "id": "item:mithril_plate",
+      "weight": 60
+    },
+    {
+      "id": "item:dwarven_os_metallic_minis",
+      "weight": 120
+    },
+    {
+      "id": "item:opal_crystal",
+      "weight": 120
+    },
+    {
+      "id": "item:onyx_crystal",
+      "weight": 120
+    },
+    {
+      "id": "item:peridot_crystal",
+      "weight": 120
+    },
+    {
+      "id": "item:citrine_crystal",
+      "weight": 120
+    },
+    {
+      "id": "item:aquamarine_crystal",
+      "weight": 120
+    },
+    {
+      "id": "enchantment:ice_cold:1",
+      "weight": 160
+    },
+    {
+      "id": "item:flawless_onyx_gem",
+      "weight": 240
+    },
+    {
+      "id": "item:flawless_citrine_gem",
+      "weight": 240
+    },
+    {
+      "id": "item:flawless_peridot_gem",
+      "weight": 240
+    },
+    {
+      "id": "item:flawless_aquamarine_gem",
+      "weight": 240
+    },
+    {
+      "id": "item:suspicious_scrap",
+      "weight": 240
+    },
+    {
+      "id": "item:goblin_egg_blue",
+      "weight": 240
+    },
+    {
+      "id": "item:refined_umber",
+      "weight": 240
+    },
+    {
+      "id": "item:refined_tungsten",
+      "weight": 240
+    },
+    {
+      "id": "item:glacite_amalgamation",
+      "weight": 280
+    },
+    {
+      "id": "item:umber_plate",
+      "weight": 30
+    },
+    {
+      "id": "item:umber_key",
+      "weight": 140
+    }
+  ]
+}

@@ -1,0 +1,297 @@
+{
+  "_note": "weights assumed (hand-authored); armor-tier mapping is a plausible guess, not measured drop rates",
+  "BASIC": [
+    {
+      "id": "item:crimson_essence",
+      "weight": 40
+    },
+    {
+      "id": "item:kuudra_teeth",
+      "weight": 25
+    },
+    {
+      "id": "item:heavy_pearl",
+      "weight": 15
+    },
+    {
+      "id": "item:attribute_shard_mana_pool",
+      "weight": 8
+    },
+    {
+      "id": "item:attribute_shard_veteran",
+      "weight": 8
+    },
+    {
+      "id": "item:attribute_shard_warrior",
+      "weight": 8
+    },
+    {
+      "id": "item:crimson_helmet",
+      "weight": 10
+    },
+    {
+      "id": "item:crimson_chestplate",
+      "weight": 10
+    },
+    {
+      "id": "item:crimson_leggings",
+      "weight": 10
+    },
+    {
+      "id": "item:crimson_boots",
+      "weight": 10
+    }
+  ],
+  "HOT": [
+    {
+      "id": "item:crimson_essence",
+      "weight": 40
+    },
+    {
+      "id": "item:kuudra_teeth",
+      "weight": 25
+    },
+    {
+      "id": "item:heavy_pearl",
+      "weight": 15
+    },
+    {
+      "id": "item:attribute_shard_mana_pool",
+      "weight": 8
+    },
+    {
+      "id": "item:attribute_shard_veteran",
+      "weight": 8
+    },
+    {
+      "id": "item:attribute_shard_warrior",
+      "weight": 8
+    },
+    {
+      "id": "item:crimson_helmet",
+      "weight": 10
+    },
+    {
+      "id": "item:crimson_chestplate",
+      "weight": 10
+    },
+    {
+      "id": "item:crimson_leggings",
+      "weight": 10
+    },
+    {
+      "id": "item:crimson_boots",
+      "weight": 10
+    },
+    {
+      "id": "item:hollow_helmet",
+      "weight": 6
+    },
+    {
+      "id": "item:hollow_chestplate",
+      "weight": 6
+    },
+    {
+      "id": "item:hollow_leggings",
+      "weight": 6
+    },
+    {
+      "id": "item:hollow_boots",
+      "weight": 6
+    }
+  ],
+  "BURNING": [
+    {
+      "id": "item:crimson_essence",
+      "weight": 40
+    },
+    {
+      "id": "item:kuudra_teeth",
+      "weight": 25
+    },
+    {
+      "id": "item:heavy_pearl",
+      "weight": 15
+    },
+    {
+      "id": "item:attribute_shard_mana_pool",
+      "weight": 8
+    },
+    {
+      "id": "item:attribute_shard_veteran",
+      "weight": 8
+    },
+    {
+      "id": "item:attribute_shard_warrior",
+      "weight": 8
+    },
+    {
+      "id": "item:hollow_helmet",
+      "weight": 8
+    },
+    {
+      "id": "item:hollow_chestplate",
+      "weight": 8
+    },
+    {
+      "id": "item:hollow_leggings",
+      "weight": 8
+    },
+    {
+      "id": "item:hollow_boots",
+      "weight": 8
+    },
+    {
+      "id": "item:aurora_helmet",
+      "weight": 5
+    },
+    {
+      "id": "item:aurora_chestplate",
+      "weight": 5
+    },
+    {
+      "id": "item:aurora_leggings",
+      "weight": 5
+    },
+    {
+      "id": "item:aurora_boots",
+      "weight": 5
+    }
+  ],
+  "FIERY": [
+    {
+      "id": "item:crimson_essence",
+      "weight": 40
+    },
+    {
+      "id": "item:kuudra_teeth",
+      "weight": 25
+    },
+    {
+      "id": "item:heavy_pearl",
+      "weight": 15
+    },
+    {
+      "id": "item:attribute_shard_mana_pool",
+      "weight": 8
+    },
+    {
+      "id": "item:attribute_shard_veteran",
+      "weight": 8
+    },
+    {
+      "id": "item:attribute_shard_warrior",
+      "weight": 8
+    },
+    {
+      "id": "item:aurora_helmet",
+      "weight": 6
+    },
+    {
+      "id": "item:aurora_chestplate",
+      "weight": 6
+    },
+    {
+      "id": "item:aurora_leggings",
+      "weight": 6
+    },
+    {
+      "id": "item:aurora_boots",
+      "weight": 6
+    },
+    {
+      "id": "item:terror_helmet",
+      "weight": 4
+    },
+    {
+      "id": "item:terror_chestplate",
+      "weight": 4
+    },
+    {
+      "id": "item:terror_leggings",
+      "weight": 4
+    },
+    {
+      "id": "item:terror_boots",
+      "weight": 4
+    }
+  ],
+  "INFERNAL": [
+    {
+      "id": "item:crimson_essence",
+      "weight": 40
+    },
+    {
+      "id": "item:kuudra_teeth",
+      "weight": 25
+    },
+    {
+      "id": "item:heavy_pearl",
+      "weight": 15
+    },
+    {
+      "id": "item:attribute_shard_mana_pool",
+      "weight": 8
+    },
+    {
+      "id": "item:attribute_shard_veteran",
+      "weight": 8
+    },
+    {
+      "id": "item:attribute_shard_warrior",
+      "weight": 8
+    },
+    {
+      "id": "item:terror_helmet",
+      "weight": 5
+    },
+    {
+      "id": "item:terror_chestplate",
+      "weight": 5
+    },
+    {
+      "id": "item:terror_leggings",
+      "weight": 5
+    },
+    {
+      "id": "item:terror_boots",
+      "weight": 5
+    },
+    {
+      "id": "item:fervor_helmet",
+      "weight": 3
+    },
+    {
+      "id": "item:fervor_chestplate",
+      "weight": 3
+    },
+    {
+      "id": "item:fervor_leggings",
+      "weight": 3
+    },
+    {
+      "id": "item:fervor_boots",
+      "weight": 3
+    },
+    {
+      "id": "item:kuudra_follower_artifact",
+      "weight": 2
+    },
+    {
+      "id": "item:enrager",
+      "weight": 3
+    },
+    {
+      "id": "item:ferocious_mana",
+      "weight": 1
+    },
+    {
+      "id": "item:hollow_wand",
+      "weight": 1
+    },
+    {
+      "id": "item:ragnarock_axe",
+      "weight": 1
+    }
+  ]
+}

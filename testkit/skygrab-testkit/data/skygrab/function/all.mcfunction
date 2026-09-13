@@ -7,4 +7,6 @@ schedule function skygrab:trophy_rare 34s
 schedule function skygrab:rabbit 42s
 schedule function skygrab:spam 50s
 schedule function skygrab:corpse_junk 54s
-schedule function skygrab:timeout 62s
+schedule function skygrab:corpse_umber 58s
+schedule function skygrab:corpse_tungsten 62s
+schedule function skygrab:timeout 70s
