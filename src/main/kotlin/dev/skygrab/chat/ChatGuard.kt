@@ -19,14 +19,16 @@ object ChatGuard {
     /** Queue a chat message to re-emit later. Thread-safe. */
     fun hold(c: Component) { held.addLast(c) }
 
-    /** Re-add all held lines to local chat history in order. No messages are dropped—pre-cancelled
-     * lines that were intercepted are restored here. If Hud is unavailable (null), logs a WARN and
-     * discards the message count so the user knows restoration was incomplete. */
+    /** Re-add held lines to chat history. Pre-cancelled lines are restored.
+     * Minecraft.gui is a non-null Hud field, so the cast should never fail; the try/catch is defensive.
+     * If the cast fails (should not happen), logs a WARN with the count of lost lines and clears the queue. */
     fun release() {
         active = false
         val hud = try {
             (Minecraft.getInstance().gui as Hud)
         } catch (e: Exception) {
+            // Defensive: Minecraft.gui is non-null Hud, so this should never execute.
+            // If it does, lines are lost; log so the user knows restoration failed.
             SkyGrab.LOGGER.warn("Cannot access Hud; ${held.size} held chat lines will not be re-shown", e)
             held.clear()
             return
