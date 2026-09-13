@@ -79,15 +79,33 @@ class CaseScreen(private val reveal: Reveal, private val durationMs: Int, privat
             graphics.text(font, reveal.winner.hoverName, w / 2 - font.width(reveal.winner.hoverName) / 2, (y + cw + 12).toInt(), 0xFFFFFF)
         }
         if (elapsed >= durationMs + 1200 && !finished) {
-            finished = true
             onClose()
         }
     }
 
-    override fun onClose() {
+    /**
+     * Single idempotent teardown path. `onClose()` (ESC / natural finish calling onClose()) and
+     * `removed()` (fires whenever this screen stops being the active screen for ANY reason —
+     * disconnect, another mod calling setScreenAndShow, a kick, etc. — onClose() is NOT guaranteed
+     * to run in those cases) both funnel here so ChatGuard.release()/onDone() run exactly once,
+     * regardless of which path tore the screen down. Without this, a non-onClose teardown would
+     * never flip RevealQueue.playing back to false and the queue would wedge forever.
+     */
+    private fun finish() {
+        if (finished) return
+        finished = true
         ChatGuard.release()
         onDone()
+    }
+
+    override fun onClose() {
+        finish()
         super.onClose()
+    }
+
+    override fun removed() {
+        finish()
+        super.removed()
     }
 
     override fun isPauseScreen() = false
