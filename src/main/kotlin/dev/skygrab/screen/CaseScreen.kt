@@ -46,6 +46,8 @@ class CaseScreen(private val reveal: Reveal, private val durationMs: Int, privat
     override fun extractRenderState(graphics: GuiGraphicsExtractor, mouseX: Int, mouseY: Int, partial: Float) {
         val elapsed = System.currentTimeMillis() - start
         val p = Easing.outCubic(elapsed / durationMs.toFloat())
+        // winner pop starts only once the strip has stopped (raw time, not eased p), grows over 400 ms
+        val pop = ((elapsed - durationMs) / 400f).coerceIn(0f, 1f)
         val cw = (CARD * SCALE).toFloat()
         val w = graphics.guiWidth()
         val h = graphics.guiHeight()
@@ -64,7 +66,7 @@ class CaseScreen(private val reveal: Reveal, private val durationMs: Int, privat
         for (i in 0 until STRIP_LEN) {
             val x = originX + i * cw
             if (x < -cw || x > w) continue
-            val s = if (i == WINNER_INDEX && p >= 0.96f) Mth.lerp((p - 0.96f) / 0.04f, 1f, 3f) else 1f
+            val s = if (i == WINNER_INDEX && pop > 0f) Mth.lerp(Easing.outCubic(pop), 1f, 3f) else 1f
             val cx = x + cw / 2f
             val cy = y + cw / 2f
             graphics.pose().pushMatrix()
