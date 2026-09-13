@@ -16,4 +16,23 @@ class ChatParseTest {
     @Test fun noMatch() {
         assertNull(ChatParse.itemNamedIn("You dug out a Griffin Burrow!"))
     }
+
+    @Test fun trophyParsesFishAndTier() {
+        assertEquals("Sulphur Skitter" to "DIAMOND", ChatParse.trophy("TROPHY FISH! You caught a Sulphur Skitter DIAMOND!"))
+        assertEquals("Obfuscated-1" to "GOLD", ChatParse.trophy("TROPHY FISH! You caught an Obfuscated-1 GOLD!"))
+        assertNull(ChatParse.trophy("You dug out a Griffin Burrow!"))
+    }
+
+    @Test fun rabbitFoundParsesNameAndRarity() {
+        assertEquals("Arnie" to "COMMON", ChatParse.rabbitFound("HOPPITY'S HUNT You found Arnie (COMMON)!"))
+        assertEquals("Aurora" to "DIVINE", ChatParse.rabbitFound("HOPPITY'S HUNT You found Aurora (DIVINE)!"))
+        assertNull(ChatParse.rabbitFound("NEW RABBIT! +5 Chocolate"))
+    }
+
+    @Test fun petDropMapsColourToRarity() {
+        assertEquals("Golden Dragon" to "LEGENDARY", ChatParse.petDrop("§6§lPET DROP! §r§6Golden Dragon §r§b(+100% ✳ Magic Find)"))
+        assertEquals("Squid" to "MYTHIC", ChatParse.petDrop("§d§lPET DROP! §r§dSquid"))
+        assertEquals("Rock" to "RARE", ChatParse.petDrop("§9§lPET DROP! §r§9Rock"))
+        assertNull(ChatParse.petDrop("You dug out a Griffin Burrow!"))
+    }
 }

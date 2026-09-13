@@ -10,6 +10,7 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import tech.thatgravyboat.skyblockapi.api.area.dungeon.DungeonAPI
 import tech.thatgravyboat.skyblockapi.api.area.slayer.SlayerAPI
+import tech.thatgravyboat.skyblockapi.api.data.SkyBlockRarity
 import tech.thatgravyboat.skyblockapi.api.datatype.defaults.LoreDataTypes
 import tech.thatgravyboat.skyblockapi.api.events.base.Subscription
 import tech.thatgravyboat.skyblockapi.api.events.chat.ChatReceivedEvent
@@ -30,6 +31,12 @@ object ChatTrigger {
     private const val CORPSE_MAX_LINES = 40
     private const val CORPSE_TIMEOUT_MS = 10_000L
 
+    // Hoppity's "You found <name> (<rarity>)!" receipt arrives a tick or two before "NEW RABBIT!" --
+    // held here so the pair can be joined into one real winner+pool. Same abandoned-block risk as a
+    // corpse block (the "NEW RABBIT!" line could in principle never arrive), so it gets the same
+    // TickEvent safety-flush treatment below instead of its own timer machinery.
+    private const val RABBIT_PENDING_TIMEOUT_MS = 5_000L
+
     // ponytail: filler pool when the chat line names only one item
     private val filler by lazy { listOf(Items.DIAMOND, Items.EMERALD, Items.GOLD_INGOT, Items.IRON_INGOT, Items.ENDER_PEARL, Items.BLAZE_ROD).map(::ItemStack) }
 
@@ -38,6 +45,15 @@ object ChatTrigger {
     private var corpseLines = 0
     private var corpseStartedAt = 0L
     private var corpseType: String? = null
+
+    // The rabbit-name/rarity pair plus the ORIGINAL held "you found" component -- kept local (not
+    // pushed into ChatGuard's queue yet) so that when "NEW RABBIT!" arrives, both lines travel
+    // together through the exact same held-chat path (submitOrSkip's `held` list) as everything
+    // else; splitting it across ChatGuard.hold() early and a local list later would let the
+    // screen-open skip (which only emitNow()s the `held` list it's given) leave this one behind.
+    private var pendingRabbit: Pair<String, String>? = null
+    private var pendingRabbitLine: Component? = null
+    private var pendingRabbitAt = 0L
 
     @Subscription
     fun onChat(event: ChatReceivedEvent.Pre) {
@@ -75,13 +91,66 @@ object ChatTrigger {
             }
         }
 
+        // --- Hoppity "You found <name> (<rarity>)!" receipt: always held (never shown as plain chat)
+        // so it can be paired with the "NEW RABBIT!" line that follows; released untouched by the
+        // TickEvent safety-flush below if that pairing never completes. ---
+        if (cfg.hoppity) {
+            ChatParse.rabbitFound(text)?.let { found ->
+                pendingRabbit = found
+                pendingRabbitLine = event.component
+                pendingRabbitAt = System.currentTimeMillis()
+                event.cancel()
+                return
+            }
+        }
+
         // --- RARE_ONLY singles ---
         if (!ChatGates.shouldFire(text, event.coloredText, cfg)) return
+        event.cancel()
+        val extraHeld = takePendingRabbitLine(text)
+        val (winner, pool) = resolveRareDrop(text, event.coloredText)
+        submitOrSkip(pool, winner, listOfNotNull(extraHeld, event.component))
+    }
+
+    /** If [text] is "NEW RABBIT!" and a "you found" line is still pending (within the 5s window),
+     * consumes and returns its held component so the caller can carry it through the SAME held-chat
+     * path as the "NEW RABBIT!" line itself -- see the comment on [pendingRabbitLine]. */
+    private fun takePendingRabbitLine(text: String): Component? {
+        if (!RarityGate.isNewRabbit(text)) return null
+        val fresh = pendingRabbit != null && System.currentTimeMillis() - pendingRabbitAt < RABBIT_PENDING_TIMEOUT_MS
+        val line = pendingRabbitLine.takeIf { fresh }
+        if (!fresh) { pendingRabbit = null; pendingRabbitLine = null }
+        return line
+    }
+
+    /** Real winner + pool for a RARE_ONLY single, by source: trophy fish, pet drop, then a paired
+     * Hoppity rabbit reveal; the existing generic name-in-text guess (with filler/catacombs/slayer/
+     * diana pool and Nether Star fallback) for everything else (gifts, generic rare drops, or any of
+     * the above when its real API doesn't resolve). */
+    private fun resolveRareDrop(text: String, coloredText: String): Pair<ItemStack, List<ItemStack>> {
+        ChatParse.trophy(text)?.let { (fish, tier) ->
+            val winner = LootPools.trophyWinner(fish, tier)
+            if (winner != null) return winner to (LootPools.trophy(tier) ?: listOf(winner))
+        }
+        ChatParse.petDrop(coloredText)?.let { (name, rarityName) ->
+            val rarity = runCatching { SkyBlockRarity.valueOf(rarityName) }.getOrNull()
+            if (rarity != null) {
+                val id = name.uppercase().replace(' ', '_')
+                val winner = LootPools.petWinner(id, rarity)
+                if (winner != null) return winner to (LootPools.pets(id, rarity) ?: listOf(winner))
+            }
+        }
+        if (RarityGate.isNewRabbit(text) && pendingRabbit != null) {
+            val (name, rarityName) = pendingRabbit!!
+            pendingRabbit = null
+            pendingRabbitLine = null
+            val winner = RabbitHeads.forFound(name, rarityName)
+            if (winner != null) return winner to (LootPools.rabbits() ?: listOf(winner))
+        }
         val winner = itemNamedIn(text) ?: ItemStack(Items.NETHER_STAR).apply {
             set(DataComponents.CUSTOM_NAME, Component.literal(text.take(40)))
         }
-        event.cancel()
-        submitOrSkip(rareDropPool(text), winner, listOf(event.component))
+        return winner to rareDropPool(text)
     }
 
     /** Real loot pool for the current source, by priority: catacombs floor, then slayer boss,
@@ -101,9 +170,18 @@ object ChatTrigger {
     // sit open forever. TickEvent fires every client tick regardless of chat activity, so poll it here too.
     @Subscription
     fun onTick(event: TickEvent) {
-        val held = corpse ?: return
-        if (System.currentTimeMillis() - corpseStartedAt >= CORPSE_TIMEOUT_MS) {
-            endCorpse(held)
+        corpse?.let { held ->
+            if (System.currentTimeMillis() - corpseStartedAt >= CORPSE_TIMEOUT_MS) endCorpse(held)
+        }
+        // Same abandoned-block safety net as the corpse one above, for the rabbit-found line held
+        // while waiting for "NEW RABBIT!": if that line never arrives (e.g. the Hoppity event ends,
+        // or the egg turned out not to be a new rabbit for some other reason), release it untouched
+        // instead of holding it forever.
+        if (pendingRabbit != null && System.currentTimeMillis() - pendingRabbitAt >= RABBIT_PENDING_TIMEOUT_MS) {
+            pendingRabbit = null
+            pendingRabbitLine?.let(ChatGuard::hold)
+            pendingRabbitLine = null
+            ChatGuard.release()
         }
     }
 

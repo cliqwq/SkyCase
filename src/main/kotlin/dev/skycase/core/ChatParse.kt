@@ -17,4 +17,39 @@ object ChatParse {
             ?: return null
         return countPrefix.replace(raw.trim(), "").trim()
     }
+
+    // Same tier suffix as RarityGate's trophy regex (SkyHanni TrophyFishMessages.kt:37), but
+    // capturing the fish name too instead of only testing gold/diamond.
+    private val trophyCatch = Regex("TROPHY FISH! You caught an? (.+?) (BRONZE|SILVER|GOLD|DIAMOND)!")
+
+    /** Fish name + tier word ("BRONZE"/"SILVER"/"GOLD"/"DIAMOND") from a trophy fish catch line, or null. */
+    fun trophy(text: String): Pair<String, String>? {
+        val m = trophyCatch.find(text) ?: return null
+        return m.groupValues[1].trim() to m.groupValues[2]
+    }
+
+    // SkyHanni HoppityEggsManager.kt:83-85 ("rabbit.found"), colour codes already stripped from `text`:
+    // "HOPPITY'S HUNT You found <name> (<RARITY>)!" -- sent just before the "NEW RABBIT!" line.
+    private val rabbitFoundLine = Regex("HOPPITY'S HUNT You found (.+?) \\((.+?)\\)!")
+
+    /** Rabbit name + rarity word ("COMMON".."DIVINE") from a Hoppity "You found" receipt, or null. */
+    fun rabbitFound(text: String): Pair<String, String>? {
+        val m = rabbitFoundLine.find(text) ?: return null
+        return m.groupValues[1].trim() to m.groupValues[2].trim()
+    }
+
+    // SkyHanni RareDropMessages.kt:52 colour code -> rarity name, reused here for the pure part of
+    // PET DROP parsing (colour -> rarity string; the caller converts to SkyBlockRarity, no MC dep here).
+    private val petDropLine = Regex("(?:§.)*PET DROP! (?:§.)*§(?<c>.)(?:§.)*(?<name>[^§]+)")
+    private val colourToRarity = mapOf(
+        "f" to "COMMON", "a" to "UNCOMMON", "9" to "RARE", "5" to "EPIC",
+        "6" to "LEGENDARY", "d" to "MYTHIC", "b" to "DIVINE",
+    )
+
+    /** Pet name + rarity name (e.g. "LEGENDARY") from a coloured "PET DROP! <name> (...)" line, or null. */
+    fun petDrop(coloredText: String): Pair<String, String>? {
+        val m = petDropLine.find(coloredText) ?: return null
+        val rarity = colourToRarity[m.groups["c"]!!.value] ?: return null
+        return m.groups["name"]!!.value.trim() to rarity
+    }
 }

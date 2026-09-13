@@ -5,7 +5,11 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import dev.skycase.SkyCase
 import net.minecraft.world.item.ItemStack
+import tech.thatgravyboat.skyblockapi.api.area.isle.trophyfish.TrophyFishTier
+import tech.thatgravyboat.skyblockapi.api.area.isle.trophyfish.TrophyFishType
+import tech.thatgravyboat.skyblockapi.api.data.SkyBlockRarity
 import tech.thatgravyboat.skyblockapi.api.repo.apis.SkyBlockItemsRepo
+import tech.thatgravyboat.skyblockapi.api.repo.apis.SkyBlockPetsRepo
 
 /**
  * Real loot pools per source, loaded once from the four JSON files under `/skycase/pools/`
@@ -186,5 +190,82 @@ object LootPools {
     fun diana(): List<ItemStack>? {
         if (dianaDrops.isEmpty()) return null
         return buildPoolFlat("diana", dianaDrops)
+    }
+
+    // --- Trophy fish: tech.thatgravyboat.skyblockapi.api.area.isle.trophyfish.TrophyFishType/Tier
+    // build the fish-head ItemStack directly (confirmed via javap on the 4.2.22-26.2 api jar and the
+    // SkyblockAPI HEAD source of TrophyFishType.kt) -- no SkyBlockItemsRepo id lookup needed at all,
+    // so there's no id-resolution fallback path for trophy fish. ---
+
+    /** Winner for a trophy fish catch: [fish] must match [TrophyFishType.getDisplayName] exactly
+     * ("Sulphur Skitter", "Obfuscated-1", ...) and [tier] one of "BRONZE"/"SILVER"/"GOLD"/"DIAMOND".
+     * Null (caller falls back to Nether Star) when either doesn't resolve. */
+    fun trophyWinner(fish: String, tier: String): ItemStack? {
+        val type = TrophyFishType.getByDisplayName(fish) ?: return null
+        val t = runCatching { TrophyFishTier.valueOf(tier.uppercase()) }.getOrNull() ?: return null
+        return type.getItem(t)
+    }
+
+    /** All 18 trophy fish at the same [tier]. */
+    fun trophy(tier: String): List<ItemStack>? {
+        val t = runCatching { TrophyFishTier.valueOf(tier.uppercase()) }.getOrNull() ?: return null
+        return TrophyFishType.entries.map { it.getItem(t) }
+    }
+
+    // --- Pets: tech.thatgravyboat.skyblockapi.api.repo.apis.SkyBlockPetsRepo (this version's real
+    // name for what the brief called RepoPetsAPI -- confirmed via the SkyblockAPI HEAD source of
+    // SkyBlockPetsRepo.kt, which literally does `data.tiers()[key.rarity.name]`, i.e. the repo's
+    // per-pet tier map is keyed by SkyBlockRarity.name). `SkyBlockPetsRepo.get(id)` is the "does this
+    // pet exist" check (brief's getPetInfo); getItemStack takes a `Query.() -> Unit` builder. ---
+
+    private val mobDropPets = listOf("ENDER_DRAGON", "BABY_YETI", "SCATHA", "LOCH_EMPEROR") // hypixelskyblock.minecraft.wiki/Pet 2026-09-13
+
+    /** Winner for a PET DROP line: null (Nether Star fallback) when [id] isn't a known pet. */
+    fun petWinner(id: String, rarity: SkyBlockRarity): ItemStack? {
+        SkyBlockPetsRepo.get(id) ?: return null
+        return SkyBlockPetsRepo.getItemStack { this.id = id; this.rarity = rarity; this.level = 1 }
+    }
+
+    /** The same pet at every rarity it exists in, plus the LEGENDARY mob-drop pets, uniform weight. */
+    fun pets(id: String, rarity: SkyBlockRarity): List<ItemStack>? {
+        poolCache["pet:$id"]?.let { return it }
+        val data = SkyBlockPetsRepo.get(id) ?: return null
+        val sameSpecies = data.tiers().keys.mapNotNull { key -> runCatching { SkyBlockRarity.valueOf(key) }.getOrNull() }.distinct()
+            .mapNotNull { r -> SkyBlockPetsRepo.getItemStack { this.id = id; this.rarity = r; this.level = 1 } }
+        val mobDrops = mobDropPets.mapNotNull { mid ->
+            if (SkyBlockPetsRepo.get(mid) == null) return@mapNotNull null
+            SkyBlockPetsRepo.getItemStack { this.id = mid; this.rarity = SkyBlockRarity.LEGENDARY; this.level = 1 }
+        }
+        val all = (sameSpecies + mobDrops).map { it to 1 }
+        // Same "don't cache a starved result" rule as buildPool/buildPoolFlat: an empty result here
+        // means the repo wasn't ready yet, not "this pet truly has no pool" -- must stay retryable.
+        if (all.isEmpty()) return null
+        return expandWeighted(all).also { poolCache["pet:$id"] = it }
+    }
+
+    // --- Hoppity rabbits: see RabbitHeads.kt for head construction; textures vendored from
+    // SkyHanni-REPO's HoppityRabbitTextures.json (README credits). ---
+
+    // Rarity weights per the brief (hypixelskyblock.minecraft.wiki rabbit drop rates, 2026-09-13).
+    private val rabbitRarityWeight = linkedMapOf(
+        "COMMON" to 40, "UNCOMMON" to 25, "RARE" to 15, "EPIC" to 10, "LEGENDARY" to 6, "MYTHIC" to 3, "DIVINE" to 1,
+    )
+    private const val RABBITS_PER_RARITY = 10
+
+    /** Weighted pool of rabbit heads across all rarities: up to [RABBITS_PER_RARITY] names per
+     * rarity (there are up to 224 per rarity -- capping keeps this cheap and, after
+     * [expandWeighted]'s scaling, the final pool still lands at/under [MAX_STACKS]). */
+    fun rabbits(): List<ItemStack>? {
+        poolCache["rabbits"]?.let { return it }
+        val names = RabbitHeads.namesByRarity()
+        val entries = rabbitRarityWeight.flatMap { (rarityName, weight) ->
+            val rarity = runCatching { SkyBlockRarity.valueOf(rarityName) }.getOrNull() ?: return@flatMap emptyList()
+            (names[rarityName] ?: emptyList()).take(RABBITS_PER_RARITY).mapNotNull { name ->
+                val base64 = RabbitHeads.textureOf(name) ?: return@mapNotNull null
+                RabbitHeads.head(name, rarity, base64) to weight
+            }
+        }
+        if (entries.isEmpty()) return null
+        return expandWeighted(entries).also { poolCache["rabbits"] = it }
     }
 }

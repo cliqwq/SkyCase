@@ -78,7 +78,11 @@ Jar is placed in:
   - `corpses.json` — per-roll % from https://hypixelskyblock.minecraft.wiki/Corpse (LAPIS, UMBER=TUNGSTEN, VANGUARD), weight = % × 100
   - `kuudra.json` — Paid Chest tables per tier from https://hypixelskyblock.minecraft.wiki/Kuudra, weight = % × 100
   - `rare_drops.json` — slayer: item sets from the six boss pages on hypixelskyblock.minecraft.wiki (uniform); catacombs: NotEnoughUpdates-REPO `constants/rngscore.json` (MIT); diana: hypixelskyblock.minecraft.wiki/Mythological_Ritual (uniform)
-  - Regenerate with `py testkit/gen.py <SkyOcean-clone-dir> <fetched-json-dir>` (see the script's docstring for the `gh api` fetch commands)
+  - `trophy_fish.json` — the 18 fish names from https://hypixelskyblock.minecraft.wiki/Trophy_Fish; winner/pool items themselves come straight from SkyblockAPI's `TrophyFishType`/`TrophyFishTier`, no id lookup needed
+  - `hoppity_textures.json` — vendored from hannibal002/SkyHanni-REPO `constants/HoppityRabbitTextures.json` (MIT): rabbit skin textures (base64), keyed by rarity
+  - `hoppity_rabbits.json` — vendored from NotEnoughUpdates/NotEnoughUpdates-REPO `constants/hoppity.json` (MIT): rabbit names by rarity, title-cased from the source's snake_case
+  - Pet drop pool/winner: SkyblockAPI's `SkyBlockPetsRepo` (`hypixelskyblock.minecraft.wiki/Pet` for the LEGENDARY mob-drop pets added to every pet's own pool: ENDER_DRAGON, BABY_YETI, SCATHA, LOCH_EMPEROR)
+  - Regenerate `dungeon_chests.json`/`corpses.json`/`kuudra.json`/`rare_drops.json` with `py testkit/gen.py <SkyOcean-clone-dir> <fetched-json-dir>` (see the script's docstring for the `gh api` fetch commands); `trophy_fish.json`/`hoppity_textures.json`/`hoppity_rabbits.json` were fetched/hand-authored directly (2026-09-13), see task11-report.md
 
 ## Licence
 
