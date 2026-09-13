@@ -24,6 +24,8 @@ object ChestTrigger {
             else -> cfg.dungeonChests
         }
         if (!enabled) return
+        // Hypixel issues a fresh containerId every time a chest is opened server-side, so re-opening
+        // the same physical chest after closing it gets a new id here and replays the reveal (accepted).
         val id = event.screen.menu.containerId
         if (id == lastContainerId) return          // same chest re-rendered
         lastContainerId = id

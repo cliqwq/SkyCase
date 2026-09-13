@@ -2,6 +2,7 @@ package dev.skygrab.triggers
 import dev.skygrab.chat.ChatGuard
 import dev.skygrab.config.SkyGrabConfig
 import dev.skygrab.core.*
+import net.minecraft.client.Minecraft
 import net.minecraft.core.component.DataComponents
 import net.minecraft.network.chat.Component
 import net.minecraft.world.item.ItemStack
@@ -16,8 +17,9 @@ import tech.thatgravyboat.skyblockapi.utils.extentions.get
 /**
  * Corpse loot blocks (VANGUARD/LAPIS/TUNGSTEN/UMBER CORPSE LOOT!) ALWAYS reveal when cfg.corpses is on,
  * regardless of rarity. Everything else (pets/drops/gifts/trophy fish/hoppity) is RARE_ONLY, gated by
- * ChatGates.shouldFire. Held chat lines are always re-shown -- via RevealQueue (normal path) or the
- * safety-flush re-show below (corpse block abandoned/too long) -- chat is never silently dropped.
+ * ChatGates.shouldFire. Held chat lines are always re-shown -- via RevealQueue (normal path), the
+ * safety-flush re-show below (corpse block abandoned/too long), or the screen-open skip's emitNow --
+ * chat is never silently dropped.
  */
 object ChatTrigger {
     // Controller ruling: a corpse block that never reaches its "▬"*64 terminator (e.g. player disconnects
@@ -44,7 +46,7 @@ object ChatTrigger {
             if (RarityGate.corpseStart(text)) {
                 // A block was already open (its terminator never arrived) -- close it out first so its
                 // held lines are submitted/re-shown instead of being overwritten and lost.
-                corpse?.let { endCorpse(it, force = true) }
+                corpse?.let { endCorpse(it) }
                 corpse = mutableListOf(event.component)
                 corpseItems.clear()
                 corpseLines = 1
@@ -58,11 +60,11 @@ object ChatTrigger {
                 event.cancel()
                 RarityGate.corpseItem(text)?.let { (name, amount) -> stackFor(name, amount)?.let(corpseItems::add) }
                 if (RarityGate.corpseEnd(text)) {
-                    endCorpse(held, force = true)
+                    endCorpse(held)
                     return
                 }
                 if (corpseLines >= CORPSE_MAX_LINES || System.currentTimeMillis() - corpseStartedAt >= CORPSE_TIMEOUT_MS) {
-                    endCorpse(held, force = false)
+                    endCorpse(held)
                 }
                 return
             }
@@ -74,7 +76,7 @@ object ChatTrigger {
             set(DataComponents.CUSTOM_NAME, Component.literal(text.take(40)))
         }
         event.cancel()
-        RevealQueue.submit(Reveal(filler, winner, listOf(event.component)))
+        submitOrSkip(filler, winner, listOf(event.component))
     }
 
     // Proactive half of the 10s safety flush: the check in onChat only runs when another chat line
@@ -84,25 +86,33 @@ object ChatTrigger {
     fun onTick(event: TickEvent) {
         val held = corpse ?: return
         if (System.currentTimeMillis() - corpseStartedAt >= CORPSE_TIMEOUT_MS) {
-            endCorpse(held, force = true)
+            endCorpse(held)
         }
     }
 
-    /** Ends a corpse block and resets state. Submits a reveal when items were collected (winner = highest
-     * rarity); when nothing was collected -- whether force=true (terminator seen on an empty block, or a
-     * new corpseStart/timeout closing out a stale block) or force=false (line/time cap hit mid-block) --
-     * the held lines are re-shown untouched instead. `force` only affects whether an empty collection is
-     * still treated as "the block legitimately ended" vs. "abandoned"; either way nothing is submitted
-     * without items, and chat is never lost. */
-    private fun endCorpse(held: List<Component>, force: Boolean) {
+    /** Ends a corpse block and resets state. Submits a reveal when items were collected (winner =
+     * highest rarity); when nothing was collected -- terminator seen on an empty block, a new
+     * corpseStart/timeout closing out a stale block, or the line/time cap hit mid-block -- the held
+     * lines are re-shown untouched instead. Either way nothing is submitted without items, and chat
+     * is never lost. */
+    private fun endCorpse(held: List<Component>) {
         val items = corpseItems.toList()
         corpse = null; corpseItems.clear(); corpseLines = 0; corpseStartedAt = 0L
-        if (force || items.isNotEmpty()) {
-            val winner = items.maxByOrNull { rarityOf(it) } ?: run { reshow(held); return }
-            RevealQueue.submit(Reveal(items, winner, held))
-        } else {
-            reshow(held)
+        val winner = items.maxByOrNull { rarityOf(it) }
+        if (winner != null) submitOrSkip(items, winner, held) else reshow(held)
+    }
+
+    // I2 (chat, controller ruling): if a screen is already open (any screen -- a chest GUI, an
+    // inventory, another mod's UI) at the moment a single/corpse reveal would be submitted, don't
+    // steal it. Emit the held lines immediately instead of queueing an animation that would replace
+    // whatever's on screen. The corpse block itself still collects lines/items unconditionally; only
+    // the final submit is gated on screen state.
+    private fun submitOrSkip(pool: List<ItemStack>, winner: ItemStack, held: List<Component>) {
+        if (Minecraft.getInstance().gui.screen() != null) {
+            ChatGuard.emitNow(held)
+            return
         }
+        RevealQueue.submit(Reveal(pool, winner, held))
     }
 
     private fun reshow(held: List<Component>) {
@@ -119,8 +129,5 @@ object ChatTrigger {
         return SkyBlockItemsRepo.getItemStack(id)
     }
 
-    private fun itemNamedIn(text: String): ItemStack? {
-        val m = Regex("\\(([^)]+)\\)").find(text) ?: Regex("You caught an? (.+?) (?:BRONZE|SILVER|GOLD|DIAMOND)!").find(text) ?: return null
-        return itemByName(m.groupValues[1].substringAfter("x ").trim())
-    }
+    private fun itemNamedIn(text: String): ItemStack? = ChatParse.itemNamedIn(text)?.let(::itemByName)
 }

@@ -14,7 +14,7 @@ plugins {
     id("dev.kikugie.stonecutter") version "0.10-alpha.2"
 }
 
-val mcVersions = listOf("26.2", "26.1.2")
+val mcVersions = listOf("26.2")
 
 stonecutter {
     create(rootProject) {

@@ -23,7 +23,7 @@ object SkyGrab : ClientModInitializer {
     val LOGGER = LoggerFactory.getLogger(MOD_ID)
     fun id(path: String): Identifier = Identifier.fromNamespaceAndPath(MOD_ID, path)
 
-    private val modules: List<Any> = listOf(ChatGuard, ChestTrigger, ChatTrigger)
+    private val modules: List<Any> = listOf(ChatGuard, ChestTrigger, ChatTrigger, RevealQueue)
 
     override fun onInitializeClient() {
         SkyGrabConfig.load()

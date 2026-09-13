@@ -41,15 +41,23 @@ Edit `config/skygrab.json` to customize:
 ## Commands
 
 - `/skygrab test` — Play a demo reveal with 5 sample items
-- `/skygrab chat <line>` — Feed a chat line directly to the trigger engine (for testing; Hypixel-only because real chat paste is blocked)
+- `/skygrab chat <line>` — Feed a chat line directly to the trigger engine (exists because server chat cannot be injected locally; it works anywhere)
 
 ## Requirements
 
 - **Fabric Loader** ≥0.19.2
 - **Minecraft** 26.2 (26.1.2: not yet — ChatGuard uses 26.2-only Hud/chat API)
 - **fabric-language-kotlin** ≥1.13.12
-- **Fabric API** (bundled)
+- **Fabric API** — required, install separately
 - **SkyblockAPI** 4.2.x (any version)
+
+## Heads-up
+
+Reveals open a `Screen`, which blocks player movement for the duration of the animation:
+`durationMs` (default 4000ms) plus a fixed 1.2s hold on the winner. ESC aborts the reveal
+instantly and returns control. If you play in dangerous areas (mobs, fall damage, PvP), consider
+lowering `durationMs` or disabling `corpses`/`drops` there — SkyGrab will not move or protect you
+while a reveal plays.
 
 ## Building
 

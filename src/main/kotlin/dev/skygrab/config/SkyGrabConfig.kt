@@ -27,6 +27,11 @@ object SkyGrabConfig {
     fun load() {
         data = runCatching { if (path.exists()) gson.fromJson(path.readText(), Data::class.java) else Data() }
             .getOrElse { SkyGrab.LOGGER.warn("bad config, using defaults", it); Data() }
+        // Gson bypasses the constructor default when a key is absent/null in the JSON, so a Kotlin
+        // non-null field can still come back null at runtime -- guard and clamp before anything reads it.
+        @Suppress("SENSELESS_COMPARISON")
+        if (data.minDropTier == null) data.minDropTier = DropTier.VERY_RARE
+        if (data.durationMs < 500) data.durationMs = 500
         save()
     }
     fun save() {
