@@ -1,4 +1,6 @@
 package dev.skycase.triggers
+
+import dev.skycase.SkyCase
 import dev.skycase.chat.ChatGuard
 import dev.skycase.config.SkyCaseConfig
 import dev.skycase.core.*
@@ -149,6 +151,7 @@ object ChatTrigger {
         // so it can be paired with the "NEW RABBIT!" line that follows; released untouched by the
         // TickEvent safety-flush below if that pairing never completes. ---
         if (cfg.hoppity) {
+            if ("HOPPITY" in text && ChatParse.rabbitFound(text) == null) SkyCase.LOGGER.info("hoppity line not parsed: '{}'", text)
             ChatParse.rabbitFound(text)?.let { found ->
                 // A duplicate egg (no "NEW RABBIT!" in between -- common) would otherwise overwrite
                 // the still-pending previous line and lose it silently. emitNow, not hold+release:
