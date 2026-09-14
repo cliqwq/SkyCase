@@ -1,4 +1,7 @@
 package dev.skycase.core
+
+import dev.skycase.SkyCase
+import net.minecraft.core.component.DataComponents
 import dev.skycase.chat.ChatGuard
 import dev.skycase.config.SkyCaseConfig
 import net.minecraft.client.Minecraft
@@ -24,6 +27,11 @@ object RevealQueue {
         if (!SkyCaseConfig.data.enabled) { ChatGuard.emitNow(r.heldChat); return }
         val shown = r.copy(pool = r.pool.map(LootPools::renderable), winner = LootPools.renderable(r.winner)) // strip unloaded Hypixel item models
         val safe = if (shown.pool.isEmpty()) shown.copy(pool = listOf(shown.winner)) else shown
+        SkyCase.LOGGER.info(
+            "reveal: winner='{}' item={} model={} pool={} (models stripped: {})",
+            safe.winner.hoverName.string, safe.winner.item, safe.winner.get(DataComponents.ITEM_MODEL),
+            safe.pool.size, r.pool.count { it.get(DataComponents.ITEM_MODEL) != null } - safe.pool.count { it.get(DataComponents.ITEM_MODEL) != null },
+        )
         Minecraft.getInstance().execute { enqueue(safe) }
     }
 

@@ -5,6 +5,7 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import dev.skycase.SkyCase
 import net.minecraft.client.Minecraft
+import net.minecraft.client.renderer.item.MissingItemModel
 import net.minecraft.core.component.DataComponents
 import net.minecraft.resources.Identifier
 import net.minecraft.world.item.ItemStack
@@ -109,8 +110,7 @@ object LootPools {
     fun renderable(stack: ItemStack): ItemStack {
         val modelId = stack.get(DataComponents.ITEM_MODEL) ?: return stack
         val mm = Minecraft.getInstance().modelManager
-        val missing = mm.getItemModel(Identifier.fromNamespaceAndPath("skycase", "definitely_missing"))
-        if (mm.getItemModel(modelId) !== missing) return stack
+        if (mm.getItemModel(modelId) !is MissingItemModel) return stack
         return stack.copy().apply { remove(DataComponents.ITEM_MODEL) }
     }
 
