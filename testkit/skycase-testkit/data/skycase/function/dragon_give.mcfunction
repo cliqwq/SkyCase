@@ -1,1 +1,1 @@
-give @s diamond_helmet[custom_name="Superior Dragon Helmet",lore=["LEGENDARY DRAGON HELMET"]]
+summon item ~ ~1 ~ {Item:{id:"minecraft:diamond_helmet",count:1,components:{"minecraft:custom_name":"Superior Dragon Helmet","minecraft:lore":["LEGENDARY DRAGON HELMET"]}},PickupDelay:60}

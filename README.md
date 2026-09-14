@@ -10,7 +10,7 @@ A Fabric client mod for Hypixel SkyBlock that replays rewards you already receiv
 |---|---|---|
 | **ALWAYS** | Dungeon chest (Wood/Gold/Diamond/Emerald/Obsidian/Bedrock, opened in dungeon or Croesus); Kuudra Free/Paid Chest; Mineshaft corpse loot (Lapis/Tungsten/Umber/Vanguard) | none |
 | **RARE_ONLY** | Pet drop; generic drop line; Winter gift; Trophy fish; Hoppity new rabbit | Pets: LEGENDARY (§6) or MYTHIC (§d); Drops: VERY RARE, CRAZY RARE, or PRAY TO RNGESUS; Gifts: SANTA TIER or PARTY TIER; Trophy fish: GOLD or DIAMOND; Hoppity: NEW RABBIT! |
-| **ALWAYS** | Dragon fight "`<TYPE> DRAGON DOWN!`" | none -- opens a 12s inventory-watch window instead of a rarity check; only reveals if something was actually picked up |
+| **ALWAYS** | Dragon fight "`<TYPE> DRAGON DOWN!`" | none -- opens a 12s inventory-watch window instead of a rarity check; only reveals if something was actually picked up; floor drops are hidden until the reveal finishes (client-side render skip) |
 
 ### Animation
 - Dark overlay with a scrolling strip of 40 items (winner at center)

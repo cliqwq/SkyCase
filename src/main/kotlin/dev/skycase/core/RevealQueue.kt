@@ -56,6 +56,6 @@ object RevealQueue {
         // stack and tears down the menu's state. Re-showing that same screen instance afterwards
         // would present an already-invalidated menu, so the chest GUI simply stays closed once a
         // reveal has taken over, same as any other vanilla screen replacement.
-        mc.setScreenAndShow(CaseScreen(next, SkyCaseConfig.data.durationMs) { playing = false; pending = true })
+        mc.setScreenAndShow(CaseScreen(next, SkyCaseConfig.data.durationMs) { playing = false; pending = true; next.onFinished?.invoke() })
     }
 }

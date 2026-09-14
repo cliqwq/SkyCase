@@ -13,12 +13,16 @@ import tech.thatgravyboat.skyblockapi.api.area.slayer.SlayerAPI
 import tech.thatgravyboat.skyblockapi.api.data.SkyBlockRarity
 import tech.thatgravyboat.skyblockapi.api.datatype.defaults.GenericDataTypes
 import tech.thatgravyboat.skyblockapi.api.datatype.defaults.LoreDataTypes
+import net.minecraft.world.entity.item.ItemEntity
 import tech.thatgravyboat.skyblockapi.api.events.base.Subscription
 import tech.thatgravyboat.skyblockapi.api.events.chat.ChatReceivedEvent
+import tech.thatgravyboat.skyblockapi.api.events.location.IslandChangeEvent
+import tech.thatgravyboat.skyblockapi.api.events.location.ServerDisconnectEvent
 import tech.thatgravyboat.skyblockapi.api.events.screen.PlayerInventoryChangeEvent
 import tech.thatgravyboat.skyblockapi.api.events.time.TickEvent
 import tech.thatgravyboat.skyblockapi.api.repo.apis.SkyBlockItemsRepo
 import tech.thatgravyboat.skyblockapi.utils.extentions.get
+import java.util.UUID
 
 /**
  * Corpse loot blocks (VANGUARD/LAPIS/TUNGSTEN/UMBER CORPSE LOOT!) ALWAYS reveal when cfg.corpses is on,
@@ -47,6 +51,19 @@ object ChatTrigger {
     private var dragonStartedAt = 0L
     private var dragonSnapshot: Map<String, Int> = emptyMap()
     private val dragonCollected = mutableListOf<Pair<ItemStack, Int>>() // stack to DragonLoot.rank (or Int.MAX_VALUE for the pet)
+
+    // Task 13: floor-drop item entities seen near the player during the open dragon window, hidden
+    // client-side (HiddenEntities) as soon as they're first spotted so the player never sees the drop
+    // before the reveal names it. First ranked entity seen arms a 40-tick gather delay (DRAGON_GATHER_
+    // DELAY_TICKS) -- ticks, not wall-clock ms, since it's counted off TickEvent itself -- after which
+    // the reveal fires immediately using the best-ranked entity seen so far, without waiting for pickup
+    // or the 12s inventory-watch window below (that window stays as the fallback for the case where no
+    // item entity was ever seen, e.g. it despawned/was out of range before this scan caught it).
+    private const val DRAGON_GATHER_DELAY_TICKS = 40
+    private const val DRAGON_ENTITY_RANGE = 48.0
+    private val dragonItemsSeen = LinkedHashMap<UUID, Pair<ItemStack, Int>>() // uuid -> (stack, rank)
+    private var dragonGatherDeadlineTick = -1L
+    private var dragonTick = 0L
 
     // ponytail: filler pool when the chat line names only one item
     private val filler by lazy { listOf(Items.DIAMOND, Items.EMERALD, Items.GOLD_INGOT, Items.IRON_INGOT, Items.ENDER_PEARL, Items.BLAZE_ROD).map(::ItemStack) }
@@ -81,6 +98,8 @@ object ChatTrigger {
                 dragonStartedAt = System.currentTimeMillis()
                 dragonSnapshot = snapshotInventory()
                 dragonCollected.clear()
+                dragonItemsSeen.clear()
+                dragonGatherDeadlineTick = -1L
             }
         }
 
@@ -224,15 +243,89 @@ object ChatTrigger {
             pendingRabbitLine?.let { ChatGuard.emitNow(listOf(it)) }
             pendingRabbitLine = null
         }
-        // Dragon fight window close: 12s after "DOWN!", submit whatever was collected (winner = highest
-        // DragonLoot.rank/pet), or nothing at all if the player never picked anything up.
+        // Dragon fight: while the window is open, scan for floor-drop item entities every tick (hides
+        // them the instant they're seen) and check whether the 40-tick gather delay has elapsed.
+        dragonType?.let { type ->
+            dragonTick++
+            scanDragonItemEntities()
+            if (dragonGatherDeadlineTick in 0..dragonTick) {
+                val winner = dragonItemsSeen.values.maxByOrNull { it.second }?.first
+                closeDragonWindow()
+                if (winner != null) {
+                    submitOrSkip(LootPools.dragon(type) ?: listOf(winner), winner, emptyList()) { HiddenEntities.clear() }
+                } else {
+                    HiddenEntities.clear()
+                }
+                return
+            }
+        }
+
+        // Dragon fight window close: 12s after "DOWN!" with no gathered item entity, fall back to
+        // whatever the inventory watch collected (winner = highest DragonLoot.rank/pet), or nothing at
+        // all if the player never picked anything up.
         dragonType?.let { type ->
             if (System.currentTimeMillis() - dragonStartedAt < DRAGON_WINDOW_MS) return@let
             val collected = dragonCollected.toList()
-            dragonType = null; dragonSnapshot = emptyMap(); dragonCollected.clear()
-            val winner = collected.maxByOrNull { it.second }?.first ?: return@let
-            submitOrSkip(LootPools.dragon(type) ?: listOf(winner), winner, emptyList())
+            closeDragonWindow()
+            val winner = collected.maxByOrNull { it.second }?.first
+            if (winner != null) {
+                submitOrSkip(LootPools.dragon(type) ?: listOf(winner), winner, emptyList()) { HiddenEntities.clear() }
+            } else {
+                HiddenEntities.clear()
+            }
         }
+    }
+
+    /** Scans nearby rendered item entities for Dragon-pool drops (same rank/pet test as
+     * [onDragonInventoryChange]), hiding each the first time it's seen and arming the 40-tick gather
+     * delay on the first one found. Render-side only -- never touches the entity or its stack. */
+    private fun scanDragonItemEntities() {
+        val mc = Minecraft.getInstance()
+        val level = mc.level ?: return
+        val player = mc.player ?: return
+        for (entity in level.entitiesForRendering()) {
+            if (entity !is ItemEntity) continue
+            val uuid = entity.uuid
+            if (dragonItemsSeen.containsKey(uuid)) continue
+            if (entity.distanceToSqr(player) > DRAGON_ENTITY_RANGE * DRAGON_ENTITY_RANGE) continue
+            val stack = entity.item
+            if (stack.isEmpty) continue
+            val name = stack.hoverName.string
+            val petId = stack.get(GenericDataTypes.PET_DATA)?.id
+            val rank = if (petId == "ENDER_DRAGON") Int.MAX_VALUE else DragonLoot.rank(name)
+            if (rank == 0) continue
+            dragonItemsSeen[uuid] = stack.copy() to rank
+            HiddenEntities.hidden.add(uuid)
+            if (dragonGatherDeadlineTick < 0) dragonGatherDeadlineTick = dragonTick + DRAGON_GATHER_DELAY_TICKS
+        }
+    }
+
+    /** Resets all dragon-window state (both the inventory-watch fallback and the item-entity gather
+     * path) without touching [HiddenEntities] -- callers decide separately whether/when to unhide
+     * (immediately on abort, or via the reveal's onFinished once it plays). */
+    private fun closeDragonWindow() {
+        dragonType = null
+        dragonSnapshot = emptyMap()
+        dragonCollected.clear()
+        dragonItemsSeen.clear()
+        dragonGatherDeadlineTick = -1L
+        dragonTick = 0L
+    }
+
+    // Task 13: a dragon window abandoned mid-fight (world change / disconnect) must not leave floor
+    // drops hidden forever with nothing left to trigger the unhide.
+    @Subscription
+    fun onIslandChange(event: IslandChangeEvent) {
+        if (dragonType == null) return
+        closeDragonWindow()
+        HiddenEntities.clear()
+    }
+
+    @Subscription
+    fun onServerDisconnect(event: ServerDisconnectEvent) {
+        if (dragonType == null) return
+        closeDragonWindow()
+        HiddenEntities.clear()
     }
 
     // Every inventory slot change is reported here regardless of whether a dragon window is open
@@ -288,14 +381,16 @@ object ChatTrigger {
     // steal it. Emit the held lines immediately instead of queueing an animation that would replace
     // whatever's on screen. The corpse block itself still collects lines/items unconditionally; only
     // the final submit is gated on screen state.
-    private fun submitOrSkip(pool: List<ItemStack>, winner: ItemStack, held: List<Component>) {
+    private fun submitOrSkip(pool: List<ItemStack>, winner: ItemStack, held: List<Component>, onFinished: (() -> Unit)? = null) {
         val screen = Minecraft.getInstance().gui.screen()
         // our own reveal screen is not "another GUI": lines arriving mid-reveal queue up behind it
         if (screen != null && screen !is CaseScreen) {
             ChatGuard.emitNow(held)
+            // no CaseScreen will play to fire Reveal.onFinished later -- run cleanup (e.g. unhide) now
+            onFinished?.invoke()
             return
         }
-        RevealQueue.submit(Reveal(pool, winner, held))
+        RevealQueue.submit(Reveal(pool, winner, held, onFinished))
     }
 
     private fun reshow(held: List<Component>) {
