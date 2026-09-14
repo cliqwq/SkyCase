@@ -7,6 +7,7 @@ import dev.skycase.SkyCase
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.item.MissingItemModel
 import net.minecraft.core.component.DataComponents
+import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.Identifier
 import net.minecraft.world.item.ItemStack
 import tech.thatgravyboat.skyblockapi.api.area.isle.trophyfish.TrophyFishTier
@@ -111,7 +112,9 @@ object LootPools {
         val modelId = stack.get(DataComponents.ITEM_MODEL) ?: return stack
         val mm = Minecraft.getInstance().modelManager
         if (mm.getItemModel(modelId) !is MissingItemModel) return stack
-        return stack.copy().apply { remove(DataComponents.ITEM_MODEL) }
+        // 1.21.4+: the item's default model IS the ITEM_MODEL component; removing it leaves nothing to
+        // draw. Point it at the base item's own model (its registry id) instead.
+        return stack.copy().apply { set(DataComponents.ITEM_MODEL, BuiltInRegistries.ITEM.getKey(item)) }
     }
 
     /** Pure: repeats each item roughly proportional to its weight, total clamped to [max].
