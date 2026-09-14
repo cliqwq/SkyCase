@@ -15,6 +15,9 @@ object HideSet {
     var hand = false
     var mute = false
 
+    /** True while the Scatha pre-roll or any reveal (config hideHud) wants the HUD gone. */
+    fun hidingHud(): Boolean = hud || (CaseOverlay.active && dev.skycase.config.SkyCaseConfig.data.hideHud)
+
     // HudMixin (SkyblockAPI 26.2) posts RenderHudElementEvent(HOTBAR) via
     // `!new RenderHudElementEvent(HudElement.HOTBAR, graphics).post(bus)` guarding the call to the
     // vanilla `extractItemHotbar` -- i.e. post() runs every subscriber (in priority order, lower
@@ -29,8 +32,7 @@ object HideSet {
     // during plain pre-roll, to hide the hotbar with nothing drawn in its place at all).
     @Subscription(priority = Subscription.LOW)
     fun onHud(event: RenderHudElementEvent) {
-        // any reveal playing hides the hotbar and scoreboard too (config hideHud), so nothing draws under the roll
-        val revealHide = CaseOverlay.active && dev.skycase.config.SkyCaseConfig.data.hideHud
-        if ((hud || revealHide) && (event.element == HudElement.HOTBAR || event.element == HudElement.SCOREBOARD)) event.cancel()
+        // everything except CHAT (ChatGuard owns it): hotbar, scoreboard, health/armor/food/air/xp/jump/effects
+        if (hidingHud() && event.element != HudElement.CHAT) event.cancel()
     }
 }

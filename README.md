@@ -29,7 +29,7 @@ Edit `config/skycase.json` to customize:
 |---|---|---|---|
 | `enabled` | boolean | `true` | Enable all SkyCase reveals |
 | `durationMs` | integer | `4000` | Animation duration in milliseconds |
-| `hideHud` | boolean | `true` | Hide the hotbar and scoreboard while a reveal plays |
+| `hideHud` | boolean | `true` | Hide the whole HUD (hotbar, scoreboard, health/mana, boss bar, action bar) while a reveal plays |
 | `hideChat` | boolean | `true` | Hide chat HUD while animation plays |
 | `dungeonChests` | boolean | `true` | Reveal dungeon chests |
 | `kuudraChests` | boolean | `true` | Reveal Kuudra chests |
