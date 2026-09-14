@@ -33,8 +33,12 @@ import kotlin.random.Random
  *   (closing the chest) run right after.
  */
 object CaseOverlay {
-    private const val STRIP_LEN = 40
-    private const val WINNER_INDEX = 32
+    // PAD cards before the start card and after the winner keep the strip filling the screen edge to
+    // edge at p=0 and p=1 (48px cards: 45 covers 2160px). Scroll distance stays 32 cards.
+    private const val PAD = 45
+    private const val SCROLL_CARDS = 32
+    private const val WINNER_INDEX = PAD + SCROLL_CARDS
+    private const val STRIP_LEN = WINNER_INDEX + PAD
     private const val CARD = 24
     private const val SCALE = 2
 
@@ -80,8 +84,8 @@ object CaseOverlay {
         val h = graphics.guiHeight()
         graphics.fill(0, 0, w, h, 0x80000000.toInt())
 
-        val offset = WINNER_INDEX * cw * p + jitter
-        val originX = w / 2f - offset - cw / 2f
+        val offset = SCROLL_CARDS * cw * p + jitter
+        val originX = w / 2f - offset - cw / 2f - PAD * cw // card PAD sits under the centre line at p=0
         val y = h / 2f - cw / 2f
 
         val crossed = (offset / cw).toInt()
