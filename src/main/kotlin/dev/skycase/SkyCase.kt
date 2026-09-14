@@ -46,8 +46,17 @@ object SkyCase : ClientModInitializer {
                         1
                     }
                 ).then(
+                    // dev: /skycase pool <corpse|kuudra|trophy|dungeon|scatha|yeti> <key> → logs every distinct stack + whether it renders
+                    ClientCommands.literal("pool").then(
+                        ClientCommands.argument("spec", StringArgumentType.greedyString()).executes { ctx ->
+                            dev.skycase.core.PoolDebug.dump(StringArgumentType.getString(ctx, "spec"))
+                            1
+                        }
+                    )
+                ).then(
                     // exists because server chat cannot be injected locally; works anywhere -- feeds a
                     // synthetic line straight into the SkyblockAPI chat pipeline as if the server had sent it.
+                    // dev: /skycase pool <corpse|kuudra|trophy> <key> → logs every distinct stack + whether it renders
                     ClientCommands.literal("chat").then(
                         ClientCommands.argument("line", StringArgumentType.greedyString()).executes { ctx ->
                             val line = StringArgumentType.getString(ctx, "line")
