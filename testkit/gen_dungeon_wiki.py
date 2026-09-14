@@ -4,7 +4,7 @@ import json, os, re, sys, urllib.request, urllib.parse
 
 ROOT = os.path.join(os.path.dirname(__file__), "..", "src", "main", "resources", "skycase", "pools")
 API = "https://hypixelskyblock.minecraft.wiki/api.php?action=parse&prop=wikitext&format=json&page="
-UA = {"User-Agent": "SkyCase-pools/0.1 (github.com/qtclover/SkyCase)"}
+UA = {"User-Agent": "SkyCase-pools/0.1 (github.com/cliqwq/SkyCase)"}
 ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII"]
 CHESTS = ["wood", "gold", "diamond", "emerald", "obsidian", "bedrock"]
 

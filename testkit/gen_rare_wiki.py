@@ -5,7 +5,7 @@ import json, os, re, urllib.request, urllib.parse
 
 ROOT = os.path.join(os.path.dirname(__file__), "..", "src", "main", "resources", "skycase", "pools")
 API = "https://hypixelskyblock.minecraft.wiki/api.php?action=parse&prop=wikitext&format=json&page="
-UA = {"User-Agent": "SkyCase-pools/0.1 (github.com/qtclover/SkyCase)"}
+UA = {"User-Agent": "SkyCase-pools/0.1 (github.com/cliqwq/SkyCase)"}
 BOSSES = {"Revenant Horror": "Revenant_Horror", "Tarantula Broodfather": "Tarantula_Broodfather", "Sven Packmaster": "Sven_Packmaster",
           "Voidgloom Seraph": "Voidgloom_Seraph", "Inferno Demonlord": "Inferno_Demonlord", "Riftstalker Bloodfiend": "Riftstalker_Bloodfiend"}
 ITEM = re.compile(r"\{\{(?:Item|Slot)\|([^|}]+)")
