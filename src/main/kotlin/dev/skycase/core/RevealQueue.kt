@@ -1,7 +1,6 @@
 package dev.skycase.core
 import dev.skycase.chat.ChatGuard
 import dev.skycase.config.SkyCaseConfig
-import dev.skycase.screen.CaseScreen
 import net.minecraft.client.Minecraft
 import tech.thatgravyboat.skyblockapi.api.events.base.Subscription
 import tech.thatgravyboat.skyblockapi.api.events.time.TickEvent
@@ -15,16 +14,10 @@ object RevealQueue {
     private val queue = ArrayDeque<Reveal>()
     private var playing = false
 
-    // C1: CaseScreen.finish() runs inside the OUTGOING screen's own onClose()/removed() — i.e. still
-    // on the client thread, still inside Minecraft's own teardown call stack for that screen.
-    // BlockableEventLoop.execute()/submit() (net.minecraft.util.thread.BlockableEventLoop, confirmed
-    // via javap on 26.2's minecraft-client.jar) both gate on `scheduleExecutables()`, which is exactly
-    // `!isSameThread()`: when already on the client thread they run the task INLINE via doRunTask(),
-    // synchronously, right there in the teardown call stack. There is no enqueue-only method on
-    // Minecraft/BlockableEventLoop (no `tell`) reachable from the client thread itself, so nested
-    // mc.setScreenAndShow() for the next reveal cannot be deferred that way. Instead onDone() only
-    // flips `pending`; the actual pump() runs from the next TickEvent, safely outside any screen's
-    // teardown call stack.
+    // C1: CaseOverlay.finish() runs inside the animation's own draw() call (task 14: HUD/screen render
+    // callback, still on the client thread). Deferring the next pump() straight out of that call stack
+    // (nested CaseOverlay.start() for the next reveal, mid-render) is asking for trouble, so onDone()
+    // only flips `pending`; the actual pump() runs from the next TickEvent instead.
     @Volatile private var pending = false
 
     fun submit(r: Reveal) {
@@ -44,18 +37,13 @@ object RevealQueue {
 
     private fun pump() {
         if (playing) return
-        val mc = Minecraft.getInstance()
-        if (mc.gui.screen() is CaseScreen) { pending = true; return } // re-arm: still showing, try again next tick
+        if (CaseOverlay.active) { pending = true; return } // re-arm: still playing, try again next tick
         val next = queue.removeFirstOrNull() ?: return
         playing = true
         next.heldChat.forEach(ChatGuard::hold)
-        // I2 (chest): deliberately NOT restoring whatever screen (e.g. an open dungeon/Kuudra chest
-        // GUI) was showing before the reveal. AbstractContainerScreen.removed() (which
-        // setScreenAndShow(CaseScreen(...)) triggers on it here) calls menu.removed(player) on the
-        // way out -- confirmed via javap on AbstractContainerScreen.class -- which drops the cursor
-        // stack and tears down the menu's state. Re-showing that same screen instance afterwards
-        // would present an already-invalidated menu, so the chest GUI simply stays closed once a
-        // reveal has taken over, same as any other vanilla screen replacement.
-        mc.setScreenAndShow(CaseScreen(next, SkyCaseConfig.data.durationMs) { playing = false; pending = true; next.onFinished?.invoke() })
+        // Task 14 (chest): the overlay draws OVER whatever screen (e.g. an open dungeon/Kuudra chest
+        // GUI) was showing before the reveal -- it is never replaced, so the chest stays open and is
+        // clickable again the instant the overlay finishes. No restore logic needed.
+        CaseOverlay.start(next, SkyCaseConfig.data.durationMs) { playing = false; pending = true; next.onFinished?.invoke() }
     }
 }

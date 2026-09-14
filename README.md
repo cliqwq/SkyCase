@@ -57,11 +57,13 @@ Edit `config/skycase.json` to customize:
 
 ## Heads-up
 
-Reveals open a `Screen`, which blocks player movement for the duration of the animation:
-`durationMs` (default 4000ms) plus a fixed 1.2s hold on the winner. ESC aborts the reveal
-instantly and returns control. If you play in dangerous areas (mobs, fall damage, PvP), consider
-lowering `durationMs` or disabling `corpses`/`drops` there — SkyCase will not move or protect you
-while a reveal plays.
+Reveals draw as a HUD overlay, not a `Screen`: the strip runs for `durationMs` (default 4000ms)
+plus a fixed 1.2s hold on the winner, and you keep moving, fighting, and opening menus the whole
+time. If a container GUI is open (a chest trigger, or you open one mid-reveal), the chest stays
+open underneath the overlay and clicks/keys are blocked until the roll finishes, so you can't click
+through it -- ESC still closes the chest immediately, it just isn't swallowed by the overlay first.
+SkyCase will not move or protect you while a reveal plays, so if you're in a dangerous area (mobs,
+fall damage, PvP) consider lowering `durationMs` or disabling `corpses`/`drops` there.
 
 ## Building
 

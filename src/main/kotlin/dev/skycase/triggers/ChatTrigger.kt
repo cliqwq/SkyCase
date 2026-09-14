@@ -2,7 +2,6 @@ package dev.skycase.triggers
 import dev.skycase.chat.ChatGuard
 import dev.skycase.config.SkyCaseConfig
 import dev.skycase.core.*
-import dev.skycase.screen.CaseScreen
 import net.minecraft.client.Minecraft
 import net.minecraft.core.component.DataComponents
 import net.minecraft.network.chat.Component
@@ -378,13 +377,13 @@ object ChatTrigger {
 
     // I2 (chat, controller ruling): if a screen is already open (any screen -- a chest GUI, an
     // inventory, another mod's UI) at the moment a single/corpse reveal would be submitted, don't
-    // steal it. Emit the held lines immediately instead of queueing an animation that would replace
-    // whatever's on screen. The corpse block itself still collects lines/items unconditionally; only
-    // the final submit is gated on screen state.
+    // steal it. Emit the held lines immediately instead of queueing an animation over whatever's on
+    // screen. The corpse block itself still collects lines/items unconditionally; only the final
+    // submit is gated on screen state. Task 14: the reveal is a HUD/screen overlay now, not a screen
+    // of its own, so there's no "our own reveal screen" case to exempt any more -- any open screen skips.
     private fun submitOrSkip(pool: List<ItemStack>, winner: ItemStack, held: List<Component>, onFinished: (() -> Unit)? = null) {
         val screen = Minecraft.getInstance().gui.screen()
-        // our own reveal screen is not "another GUI": lines arriving mid-reveal queue up behind it
-        if (screen != null && screen !is CaseScreen) {
+        if (screen != null) {
             ChatGuard.emitNow(held)
             // no CaseScreen will play to fire Reveal.onFinished later -- run cleanup (e.g. unhide) now
             onFinished?.invoke()
