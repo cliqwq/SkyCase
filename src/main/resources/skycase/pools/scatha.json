@@ -1,0 +1,12 @@
+{
+  "_source": "https://hypixelskyblock.minecraft.wiki/Scatha (2026-09-13). Item weights = wiki 'quality' rank guess, not a measured %. Pet drop rates are exact wiki per-kill %: RARE 0.24%, EPIC 0.12%, LEGENDARY 0.04% -> weight = % x100. Pet stack itself built via SkyBlockPetsRepo, not listed here.",
+  "items": [
+    {"name": "Fine Topaz Gemstone", "weight": 100},
+    {"name": "Fine Amethyst Gemstone", "weight": 40},
+    {"name": "Fine Jade Gemstone", "weight": 20},
+    {"name": "Fine Amber Gemstone", "weight": 10},
+    {"name": "Fine Sapphire Gemstone", "weight": 10},
+    {"name": "Dwarven O's Block Bran", "weight": 10}
+  ],
+  "pets": {"RARE": 24, "EPIC": 12, "LEGENDARY": 4}
+}

@@ -11,9 +11,11 @@ import net.minecraft.world.item.Items
 import tech.thatgravyboat.skyblockapi.api.area.dungeon.DungeonAPI
 import tech.thatgravyboat.skyblockapi.api.area.slayer.SlayerAPI
 import tech.thatgravyboat.skyblockapi.api.data.SkyBlockRarity
+import tech.thatgravyboat.skyblockapi.api.datatype.defaults.GenericDataTypes
 import tech.thatgravyboat.skyblockapi.api.datatype.defaults.LoreDataTypes
 import tech.thatgravyboat.skyblockapi.api.events.base.Subscription
 import tech.thatgravyboat.skyblockapi.api.events.chat.ChatReceivedEvent
+import tech.thatgravyboat.skyblockapi.api.events.screen.PlayerInventoryChangeEvent
 import tech.thatgravyboat.skyblockapi.api.events.time.TickEvent
 import tech.thatgravyboat.skyblockapi.api.repo.apis.SkyBlockItemsRepo
 import tech.thatgravyboat.skyblockapi.utils.extentions.get
@@ -36,6 +38,15 @@ object ChatTrigger {
     // corpse block (the "NEW RABBIT!" line could in principle never arrive), so it gets the same
     // TickEvent safety-flush treatment below instead of its own timer machinery.
     private const val RABBIT_PENDING_TIMEOUT_MS = 5_000L
+
+    // Dragon fight: 12s post-"DOWN!" inventory-watch window (Task 12 brief). Not a corpse/rabbit-style
+    // held block -- the "DOWN!" line is never a spoiler, so it's never cancelled and there's nothing to
+    // re-show; only the eventual reveal (if anything was collected) goes through submitOrSkip.
+    private const val DRAGON_WINDOW_MS = 12_000L
+    private var dragonType: String? = null
+    private var dragonStartedAt = 0L
+    private var dragonSnapshot: Map<String, Int> = emptyMap()
+    private val dragonCollected = mutableListOf<Pair<ItemStack, Int>>() // stack to DragonLoot.rank (or Int.MAX_VALUE for the pet)
 
     // ponytail: filler pool when the chat line names only one item
     private val filler by lazy { listOf(Items.DIAMOND, Items.EMERALD, Items.GOLD_INGOT, Items.IRON_INGOT, Items.ENDER_PEARL, Items.BLAZE_ROD).map(::ItemStack) }
@@ -60,6 +71,18 @@ object ChatTrigger {
         val cfg = SkyCaseConfig.data
         if (!cfg.enabled) return
         val text = event.text
+
+        // --- Dragon fight "<TYPE> DRAGON DOWN!" (ALWAYS): never a spoiler, never cancelled -- opens a
+        // 12s inventory-watch window instead (see onDragonInventoryChange/onTick). Falls through to the
+        // rest of onChat same as any other unmatched line. ---
+        if (cfg.dragons) {
+            ChatParse.dragonDown(event.coloredText)?.let { type ->
+                dragonType = type
+                dragonStartedAt = System.currentTimeMillis()
+                dragonSnapshot = snapshotInventory()
+                dragonCollected.clear()
+            }
+        }
 
         // --- corpse block (ALWAYS) ---
         if (cfg.corpses) {
@@ -111,6 +134,8 @@ object ChatTrigger {
 
         // --- RARE_ONLY singles ---
         if (!ChatGates.shouldFire(text, event.coloredText, cfg)) return
+        // an open dragon window reveals the Ender Dragon pet itself (inventory watch); don't double-fire
+        if (dragonType != null && ChatParse.petDrop(event.coloredText)?.first == "Ender Dragon") return
         event.cancel()
         val extraHeld = takePendingRabbitLine(text)
         val (winner, pool) = resolveRareDrop(text, event.coloredText)
@@ -142,7 +167,17 @@ object ChatTrigger {
             if (rarity != null) {
                 val id = name.uppercase().replace(' ', '_')
                 val winner = LootPools.petWinner(id, rarity)
-                if (winner != null) return winner to (LootPools.pets(id, rarity) ?: listOf(winner))
+                if (winner != null) {
+                    val cfg = SkyCaseConfig.data
+                    val pool = when {
+                        id == "SCATHA" && cfg.scatha -> LootPools.scatha()
+                        id == "BABY_YETI" && cfg.yeti -> LootPools.yeti()
+                        // Ender Dragon pet: use the fight's pool; the open DOWN! window reveals it itself
+                        id == "ENDER_DRAGON" && cfg.dragons -> LootPools.dragon(dragonType ?: "SUPERIOR")
+                        else -> LootPools.pets(id, rarity)
+                    }
+                    return winner to (pool ?: listOf(winner))
+                }
             }
         }
         if (RarityGate.isNewRabbit(text) && pendingRabbit != null) {
@@ -189,6 +224,47 @@ object ChatTrigger {
             pendingRabbitLine?.let { ChatGuard.emitNow(listOf(it)) }
             pendingRabbitLine = null
         }
+        // Dragon fight window close: 12s after "DOWN!", submit whatever was collected (winner = highest
+        // DragonLoot.rank/pet), or nothing at all if the player never picked anything up.
+        dragonType?.let { type ->
+            if (System.currentTimeMillis() - dragonStartedAt < DRAGON_WINDOW_MS) return@let
+            val collected = dragonCollected.toList()
+            dragonType = null; dragonSnapshot = emptyMap(); dragonCollected.clear()
+            val winner = collected.maxByOrNull { it.second }?.first ?: return@let
+            submitOrSkip(LootPools.dragon(type) ?: listOf(winner), winner, emptyList())
+        }
+    }
+
+    // Every inventory slot change is reported here regardless of whether a dragon window is open
+    // (SkyblockAPI has no way to subscribe conditionally) -- the dragonType == null check below is the
+    // actual gate, so this is a no-op outside the 12s window.
+    @Subscription
+    fun onDragonInventoryChange(event: PlayerInventoryChangeEvent) {
+        val type = dragonType ?: return
+        val stack = event.item
+        if (stack.isEmpty) return
+        val name = stack.hoverName.string
+        val petId = stack.get(GenericDataTypes.PET_DATA)?.id
+        // pet > Horn/Claw/AOTD/Scale/Scroll/Dye > armor > Fragment > Enchanted Ender Pearl > Ender
+        // Pearl > Dragon Essence (DragonLoot.rank) -- rank 0 means "not a Dragon-pool item", ignored.
+        val rank = if (petId == "ENDER_DRAGON") Int.MAX_VALUE else DragonLoot.rank(name)
+        if (rank == 0) return
+        // Dedupe against stacks already present before DOWN!: only an increase over what's already been
+        // attributed to this window counts as a genuine pickup (a re-stack/reorder of the same items
+        // triggers this event too but leaves the inventory-wide count of that name unchanged).
+        val total = snapshotInventory()[name] ?: 0
+        if (total <= (dragonSnapshot[name] ?: 0)) return
+        dragonSnapshot = dragonSnapshot + (name to total)
+        dragonCollected.add(stack.copy() to rank)
+    }
+
+    /** Inventory-wide count per stripped display name, main player inventory only (armor pieces land
+     * there on pickup, not auto-equipped) -- used both for the DOWN! baseline and every recount after. */
+    private fun snapshotInventory(): Map<String, Int> {
+        val player = Minecraft.getInstance().player ?: return emptyMap()
+        val counts = HashMap<String, Int>()
+        for (stack in player.inventory) if (!stack.isEmpty) counts.merge(stack.hoverName.string, stack.count, Int::plus)
+        return counts
     }
 
     /** Ends a corpse block and resets state. Submits a reveal when items were collected (winner =

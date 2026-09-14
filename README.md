@@ -10,6 +10,7 @@ A Fabric client mod for Hypixel SkyBlock that replays rewards you already receiv
 |---|---|---|
 | **ALWAYS** | Dungeon chest (Wood/Gold/Diamond/Emerald/Obsidian/Bedrock, opened in dungeon or Croesus); Kuudra Free/Paid Chest; Mineshaft corpse loot (Lapis/Tungsten/Umber/Vanguard) | none |
 | **RARE_ONLY** | Pet drop; generic drop line; Winter gift; Trophy fish; Hoppity new rabbit | Pets: LEGENDARY (§6) or MYTHIC (§d); Drops: VERY RARE, CRAZY RARE, or PRAY TO RNGESUS; Gifts: SANTA TIER or PARTY TIER; Trophy fish: GOLD or DIAMOND; Hoppity: NEW RABBIT! |
+| **ALWAYS** | Dragon fight "`<TYPE> DRAGON DOWN!`" | none -- opens a 12s inventory-watch window instead of a rarity check; only reveals if something was actually picked up |
 
 ### Animation
 - Dark overlay with a scrolling strip of 40 items (winner at center)
@@ -37,6 +38,9 @@ Edit `config/skycase.json` to customize:
 | `gifts` | boolean | `true` | Reveal winter gifts (SANTA/PARTY tier) |
 | `trophyFish` | boolean | `true` | Reveal trophy fish (GOLD/DIAMOND) |
 | `hoppity` | boolean | `true` | Reveal Hoppity new rabbits |
+| `dragons` | boolean | `true` | Reveal Ender Dragon fight loot (Protector/Old/Wise/Unstable/Strong/Young/Superior) |
+| `scatha` | boolean | `true` | Use the Scatha pool for a Scatha pet drop (still gated by `pets`'s LEGENDARY/MYTHIC rarity check) |
+| `yeti` | boolean | `true` | Use the Baby Yeti pool for a Baby Yeti pet drop (still gated by `pets`'s LEGENDARY/MYTHIC rarity check) |
 
 ## Commands
 
@@ -82,7 +86,9 @@ Jar is placed in:
   - `hoppity_textures.json` — vendored from hannibal002/SkyHanni-REPO `constants/HoppityRabbitTextures.json` (MIT): rabbit skin textures (base64), keyed by rarity
   - `hoppity_rabbits.json` — vendored from NotEnoughUpdates/NotEnoughUpdates-REPO `constants/hoppity.json` (MIT): rabbit names by rarity, title-cased from the source's snake_case
   - Pet drop pool/winner: SkyblockAPI's `SkyBlockPetsRepo` (`hypixelskyblock.minecraft.wiki/Pet` for the LEGENDARY mob-drop pets added to every pet's own pool: ENDER_DRAGON, BABY_YETI, SCATHA, LOCH_EMPEROR)
-  - Regenerate `dungeon_chests.json`/`corpses.json`/`kuudra.json`/`rare_drops.json` with `py testkit/gen.py <SkyOcean-clone-dir> <fetched-json-dir>` (see the script's docstring for the `gh api` fetch commands); `trophy_fish.json`/`hoppity_textures.json`/`hoppity_rabbits.json` were fetched/hand-authored directly (2026-09-13), see task11-report.md
+  - `dragon.json` — per-type (Protector/Old/Wise/Unstable/Strong/Young/Superior) loot from https://hypixelskyblock.minecraft.wiki/Dragon (2026-09-13); the wiki gives relative "quality" ranks, not measured drop %, so weight is an approximate rank-based guess, not a real percentage
+  - `scatha.json`/`yeti.json` — non-pet drops from https://hypixelskyblock.minecraft.wiki/Scatha and /Yeti (2026-09-13), weight = the same rank-based guess as `dragon.json`; pet-drop rows use the wiki's exact per-kill % (Scatha RARE 0.24%/EPIC 0.12%/LEGENDARY 0.04%, Yeti COMMON 0.02%) × 100, resolved to a SCATHA/BABY_YETI pet stack via `SkyBlockPetsRepo` at that rarity
+  - Regenerate `dungeon_chests.json`/`corpses.json`/`kuudra.json`/`rare_drops.json` with `py testkit/gen.py <SkyOcean-clone-dir> <fetched-json-dir>` (see the script's docstring for the `gh api` fetch commands); `trophy_fish.json`/`hoppity_textures.json`/`hoppity_rabbits.json`/`dragon.json`/`scatha.json`/`yeti.json` were fetched/hand-authored directly (2026-09-13), see task11-report.md/task12-report.md
 
 ## Licence
 

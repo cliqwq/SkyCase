@@ -19,6 +19,9 @@ object SkyCaseConfig {
         var gifts: Boolean = true,
         var trophyFish: Boolean = true,
         var hoppity: Boolean = true,
+        var dragons: Boolean = true,
+        var scatha: Boolean = true,
+        var yeti: Boolean = true,
     )
     private val gson = GsonBuilder().setPrettyPrinting().create()
     private val path = FabricLoader.getInstance().configDir.resolve("skycase.json")

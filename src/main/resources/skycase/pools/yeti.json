@@ -1,0 +1,15 @@
+{
+  "_source": "https://hypixelskyblock.minecraft.wiki/Yeti (2026-09-13). Item weights = wiki 'quality' rank guess, not a measured %. Pet drop rate is the exact wiki per-kill %: COMMON 0.02% -> weight = % x100. Pet stack itself built via SkyBlockPetsRepo, not listed here.",
+  "items": [
+    {"name": "Ice Essence", "weight": 100},
+    {"name": "Enchanted Ice", "weight": 100},
+    {"name": "Enchanted Raw Cod", "weight": 100},
+    {"name": "Red Gift", "weight": 100},
+    {"name": "Enchanted Packed Ice", "weight": 100},
+    {"name": "Hunk of Blue Ice", "weight": 100},
+    {"name": "True Ice", "weight": 1},
+    {"name": "Iceberg Dye", "weight": 1},
+    {"name": "Aquamarine Dye", "weight": 1}
+  ],
+  "pets": {"COMMON": 2}
+}

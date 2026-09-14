@@ -35,4 +35,12 @@ class ChatParseTest {
         assertEquals("Rock" to "RARE", ChatParse.petDrop("§9§lPET DROP! §r§9Rock"))
         assertNull(ChatParse.petDrop("You dug out a Griffin Burrow!"))
     }
+
+    // SkyHanni DragonFightAPI.kt receipt; REGEX-TEST from the brief, 27 spaces after "§r§f".
+    @Test fun dragonDownParsesType() {
+        assertEquals("OLD", ChatParse.dragonDown("§r§f                           §r§6§lOLD DRAGON DOWN!§r"))
+        assertEquals("SUPERIOR", ChatParse.dragonDown("§r§f                           §r§6§lSUPERIOR DRAGON DOWN!§r"))
+        assertNull(ChatParse.dragonDown("§r§f§r§6§lOLD DRAGON DOWN!§r")) // wrong space count -- not the receipt
+        assertNull(ChatParse.dragonDown("You dug out a Griffin Burrow!"))
+    }
 }

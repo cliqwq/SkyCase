@@ -66,6 +66,13 @@ object LootPools {
     }
     private val dianaDrops: List<String> by lazy { rareDrops["diana"].asJsonArray.map { it.asString } }
 
+    // keyed exactly as they appear in dragon.json's "types" object (PROTECTOR/OLD/WISE/UNSTABLE/STRONG/YOUNG/SUPERIOR)
+    private val dragonPools: Map<String, List<Entry>> by lazy {
+        resourceJson("dragon.json")["types"].asJsonObject.entrySet().associate { (type, arr) -> type to arr.asJsonArray.toEntries() }
+    }
+    private val scathaJson: JsonObject by lazy { resourceJson("scatha.json") }
+    private val yetiJson: JsonObject by lazy { resourceJson("yeti.json") }
+
     private val resolveCache = HashMap<String, ItemStack?>()
     private val poolCache = HashMap<String, List<ItemStack>>()
     private val warnedFor = HashSet<String>()
@@ -190,6 +197,41 @@ object LootPools {
     fun diana(): List<ItemStack>? {
         if (dianaDrops.isEmpty()) return null
         return buildPoolFlat("diana", dianaDrops)
+    }
+
+    /** Real loot pool for an Ender Dragon fight, by dragon type key ("OLD"/"PROTECTOR"/"WISE"/
+     * "UNSTABLE"/"STRONG"/"YOUNG"/"SUPERIOR" -- see [ChatParse.dragonDown]). The Ender Dragon pet
+     * itself isn't in here (mob-drop pets are only added to [pets]' own-species pools); a dragon-fight
+     * pet win still reveals against this armor/fragment/pearl pool per the brief. */
+    fun dragon(type: String): List<ItemStack>? {
+        val entries = dragonPools[type] ?: return null
+        return buildPool("dragon:$type", entries)
+    }
+
+    fun scatha(): List<ItemStack>? = mobDropPool("scatha", scathaJson, "SCATHA")
+    fun yeti(): List<ItemStack>? = mobDropPool("yeti", yetiJson, "BABY_YETI")
+
+    /** [json]'s "items" array (same name/weight rows [buildPool] takes) plus its "pets" map
+     * (rarity name -> weight), each rarity resolved to a [petId] pet stack via [SkyBlockPetsRepo] at
+     * level 1 -- same "don't cache a starved result" rule as [buildPool] (a repo not yet populated
+     * must stay retryable, not get permanently cached as "no pool"). */
+    private fun mobDropPool(key: String, json: JsonObject, petId: String): List<ItemStack>? {
+        poolCache[key]?.let { return it }
+        val dropped = ArrayList<String>()
+        val itemPairs = json["items"].asJsonArray.toEntries().mapNotNull { e ->
+            val stack = resolve(e.id)
+            if (stack == null) dropped.add(e.id)
+            stack?.let { it to e.weight }
+        }
+        warnDropped(key, dropped)
+        val petPairs = json["pets"].asJsonObject.entrySet().mapNotNull { (rarityName, weight) ->
+            val rarity = runCatching { SkyBlockRarity.valueOf(rarityName) }.getOrNull() ?: return@mapNotNull null
+            if (SkyBlockPetsRepo.get(petId) == null) return@mapNotNull null
+            SkyBlockPetsRepo.getItemStack { this.id = petId; this.rarity = rarity; this.level = 1 }?.let { it to weight.asInt }
+        }
+        val all = itemPairs + petPairs
+        if (all.isEmpty()) return null
+        return expandWeighted(all).also { poolCache[key] = it }
     }
 
     // --- Trophy fish: tech.thatgravyboat.skyblockapi.api.area.isle.trophyfish.TrophyFishType/Tier

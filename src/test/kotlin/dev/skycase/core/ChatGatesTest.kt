@@ -41,4 +41,12 @@ class ChatGatesTest {
         assertFalse(ChatGates.shouldFire("TROPHY FISH! You caught a Sulphur Skitter DIAMOND!", "TROPHY FISH! You caught a Sulphur Skitter DIAMOND!", cfg.copy(trophyFish = false)))
         assertFalse(ChatGates.shouldFire("NEW RABBIT! +5 Chocolate", "NEW RABBIT! +5 Chocolate", cfg.copy(hoppity = false)))
     }
+
+    @Test fun specialPetsFireAtAnyRarity() {
+        val cfg = SkyCaseConfig.Data(pets = true)
+        assertTrue(ChatGates.shouldFire("PET DROP! Scatha", "§9§lPET DROP! §r§9Scatha §b(+15% ✯ Magic Find)", cfg))
+        assertTrue(ChatGates.shouldFire("PET DROP! Baby Yeti", "§f§lPET DROP! §r§fBaby Yeti", cfg))
+        assertFalse(ChatGates.shouldFire("PET DROP! Scatha", "§9§lPET DROP! §r§9Scatha", cfg.copy(scatha = false)))
+        assertFalse(ChatGates.shouldFire("PET DROP! Rock", "§9§lPET DROP! §r§9Rock", cfg))
+    }
 }

@@ -80,4 +80,37 @@ class LootPoolsTest {
         assertTrue(obj["catacombs"].asJsonObject.size() > 0)
         assertTrue(obj["diana"].asJsonArray.size() > 0)
     }
+
+    @Test fun dragonJsonParses() {
+        val obj = resource("dragon.json").asJsonObject
+        val types = obj["types"].asJsonObject
+        for (type in listOf("PROTECTOR", "OLD", "WISE", "UNSTABLE", "STRONG", "YOUNG", "SUPERIOR")) {
+            assertTrue(types[type].asJsonArray.size() > 0, "$type should be non-empty")
+        }
+        // SUPERIOR gets Dragon Horn instead of Aspect of the Dragons; UNSTABLE alone gets the travel scroll.
+        val superiorNames = types["SUPERIOR"].asJsonArray.map { it.asJsonObject["name"].asString }
+        assertTrue("Dragon Horn" in superiorNames)
+        assertFalse("Aspect of the Dragons" in superiorNames)
+        val unstableNames = types["UNSTABLE"].asJsonArray.map { it.asJsonObject["name"].asString }
+        assertTrue("Travel Scroll to Dragon's Nest" in unstableNames)
+    }
+
+    @Test fun scathaJsonParses() {
+        val obj = resource("scatha.json").asJsonObject
+        assertTrue(obj["items"].asJsonArray.size() > 0)
+        val pets = obj["pets"].asJsonObject
+        assertEquals(24, pets["RARE"].asInt)
+        assertEquals(12, pets["EPIC"].asInt)
+        assertEquals(4, pets["LEGENDARY"].asInt)
+    }
+
+    @Test fun yetiJsonParses() {
+        val obj = resource("yeti.json").asJsonObject
+        assertTrue(obj["items"].asJsonArray.size() > 0)
+        assertEquals(2, obj["pets"].asJsonObject["COMMON"].asInt)
+    }
+
+    @Test fun unknownDragonTypeReturnsNull() {
+        assertNull(LootPools.dragon("NOT_A_TYPE"))
+    }
 }
