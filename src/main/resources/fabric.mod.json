@@ -4,10 +4,28 @@
   "version": "${version}",
   "name": "SkyCase",
   "description": "Cosmetic reveal animations for rewards you already got in Hypixel SkyBlock.",
+  "authors": [
+    "qtclover"
+  ],
+  "contact": {
+    "homepage": "https://github.com/qtclover/SkyCase",
+    "sources": "https://github.com/qtclover/SkyCase",
+    "issues": "https://github.com/qtclover/SkyCase/issues"
+  },
+  "icon": "assets/skycase/icon.png",
   "license": "MIT",
   "environment": "client",
-  "entrypoints": { "client": [ { "adapter": "kotlin", "value": "dev.skycase.SkyCase" } ] },
-  "mixins": [ "skycase.mixins.json" ],
+  "entrypoints": {
+    "client": [
+      {
+        "adapter": "kotlin",
+        "value": "dev.skycase.SkyCase"
+      }
+    ]
+  },
+  "mixins": [
+    "skycase.mixins.json"
+  ],
   "depends": {
     "fabricloader": ">=0.19.2",
     "minecraft": "${minecraft_range}",

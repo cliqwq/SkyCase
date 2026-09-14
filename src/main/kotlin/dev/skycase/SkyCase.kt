@@ -49,7 +49,9 @@ object SkyCase : ClientModInitializer {
                     // dev: /skycase pool <corpse|kuudra|trophy|dungeon|scatha|yeti> <key> → logs every distinct stack + whether it renders
                     ClientCommands.literal("pool").then(
                         ClientCommands.argument("spec", StringArgumentType.greedyString()).executes { ctx ->
-                            dev.skycase.core.PoolDebug.dump(StringArgumentType.getString(ctx, "spec"))
+                            if (net.fabricmc.loader.api.FabricLoader.getInstance().isDevelopmentEnvironment()) {
+                                dev.skycase.core.PoolDebug.dump(StringArgumentType.getString(ctx, "spec"))
+                            }
                             1
                         }
                     )
