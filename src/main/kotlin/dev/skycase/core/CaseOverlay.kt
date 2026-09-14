@@ -82,6 +82,7 @@ object CaseOverlay {
         val cw = (CARD * SCALE).toFloat()
         val w = graphics.guiWidth()
         val h = graphics.guiHeight()
+        graphics.nextStratum() // above whatever HUD/screen was drawn before us
         graphics.fill(0, 0, w, h, 0x80000000.toInt())
 
         val offset = SCROLL_CARDS * cw * p + jitter
@@ -97,24 +98,34 @@ object CaseOverlay {
         }
 
         val font = Minecraft.getInstance().font
-        fun drawCard(i: Int) {
+        // 26.x extraction pipeline: flat sprites and 3D special models (player heads = most SkyBlock
+        // items) are submitted on different paths, so within one stratum a later fill can cover an
+        // earlier head. Strata order things explicitly: boxes → items → winner box → winner item.
+        fun withCard(i: Int, block: (scale: Float) -> Unit) {
             val x = originX + i * cw
             if (x < -cw || x > w) return
             val s = if (i == WINNER_INDEX && pop > 0f) Mth.lerp(Easing.outCubic(pop), 1f, 3f) else 1f
-            val cx = x + cw / 2f
-            val cy = y + cw / 2f
             graphics.pose().pushMatrix()
-            graphics.pose().translate(cx, cy)
+            graphics.pose().translate(x + cw / 2f, y + cw / 2f)
             graphics.pose().scale(SCALE * s, SCALE * s)
+            block(s)
+            graphics.pose().popMatrix()
+        }
+        fun drawBox(i: Int) = withCard(i) {
             // card box: 22x22 around the 16x16 item (unscaled units), 1px border, dark fill
             val border = if (i == WINNER_INDEX && pop > 0f) 0xFFFFD700.toInt() else 0xFF5A5A5A.toInt()
             graphics.fill(-11, -11, 11, 11, border)
             graphics.fill(-10, -10, 10, 10, 0xE0141414.toInt())
-            graphics.item(strip[i], -8, -8)
-            graphics.pose().popMatrix()
         }
-        for (i in 0 until STRIP_LEN) if (i != WINNER_INDEX) drawCard(i)
-        drawCard(WINNER_INDEX) // last → the popped winner renders over its neighbours
+        fun drawItem(i: Int) = withCard(i) { graphics.item(strip[i], -8, -8) }
+
+        for (i in 0 until STRIP_LEN) if (i != WINNER_INDEX) drawBox(i)
+        graphics.nextStratum()
+        for (i in 0 until STRIP_LEN) if (i != WINNER_INDEX) drawItem(i)
+        graphics.nextStratum()
+        drawBox(WINNER_INDEX) // winner last → the popped card renders over its neighbours
+        graphics.nextStratum()
+        drawItem(WINNER_INDEX)
         if (pop == 0f) graphics.fill(w / 2 - 1, (y - 6).toInt(), w / 2 + 1, (y + cw + 6).toInt(), 0xFFFFD700.toInt())
 
         if (p >= 1f) {
