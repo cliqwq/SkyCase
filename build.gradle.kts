@@ -29,6 +29,12 @@ dependencies {
             attribute(minecraftVersionAttribute, property("skyblockapi_mc_version") as String)
         }
     }
+    // SkyblockAPI is not on Modrinth: nest it in our jar (Loom jar-in-jar), like SkyOcean does.
+    include("tech.thatgravyboat:skyblock-api:${libs.versions.skyblockapi.get()}") {
+        attributes {
+            attribute(minecraftVersionAttribute, property("skyblockapi_mc_version") as String)
+        }
+    }
 
     // Required at runtime by skyblock-api / hypixel-mod-api; not in the brief's dependency
     // list, but the mod fails to load without it (see task-1-report.md).
