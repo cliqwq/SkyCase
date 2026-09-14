@@ -1,2 +1,2 @@
-tellraw @s {"text": "\u00a7r\u00a7f                           \u00a7r\u00a76\u00a7lSUPERIOR DRAGON DOWN!\u00a7r"}
+tellraw @a {"text": "§r§f                           §r§6§lSUPERIOR DRAGON DOWN!§r"}
 schedule function skycase:dragon_give 1s

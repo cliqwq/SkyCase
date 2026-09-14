@@ -56,7 +56,7 @@ object ChatParse {
     // SkyHanni DragonFightAPI.kt ("DRAGON DOWN!" receipt): "§r§f" + 27 spaces + "§r§6§l<TYPE> DRAGON DOWN!§r".
     // Colour codes matter here (the 27-space run only appears in the coloured line), so this matches
     // event.coloredText like petDrop does, not the stripped text.
-    private val dragonDownLine = Regex("§r§f {27}§r§6§l(?<type>.+?) DRAGON DOWN!§r")
+    private val dragonDownLine = Regex("(?:§r)?§f +§r§6§l(?<type>[A-Z ]+?) DRAGON DOWN!§r?") // Hypixel centres the banner: leading space count varies per dragon name (SkyHanni DragonFeatures REGEX-TESTs: 27 for OLD, 22 for PROTECTOR)
 
     /** Dragon type key ("OLD"/"PROTECTOR"/"WISE"/"UNSTABLE"/"STRONG"/"YOUNG"/"SUPERIOR") from a
      * "<TYPE> DRAGON DOWN!" receipt, or null. Matches [LootPools.dragon]'s pool keys directly. */

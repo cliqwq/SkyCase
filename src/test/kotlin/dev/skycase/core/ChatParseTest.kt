@@ -40,6 +40,8 @@ class ChatParseTest {
     @Test fun dragonDownParsesType() {
         assertEquals("OLD", ChatParse.dragonDown("§r§f                           §r§6§lOLD DRAGON DOWN!§r"))
         assertEquals("SUPERIOR", ChatParse.dragonDown("§r§f                           §r§6§lSUPERIOR DRAGON DOWN!§r"))
+        assertEquals("PROTECTOR", ChatParse.dragonDown("§f                      §r§6§lPROTECTOR DRAGON DOWN!"))
+        assertNull(ChatParse.dragonDown("§f                    §r§6§lENDSTONE PROTECTOR DOWN!"))
         assertNull(ChatParse.dragonDown("§r§f§r§6§lOLD DRAGON DOWN!§r")) // wrong space count -- not the receipt
         assertNull(ChatParse.dragonDown("You dug out a Griffin Burrow!"))
     }
