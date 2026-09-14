@@ -78,8 +78,10 @@ object RabbitHeads {
     /** Builds the head stack for a rabbit name + rarity, given its base64 skin texture. Pure MC-item
      * construction -- no repo/network access. */
     fun head(name: String, rarity: SkyBlockRarity, base64: String): ItemStack {
-        val properties = PropertyMap(HashMultimap.create())
-        properties.put("textures", Property("textures", base64))
+        // PropertyMap copies into an immutable multimap: fill the multimap first (put on the map throws)
+        val multimap = HashMultimap.create<String, Property>()
+        multimap.put("textures", Property("textures", base64))
+        val properties = PropertyMap(multimap)
         val profile = GameProfile(UUID.randomUUID(), name, properties)
         return ItemStack(Items.PLAYER_HEAD).apply {
             set(DataComponents.PROFILE, ResolvableProfile.createResolved(profile))

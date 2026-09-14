@@ -22,7 +22,8 @@ object RevealQueue {
 
     fun submit(r: Reveal) {
         if (!SkyCaseConfig.data.enabled) { ChatGuard.emitNow(r.heldChat); return }
-        val safe = if (r.pool.isEmpty()) r.copy(pool = listOf(r.winner)) else r
+        val shown = r.copy(pool = r.pool.map(LootPools::renderable), winner = LootPools.renderable(r.winner)) // strip unloaded Hypixel item models
+        val safe = if (shown.pool.isEmpty()) shown.copy(pool = listOf(shown.winner)) else shown
         Minecraft.getInstance().execute { enqueue(safe) }
     }
 

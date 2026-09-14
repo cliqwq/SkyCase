@@ -4,6 +4,9 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import dev.skycase.SkyCase
+import net.minecraft.client.Minecraft
+import net.minecraft.core.component.DataComponents
+import net.minecraft.resources.Identifier
 import net.minecraft.world.item.ItemStack
 import tech.thatgravyboat.skyblockapi.api.area.isle.trophyfish.TrophyFishTier
 import tech.thatgravyboat.skyblockapi.api.area.isle.trophyfish.TrophyFishType
@@ -95,9 +98,20 @@ object LootPools {
         } else {
             SkyBlockItemsRepo.getItemStack(normalize(id))
         }
-        val result = if (stack != null && !stack.isEmpty) stack else null
+        val result = if (stack != null && !stack.isEmpty) renderable(stack) else null
         if (result != null) resolveCache[id] = result
         return result
+    }
+
+    /** Hypixel items carry an `item_model` that only exists in the server resource pack. When that
+     * model is not loaded (singleplayer, or before the pack applies) the item draws as nothing/magenta:
+     * drop the component so the base vanilla item renders instead. Pure client-side cosmetics. */
+    fun renderable(stack: ItemStack): ItemStack {
+        val modelId = stack.get(DataComponents.ITEM_MODEL) ?: return stack
+        val mm = Minecraft.getInstance().modelManager
+        val missing = mm.getItemModel(Identifier.fromNamespaceAndPath("skycase", "definitely_missing"))
+        if (mm.getItemModel(modelId) !== missing) return stack
+        return stack.copy().apply { remove(DataComponents.ITEM_MODEL) }
     }
 
     /** Pure: repeats each item roughly proportional to its weight, total clamped to [max].

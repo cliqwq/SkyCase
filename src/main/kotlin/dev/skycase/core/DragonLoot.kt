@@ -20,7 +20,7 @@ object DragonLoot {
     fun rank(name: String): Int = when {
         name in specialNames -> 6
         armorSuffixes.any { name.endsWith(it) } && "Dragon" in name -> 5
-        name == "Dragon Fragment" -> 4
+        name.endsWith("Dragon Fragment") -> 4 // per-type: "Superior Dragon Fragment"
         name == "Enchanted Ender Pearl" -> 3
         name == "Ender Pearl" -> 2
         name == "Dragon Essence" -> 1

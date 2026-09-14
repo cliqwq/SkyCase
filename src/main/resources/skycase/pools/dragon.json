@@ -1,98 +1,335 @@
 {
-  "_source": "https://hypixelskyblock.minecraft.wiki/Dragon (2026-09-13). Wiki gives per-type loot lists with relative 'quality' ranks, not measured drop %; weight here = an approximate rank-based guess, not a real percentage. Ender Dragon pet is handled separately via SkyBlockPetsRepo (see LootPools.kt), not listed here.",
-  "types": {
-    "PROTECTOR": [
-      {"name": "Protector Dragon Helmet", "weight": 30},
-      {"name": "Protector Dragon Chestplate", "weight": 30},
-      {"name": "Protector Dragon Leggings", "weight": 30},
-      {"name": "Protector Dragon Boots", "weight": 30},
-      {"name": "Aspect of the Dragons", "weight": 10},
-      {"name": "Dragon Claw", "weight": 10},
-      {"name": "Dragon Fragment", "weight": 60},
-      {"name": "Enchanted Ender Pearl", "weight": 40},
-      {"name": "Ender Pearl", "weight": 40},
-      {"name": "Dragon Essence", "weight": 40},
-      {"name": "Pearlescent Dye", "weight": 1}
-    ],
-    "OLD": [
-      {"name": "Old Dragon Helmet", "weight": 30},
-      {"name": "Old Dragon Chestplate", "weight": 30},
-      {"name": "Old Dragon Leggings", "weight": 30},
-      {"name": "Old Dragon Boots", "weight": 30},
-      {"name": "Aspect of the Dragons", "weight": 10},
-      {"name": "Dragon Claw", "weight": 10},
-      {"name": "Dragon Fragment", "weight": 60},
-      {"name": "Enchanted Ender Pearl", "weight": 40},
-      {"name": "Ender Pearl", "weight": 40},
-      {"name": "Dragon Essence", "weight": 40},
-      {"name": "Pearlescent Dye", "weight": 1}
-    ],
-    "WISE": [
-      {"name": "Wise Dragon Helmet", "weight": 30},
-      {"name": "Wise Dragon Chestplate", "weight": 30},
-      {"name": "Wise Dragon Leggings", "weight": 30},
-      {"name": "Wise Dragon Boots", "weight": 30},
-      {"name": "Aspect of the Dragons", "weight": 10},
-      {"name": "Dragon Claw", "weight": 10},
-      {"name": "Dragon Fragment", "weight": 60},
-      {"name": "Enchanted Ender Pearl", "weight": 40},
-      {"name": "Ender Pearl", "weight": 40},
-      {"name": "Dragon Essence", "weight": 40},
-      {"name": "Pearlescent Dye", "weight": 1}
-    ],
-    "UNSTABLE": [
-      {"name": "Unstable Dragon Helmet", "weight": 30},
-      {"name": "Unstable Dragon Chestplate", "weight": 30},
-      {"name": "Unstable Dragon Leggings", "weight": 30},
-      {"name": "Unstable Dragon Boots", "weight": 30},
-      {"name": "Aspect of the Dragons", "weight": 10},
-      {"name": "Dragon Claw", "weight": 10},
-      {"name": "Dragon Fragment", "weight": 60},
-      {"name": "Enchanted Ender Pearl", "weight": 40},
-      {"name": "Ender Pearl", "weight": 40},
-      {"name": "Dragon Essence", "weight": 40},
-      {"name": "Travel Scroll to Dragon's Nest", "weight": 5},
-      {"name": "Pearlescent Dye", "weight": 1}
-    ],
-    "STRONG": [
-      {"name": "Strong Dragon Helmet", "weight": 30},
-      {"name": "Strong Dragon Chestplate", "weight": 30},
-      {"name": "Strong Dragon Leggings", "weight": 30},
-      {"name": "Strong Dragon Boots", "weight": 30},
-      {"name": "Aspect of the Dragons", "weight": 10},
-      {"name": "Dragon Claw", "weight": 10},
-      {"name": "Dragon Fragment", "weight": 60},
-      {"name": "Enchanted Ender Pearl", "weight": 40},
-      {"name": "Ender Pearl", "weight": 40},
-      {"name": "Dragon Essence", "weight": 40},
-      {"name": "Pearlescent Dye", "weight": 1}
-    ],
-    "YOUNG": [
-      {"name": "Young Dragon Helmet", "weight": 30},
-      {"name": "Young Dragon Chestplate", "weight": 30},
-      {"name": "Young Dragon Leggings", "weight": 30},
-      {"name": "Young Dragon Boots", "weight": 30},
-      {"name": "Aspect of the Dragons", "weight": 10},
-      {"name": "Dragon Claw", "weight": 10},
-      {"name": "Dragon Scale", "weight": 10},
-      {"name": "Dragon Fragment", "weight": 60},
-      {"name": "Enchanted Ender Pearl", "weight": 40},
-      {"name": "Ender Pearl", "weight": 40},
-      {"name": "Dragon Essence", "weight": 40},
-      {"name": "Pearlescent Dye", "weight": 1}
-    ],
-    "SUPERIOR": [
-      {"name": "Superior Dragon Helmet", "weight": 30},
-      {"name": "Superior Dragon Chestplate", "weight": 30},
-      {"name": "Superior Dragon Leggings", "weight": 30},
-      {"name": "Superior Dragon Boots", "weight": 30},
-      {"name": "Dragon Horn", "weight": 10},
-      {"name": "Dragon Claw", "weight": 10},
-      {"name": "Dragon Fragment", "weight": 60},
-      {"name": "Enchanted Ender Pearl", "weight": 40},
-      {"name": "Ender Pearl", "weight": 40},
-      {"name": "Dragon Essence", "weight": 40},
-      {"name": "Pearlescent Dye", "weight": 1}
-    ]
-  }
+ "_source": "https://hypixelskyblock.minecraft.wiki/Dragon (2026-09-13). Wiki gives per-type loot lists with relative 'quality' ranks, not measured drop %; weight here = an approximate rank-based guess, not a real percentage. Ender Dragon pet is handled separately via SkyBlockPetsRepo (see LootPools.kt), not listed here.",
+ "types": {
+  "PROTECTOR": [
+   {
+    "name": "Protector Dragon Helmet",
+    "weight": 30
+   },
+   {
+    "name": "Protector Dragon Chestplate",
+    "weight": 30
+   },
+   {
+    "name": "Protector Dragon Leggings",
+    "weight": 30
+   },
+   {
+    "name": "Protector Dragon Boots",
+    "weight": 30
+   },
+   {
+    "name": "Aspect of the Dragons",
+    "weight": 10
+   },
+   {
+    "name": "Dragon Claw",
+    "weight": 10
+   },
+   {
+    "name": "Protector Dragon Fragment",
+    "weight": 60
+   },
+   {
+    "name": "Enchanted Ender Pearl",
+    "weight": 40
+   },
+   {
+    "name": "Ender Pearl",
+    "weight": 40
+   },
+   {
+    "name": "Dragon Essence",
+    "weight": 40
+   },
+   {
+    "name": "Pearlescent Dye",
+    "weight": 1
+   }
+  ],
+  "OLD": [
+   {
+    "name": "Old Dragon Helmet",
+    "weight": 30
+   },
+   {
+    "name": "Old Dragon Chestplate",
+    "weight": 30
+   },
+   {
+    "name": "Old Dragon Leggings",
+    "weight": 30
+   },
+   {
+    "name": "Old Dragon Boots",
+    "weight": 30
+   },
+   {
+    "name": "Aspect of the Dragons",
+    "weight": 10
+   },
+   {
+    "name": "Dragon Claw",
+    "weight": 10
+   },
+   {
+    "name": "Old Dragon Fragment",
+    "weight": 60
+   },
+   {
+    "name": "Enchanted Ender Pearl",
+    "weight": 40
+   },
+   {
+    "name": "Ender Pearl",
+    "weight": 40
+   },
+   {
+    "name": "Dragon Essence",
+    "weight": 40
+   },
+   {
+    "name": "Pearlescent Dye",
+    "weight": 1
+   }
+  ],
+  "WISE": [
+   {
+    "name": "Wise Dragon Helmet",
+    "weight": 30
+   },
+   {
+    "name": "Wise Dragon Chestplate",
+    "weight": 30
+   },
+   {
+    "name": "Wise Dragon Leggings",
+    "weight": 30
+   },
+   {
+    "name": "Wise Dragon Boots",
+    "weight": 30
+   },
+   {
+    "name": "Aspect of the Dragons",
+    "weight": 10
+   },
+   {
+    "name": "Dragon Claw",
+    "weight": 10
+   },
+   {
+    "name": "Wise Dragon Fragment",
+    "weight": 60
+   },
+   {
+    "name": "Enchanted Ender Pearl",
+    "weight": 40
+   },
+   {
+    "name": "Ender Pearl",
+    "weight": 40
+   },
+   {
+    "name": "Dragon Essence",
+    "weight": 40
+   },
+   {
+    "name": "Pearlescent Dye",
+    "weight": 1
+   }
+  ],
+  "UNSTABLE": [
+   {
+    "name": "Unstable Dragon Helmet",
+    "weight": 30
+   },
+   {
+    "name": "Unstable Dragon Chestplate",
+    "weight": 30
+   },
+   {
+    "name": "Unstable Dragon Leggings",
+    "weight": 30
+   },
+   {
+    "name": "Unstable Dragon Boots",
+    "weight": 30
+   },
+   {
+    "name": "Aspect of the Dragons",
+    "weight": 10
+   },
+   {
+    "name": "Dragon Claw",
+    "weight": 10
+   },
+   {
+    "name": "Unstable Dragon Fragment",
+    "weight": 60
+   },
+   {
+    "name": "Enchanted Ender Pearl",
+    "weight": 40
+   },
+   {
+    "name": "Ender Pearl",
+    "weight": 40
+   },
+   {
+    "name": "Dragon Essence",
+    "weight": 40
+   },
+   {
+    "name": "Travel Scroll to Dragon's Nest",
+    "weight": 5
+   },
+   {
+    "name": "Pearlescent Dye",
+    "weight": 1
+   }
+  ],
+  "STRONG": [
+   {
+    "name": "Strong Dragon Helmet",
+    "weight": 30
+   },
+   {
+    "name": "Strong Dragon Chestplate",
+    "weight": 30
+   },
+   {
+    "name": "Strong Dragon Leggings",
+    "weight": 30
+   },
+   {
+    "name": "Strong Dragon Boots",
+    "weight": 30
+   },
+   {
+    "name": "Aspect of the Dragons",
+    "weight": 10
+   },
+   {
+    "name": "Dragon Claw",
+    "weight": 10
+   },
+   {
+    "name": "Strong Dragon Fragment",
+    "weight": 60
+   },
+   {
+    "name": "Enchanted Ender Pearl",
+    "weight": 40
+   },
+   {
+    "name": "Ender Pearl",
+    "weight": 40
+   },
+   {
+    "name": "Dragon Essence",
+    "weight": 40
+   },
+   {
+    "name": "Pearlescent Dye",
+    "weight": 1
+   }
+  ],
+  "YOUNG": [
+   {
+    "name": "Young Dragon Helmet",
+    "weight": 30
+   },
+   {
+    "name": "Young Dragon Chestplate",
+    "weight": 30
+   },
+   {
+    "name": "Young Dragon Leggings",
+    "weight": 30
+   },
+   {
+    "name": "Young Dragon Boots",
+    "weight": 30
+   },
+   {
+    "name": "Aspect of the Dragons",
+    "weight": 10
+   },
+   {
+    "name": "Dragon Claw",
+    "weight": 10
+   },
+   {
+    "name": "Dragon Scale",
+    "weight": 10
+   },
+   {
+    "name": "Young Dragon Fragment",
+    "weight": 60
+   },
+   {
+    "name": "Enchanted Ender Pearl",
+    "weight": 40
+   },
+   {
+    "name": "Ender Pearl",
+    "weight": 40
+   },
+   {
+    "name": "Dragon Essence",
+    "weight": 40
+   },
+   {
+    "name": "Pearlescent Dye",
+    "weight": 1
+   }
+  ],
+  "SUPERIOR": [
+   {
+    "name": "Superior Dragon Helmet",
+    "weight": 30
+   },
+   {
+    "name": "Superior Dragon Chestplate",
+    "weight": 30
+   },
+   {
+    "name": "Superior Dragon Leggings",
+    "weight": 30
+   },
+   {
+    "name": "Superior Dragon Boots",
+    "weight": 30
+   },
+   {
+    "name": "Dragon Horn",
+    "weight": 10
+   },
+   {
+    "name": "Dragon Claw",
+    "weight": 10
+   },
+   {
+    "name": "Superior Dragon Fragment",
+    "weight": 60
+   },
+   {
+    "name": "Enchanted Ender Pearl",
+    "weight": 40
+   },
+   {
+    "name": "Ender Pearl",
+    "weight": 40
+   },
+   {
+    "name": "Dragon Essence",
+    "weight": 40
+   },
+   {
+    "name": "Pearlescent Dye",
+    "weight": 1
+   }
+  ]
+ }
 }

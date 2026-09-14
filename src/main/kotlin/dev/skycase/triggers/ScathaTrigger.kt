@@ -86,7 +86,8 @@ object ScathaTrigger {
             if (trackedUuid != null) abandon()
             return
         }
-        if (LocationAPI.island != SkyBlockIsland.CRYSTAL_HOLLOWS) {
+        // Crystal Hollows only on SkyBlock; off SkyBlock (singleplayer test kit) the gate is open
+        if (LocationAPI.isOnSkyBlock && LocationAPI.island != SkyBlockIsland.CRYSTAL_HOLLOWS) {
             if (trackedUuid != null) abandon()
             return
         }
