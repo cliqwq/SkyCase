@@ -396,7 +396,8 @@ object ChatTrigger {
     // of its own, so there's no "our own reveal screen" case to exempt any more -- any open screen skips.
     private fun submitOrSkip(pool: List<ItemStack>, winner: ItemStack, held: List<Component>, onFinished: (() -> Unit)? = null) {
         val screen = Minecraft.getInstance().gui.screen()
-        if (screen != null) {
+        // the chat box is not "another GUI": lines land while typing (and /skycase chat runs with it open)
+        if (screen != null && screen !is net.minecraft.client.gui.screens.ChatScreen) {
             ChatGuard.emitNow(held)
             // no CaseScreen will play to fire Reveal.onFinished later -- run cleanup (e.g. unhide) now
             onFinished?.invoke()
