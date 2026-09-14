@@ -55,7 +55,7 @@ Edit `config/skycase.json` to customize:
 - **Minecraft** 26.2 (26.1.2: not yet — ChatGuard uses 26.2-only Hud/chat API)
 - **fabric-language-kotlin** ≥1.13.12
 - **Fabric API** — required, install separately
-- **SkyblockAPI** 4.2.x (any version)
+- **SkyblockAPI** 4.2.22 — bundled inside the jar, nothing to install
 
 ## Heads-up
 
