@@ -61,8 +61,11 @@ object SkyCase : ClientModInitializer {
                     // dev: /skycase pool <corpse|kuudra|trophy> <key> → logs every distinct stack + whether it renders
                     ClientCommands.literal("chat").then(
                         ClientCommands.argument("line", StringArgumentType.greedyString()).executes { ctx ->
-                            val line = StringArgumentType.getString(ctx, "line")
-                            ChatReceivedEvent.Pre(Component.literal(line)).post(SkyBlockAPI.eventBus)
+                            // the chat box strips '§' on input: accept '&' colour codes instead
+                            val line = StringArgumentType.getString(ctx, "line").replace('&', '§')
+                            val event = ChatReceivedEvent.Pre(Component.literal(line))
+                            val cancelled = event.post(SkyBlockAPI.eventBus)
+                            if (!cancelled) net.minecraft.client.Minecraft.getInstance().gui.hud.chat.addClientSystemMessage(Component.literal(line))
                             1
                         }
                     )
