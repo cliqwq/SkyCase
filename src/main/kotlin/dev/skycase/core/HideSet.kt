@@ -29,6 +29,8 @@ object HideSet {
     // during plain pre-roll, to hide the hotbar with nothing drawn in its place at all).
     @Subscription(priority = Subscription.LOW)
     fun onHud(event: RenderHudElementEvent) {
-        if (hud && event.element == HudElement.HOTBAR) event.cancel()
+        // any reveal playing hides the hotbar and scoreboard too (config hideHud), so nothing draws under the roll
+        val revealHide = CaseOverlay.active && dev.skycase.config.SkyCaseConfig.data.hideHud
+        if ((hud || revealHide) && (event.element == HudElement.HOTBAR || event.element == HudElement.SCOREBOARD)) event.cancel()
     }
 }

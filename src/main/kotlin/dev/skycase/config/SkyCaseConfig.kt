@@ -10,6 +10,7 @@ object SkyCaseConfig {
         var enabled: Boolean = true,
         var durationMs: Int = 4000,
         var hideChat: Boolean = true,
+        var hideHud: Boolean = true, // hotbar + scoreboard hidden while a reveal plays
         var dungeonChests: Boolean = true,
         var kuudraChests: Boolean = true,
         var corpses: Boolean = true,
