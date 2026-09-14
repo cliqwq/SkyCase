@@ -8,6 +8,7 @@ tellraw @s {"text": "/function skycase:drop_rare | drop_rngesus | drop_junk", "c
 tellraw @s {"text": "/function skycase:gift_rare | gift_junk", "color": "gray"}
 tellraw @s {"text": "/function skycase:trophy_rare | trophy_junk", "color": "gray"}
 tellraw @s {"text": "/function skycase:rabbit", "color": "gray"}
+tellraw @s {"text": "/function skycase:scatha_kill -> Scatha pre-roll hide (hotbar/hand/sounds) then kill + gemstone reveal", "color": "gray"}
 tellraw @s {"text": "/function skycase:spam -> junk lines, nothing fires", "color": "gray"}
 tellraw @s {"text": "/function skycase:queue -> 3 rare lines back-to-back, 3 reveals in order", "color": "gray"}
 tellraw @s {"text": "/function skycase:timeout -> corpse start w/o end line, must flush after 10s", "color": "gray"}

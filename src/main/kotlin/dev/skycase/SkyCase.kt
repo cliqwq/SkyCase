@@ -4,10 +4,12 @@ import com.mojang.brigadier.arguments.StringArgumentType
 import dev.skycase.chat.ChatGuard
 import dev.skycase.config.SkyCaseConfig
 import dev.skycase.core.CaseOverlay
+import dev.skycase.core.HideSet
 import dev.skycase.core.Reveal
 import dev.skycase.core.RevealQueue
 import dev.skycase.triggers.ChatTrigger
 import dev.skycase.triggers.ChestTrigger
+import dev.skycase.triggers.ScathaTrigger
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback
 import net.fabricmc.fabric.api.client.command.v2.ClientCommands
@@ -24,7 +26,7 @@ object SkyCase : ClientModInitializer {
     val LOGGER = LoggerFactory.getLogger(MOD_ID)
     fun id(path: String): Identifier = Identifier.fromNamespaceAndPath(MOD_ID, path)
 
-    private val modules: List<Any> = listOf(ChatGuard, ChestTrigger, ChatTrigger, RevealQueue, CaseOverlay)
+    private val modules: List<Any> = listOf(ChatGuard, ChestTrigger, ChatTrigger, RevealQueue, CaseOverlay, HideSet, ScathaTrigger)
 
     override fun onInitializeClient() {
         SkyCaseConfig.load()

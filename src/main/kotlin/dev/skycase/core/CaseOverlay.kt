@@ -47,6 +47,11 @@ object CaseOverlay {
     private var finished = false
     private var onDone: (() -> Unit)? = null
 
+    // Task 15: set true only for the duration of the one `soundManager.play(...)` call below --
+    // SoundManagerMixin (dev.skycase.mixin) checks this to let our own tick sound through even while
+    // HideSet.mute is muting everything else during a Scatha pre-roll/roll.
+    var playingOwnSound = false
+
     val active: Boolean get() = current != null
 
     fun start(reveal: Reveal, durationMs: Int, onDone: () -> Unit) {
@@ -82,7 +87,9 @@ object CaseOverlay {
         val crossed = (offset / cw).toInt()
         if (crossed > lastTick) {
             lastTick = crossed
+            playingOwnSound = true
             Minecraft.getInstance().soundManager.play(SimpleSoundInstance.forUI(SoundEvents.ITEM_PICKUP, 2f))
+            playingOwnSound = false
         }
 
         val font = Minecraft.getInstance().font

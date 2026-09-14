@@ -4,7 +4,9 @@
   "package": "dev.skycase.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "EntityRenderDispatcherMixin"
+    "EntityRenderDispatcherMixin",
+    "ItemInHandRendererMixin",
+    "SoundManagerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

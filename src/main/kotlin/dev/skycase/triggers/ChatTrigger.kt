@@ -102,6 +102,19 @@ object ChatTrigger {
             }
         }
 
+        // --- Scatha kill reveal (task 15): a pre-roll/roll is already in progress (ScathaTrigger.armed)
+        // -- its own "PET DROP! Scatha" line, if it arrives, is captured directly into that reveal's
+        // held chat instead of firing a second, separate reveal through the RARE_ONLY path below. ---
+        if (cfg.scatha && ScathaTrigger.armed) {
+            ChatParse.petDrop(event.coloredText)?.let { (name, _) ->
+                if (name == "Scatha") {
+                    event.cancel()
+                    ScathaTrigger.hold(event.component)
+                    return
+                }
+            }
+        }
+
         // --- corpse block (ALWAYS) ---
         if (cfg.corpses) {
             if (RarityGate.corpseStart(text)) {

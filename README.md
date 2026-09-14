@@ -11,6 +11,7 @@ A Fabric client mod for Hypixel SkyBlock that replays rewards you already receiv
 | **ALWAYS** | Dungeon chest (Wood/Gold/Diamond/Emerald/Obsidian/Bedrock, opened in dungeon or Croesus); Kuudra Free/Paid Chest; Mineshaft corpse loot (Lapis/Tungsten/Umber/Vanguard) | none |
 | **RARE_ONLY** | Pet drop; generic drop line; Winter gift; Trophy fish; Hoppity new rabbit | Pets: LEGENDARY (§6) or MYTHIC (§d); Drops: VERY RARE, CRAZY RARE, or PRAY TO RNGESUS; Gifts: SANTA TIER or PARTY TIER; Trophy fish: GOLD or DIAMOND; Hoppity: NEW RABBIT! |
 | **ALWAYS** | Dragon fight "`<TYPE> DRAGON DOWN!`" | none -- opens a 12s inventory-watch window instead of a rarity check; only reveals if something was actually picked up; floor drops are hidden until the reveal finishes (client-side render skip) |
+| **ALWAYS** | Scatha kill in Crystal Hollows | none -- pre-roll starts once the Scatha's own name-tag health drops to ≤15% of max; hotbar/held item/non-mod sounds are hidden (client-side render skip) from pre-roll until the reveal finishes; winner = pet/Bran drop if one arrives within 3s of the kill, else a Fine Topaz Gemstone fallback when `scathaEveryKill` is on, else no reveal |
 
 ### Animation
 - Dark overlay with a scrolling strip of 40 items (winner at center)
@@ -41,6 +42,7 @@ Edit `config/skycase.json` to customize:
 | `dragons` | boolean | `true` | Reveal Ender Dragon fight loot (Protector/Old/Wise/Unstable/Strong/Young/Superior) |
 | `scatha` | boolean | `true` | Use the Scatha pool for a Scatha pet drop (still gated by `pets`'s LEGENDARY/MYTHIC rarity check) |
 | `yeti` | boolean | `true` | Use the Baby Yeti pool for a Baby Yeti pet drop (still gated by `pets`'s LEGENDARY/MYTHIC rarity check) |
+| `scathaEveryKill` | boolean | `true` | Reveal every Scatha kill in Crystal Hollows (gemstone/fallback winner too), not just ones that drop the Scatha pet or Dwarven O's Block Bran |
 
 ## Commands
 
@@ -77,6 +79,7 @@ Jar is placed in:
 ## Credits
 
 - Case-scroll animation math re-implemented from SkyOcean (MIT code)
+- Scatha reveal design inspired by Scatha-Pro (NamelessJu); no code reused
 - All art is original
 - Trigger regexes follow SkyHanni/Skyblocker/SkyOcean sources
 - Loot pool data (`src/main/resources/skycase/pools/`):

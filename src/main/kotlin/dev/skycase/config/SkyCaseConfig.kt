@@ -22,6 +22,7 @@ object SkyCaseConfig {
         var dragons: Boolean = true,
         var scatha: Boolean = true,
         var yeti: Boolean = true,
+        var scathaEveryKill: Boolean = true,
     )
     private val gson = GsonBuilder().setPrettyPrinting().create()
     private val path = FabricLoader.getInstance().configDir.resolve("skycase.json")
